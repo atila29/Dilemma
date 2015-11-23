@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class DilemmaBuilder {
 
-    public IDilemma createDilemma(String title, String description, int gravity, List<IAnswer> answerOptions) {
+    public IDilemma createBasicDilemma(String title, String description, int gravity, List<IAnswer> answerOptions) {
         return null;
     }
 }
