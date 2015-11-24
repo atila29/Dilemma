@@ -1,5 +1,6 @@
 package app.grp13.dilemma;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -89,9 +90,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_placeholder3) {
 
         } else if (id == R.id.nav_login) {
-
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
-
+            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
