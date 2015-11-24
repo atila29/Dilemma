@@ -33,6 +33,8 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
+        <activity android:name=".dilemmaRowActivity" >
+        </activity>
     </application>
 
 </manifest>

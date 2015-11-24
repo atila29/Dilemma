@@ -1,6 +1,8 @@
 package app.grp13.dilemma;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,9 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
+    TextView gravityText;
+    String[] tempGravity, tempQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Aktive Dilemmaer");
 
+        ListView dilemmaList = (ListView) findViewById(R.id.dilemmaList);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +43,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, CreateDilemma.class));
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-*/            }
+*/
+            }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -42,6 +55,45 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        tempQuestion = new String[5];
+        tempQuestion[0] = "Tester 1";
+        tempQuestion[1] = "Tester 2";
+        tempQuestion[2] = "Tester 3";
+        tempQuestion[3] = "Tester 4";
+        tempQuestion[4] = "Tester 5";
+        tempGravity = new String[5];
+        tempGravity[0] = "1";
+        tempGravity[1] = "2";
+        tempGravity[2] = "3";
+        tempGravity[3] = "4";
+        tempGravity[4] = "5";
+
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_dilemma_row, R.id.questionText, tempQuestion) {
+            @Override
+            public View getView(int position, View cachedView, ViewGroup parent) {
+                View view = super.getView(position, cachedView, parent);
+
+                gravityText = (TextView) view.findViewById(R.id.gravityText);
+                gravityText.setText(tempGravity[position]);
+                if (tempGravity[position].equals("1")) {
+                    gravityText.setBackgroundResource(R.drawable.gravity1_container);
+                } else if (tempGravity[position].equals("2")) {
+                    gravityText.setBackgroundResource(R.drawable.gravity2_container);
+                } else if (tempGravity[position].equals("3")) {
+                    gravityText.setBackgroundResource(R.drawable.gravity3_container);
+                } else if (tempGravity[position].equals("4")) {
+                    gravityText.setBackgroundResource(R.drawable.gravity4_container);
+                } else {
+                    gravityText.setBackgroundResource(R.drawable.gravity5_container);
+                }
+                return view;
+            }
+        };
+
+        //dilemmaList.setOnItemClickListener();
+        dilemmaList.setAdapter(adapter);
+
     }
 
     @Override
@@ -100,4 +152,10 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+    }
 }
+
+
