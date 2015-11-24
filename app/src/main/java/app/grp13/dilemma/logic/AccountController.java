@@ -23,7 +23,7 @@ public class AccountController {
     public void createAccount(String username, String password, int type) {
         Integer key = 0;
         do {
-            key = (int)(Math.random()*(32^2));
+            key = (int)(Math.random()*(2^16));
         } while(accounts.containsKey(key));
 
         accounts.put(key, new Account(username, password, type, key));
@@ -31,13 +31,13 @@ public class AccountController {
 
     public void deleteAccount(int id) throws Exception{
         if(!accounts.containsKey(id))
-            throw new DilemmaException("ID not available");
+            throw new DilemmaException("user not found");
         accounts.remove(id);
     }
 
     public Account getAccount(int id) throws Exception{
         if(!accounts.containsKey(id))
-            throw new DilemmaException("ID not available");
+            throw new DilemmaException("user not found");
 
         return accounts.get(id);
     }

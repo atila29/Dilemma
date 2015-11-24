@@ -1,5 +1,7 @@
 package app.grp13.dilemma.logic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -7,66 +9,84 @@ import java.util.List;
  */
 public class BasicDilemma implements IDilemma {
 
+    private List<IAnswer> answerOptions;
+    private String title;
+    private String description;
+    private int gravity;
 
+    private int id;
+    private boolean active;
 
+    private List<IReply> answers;
+
+    public BasicDilemma(int id, String title, String description, int gravity, List<IAnswer> answerOptions) {
+        this.answerOptions = answerOptions;
+        this.title = title;
+        this.description = description;
+        this.gravity = gravity;
+        this.id = id;
+
+        this.active = true;
+        this.answers = new ArrayList<>();
+    }
 
     @Override
     public List<IAnswer> getPossibleAnswers() {
-        return null;
+        return this.answerOptions;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return this.description;
     }
 
     @Override
     public List<IReply> getReplys() {
-        return null;
+        return this.answers;
     }
 
     @Override
     public int getgravity() {
-        return 0;
+        return this.gravity;
     }
 
     @Override
     public String getTitle() {
-        return null;
+        return this.title;
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return this.active;
     }
 
     @Override
     public int getID() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public void setPossibleAnswers(List<IAnswer> possibleAnswers) {
-
+        this.answerOptions = possibleAnswers;
     }
 
     @Override
     public void setDescription(String description) {
-
+        this.description = description;
     }
 
     @Override
     public void setGravity(int gravity) {
-
+        this.gravity = gravity;
     }
 
     @Override
     public void setTitle(String title) {
-
+        this.title = title;
     }
 
     @Override
     public void setActive(boolean active) {
-
+        this.active = active;
     }
 }

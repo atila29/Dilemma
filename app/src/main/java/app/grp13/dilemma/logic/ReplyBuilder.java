@@ -20,7 +20,7 @@ public class ReplyBuilder {
         IReply temp = null;
 
         for(IAnswer a : map.keySet()){
-            if(answerOption.getClass().equals(a)){
+            if(answerOption.getClass().equals(a.getClass())){
                 temp = this.map.get(a).getClass().newInstance();
                 temp.setReply(reply);
                 temp.setID(id);
