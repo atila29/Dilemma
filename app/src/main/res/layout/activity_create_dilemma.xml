@@ -7,39 +7,135 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="app.grp13.dilemma.CreateDilemma">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView" >
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-            <EditText android:id="@+id/dilemmaName" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Dilemma titel"
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <EditText android:id="@+id/dilemmaName" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Dilemma titel"
+                    android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                    android:maxLines="1" android:singleLine="true"> <requestFocus /> </EditText>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <EditText android:id="@+id/dilemmaDesc" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Dilemma beskrivelse"
+                    android:imeOptions="actionUnspecified" android:inputType="textMultiLine"
+                    android:maxLines="100" android:singleLine="false" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/answerText"
+                android:textIsSelectable="false"
+                android:layout_marginLeft="5dp"
+                android:text="Antal svarmuligheder:"
+                android:layout_marginBottom="10dp"
+                android:textColor="#000000"/>
+
+            <com.wefika.horizontalpicker.HorizontalPicker
+                xmlns:picker="http://schemas.android.com/apk/res/com.wefika.horizontalpicker"
+                android:id="@+id/answerCount"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:textSize="19dp"
+                android:ellipsize="middle"
+                android:marqueeRepeatLimit="-1"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sæt antal svarmuligheder"
+                android:id="@+id/setCountButton"
+                android:layout_below="@+id/scrollView"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText android:id="@+id/answer1" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 1"
                 android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" />
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
-        </android.support.design.widget.TextInputLayout>
+            <EditText android:id="@+id/answer2" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 2"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <EditText android:id="@+id/answer3" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 3"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
-            <EditText android:id="@+id/dilemmaDesc" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Dilemma beskrivelse"
-                android:imeOptions="actionUnspecified" android:inputType="textMultiLine"
-                android:maxLines="100" android:singleLine="false" />
+            <EditText android:id="@+id/answer4" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 4"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
-        </android.support.design.widget.TextInputLayout>
+            <EditText android:id="@+id/answer5" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 5"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
-        <NumberPicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/gravityPicker"
-            android:layout_gravity="center_horizontal"
-             />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textView"
+                android:textIsSelectable="false"
+                android:layout_marginLeft="5dp"
+                android:text="Dilemma seriøsitet"
+                android:textColor="#000000"
+                android:layout_marginTop="20dp"/>
+
+            <com.wefika.horizontalpicker.HorizontalPicker
+                xmlns:picker="http://schemas.android.com/apk/res/com.wefika.horizontalpicker"
+                android:id="@+id/gravityPicker"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:textSize="19dp"
+                android:ellipsize="middle"
+                android:marqueeRepeatLimit="-1"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opret"
+                android:id="@+id/createDilButton"
+                android:layout_below="@+id/scrollView"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
 
 </RelativeLayout>
