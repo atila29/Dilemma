@@ -61,16 +61,8 @@ public class DilemmaController {
         return dilemmaMap.get(id);
     }
 
-    public void answerDilemma(int id, int answerIndex) {
-        try {
-            dilemmaMap.get(id).addReply(replyBuilder.createReply(dilemmaMap.get(id).getPossibleAnswers().get(answerIndex), answerIndex));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (DilemmaException e) {
-            e.printStackTrace();
-        }
+    public void answerDilemma(int id, int answerIndex) throws IllegalAccessException, DilemmaException, InstantiationException {
+            dilemmaMap.get(id).addReply(replyBuilder.createReply(dilemmaMap.get(id).getPossibleAnswers().get(answerIndex), id));
     }
 
 }
