@@ -2,6 +2,7 @@ package app.grp13.dilemma;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_dilemma);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         answer1 = (EditText) findViewById(R.id.answer1);
         answer2 = (EditText) findViewById(R.id.answer2);
@@ -41,8 +43,6 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         gravity4Btn.setOnClickListener(this);
         gravity5Btn.setOnClickListener(this);
 
-        answer1.setVisibility(View.VISIBLE);
-        answer2.setVisibility(View.VISIBLE);
 
 
         selectedButton = gravity1Btn;
@@ -69,6 +69,11 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
     }
 
     @Override
@@ -105,4 +110,5 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             gravity5Btn.setBackgroundResource(R.drawable.gravity5_btn_selected);
         }
     }
+
 }

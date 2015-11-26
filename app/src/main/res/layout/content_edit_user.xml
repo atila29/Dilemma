@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_edit_user"
+    tools:context=".EditUserActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/normalEditUser"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText android:id="@+id/currentPassword" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="@string/currentPW"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                    android:maxLines="1" android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText android:id="@+id/newPassword" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="@string/newPW"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                    android:maxLines="1" android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText android:id="@+id/renewPassword" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="@string/renewPW"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                    android:maxLines="1" android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button android:id="@+id/changePWButton" style="?android:textAppearanceSmall"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:text="@string/changePW"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/adminEditUser"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/chooseEditUser"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Indsæt brugernavn på den bruger de ønsker at redigere"
+                    android:id="@+id/textView3" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/specificUserTxtBox"
+                    android:layout_marginTop="25dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Næste"
+                    android:id="@+id/button"
+                    android:layout_gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/specificEditUser"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText android:id="@+id/specificUsername" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="@string/specificUN"
+                        android:imeActionLabel="@string/action_sign_in_short"
+                        android:imeOptions="actionUnspecified" android:inputType="textPersonName"
+                        android:maxLines="1" android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText android:id="@+id/specificnewPassword" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="@string/newPW"
+                        android:imeActionLabel="@string/action_sign_in_short"
+                        android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                        android:maxLines="1" android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText android:id="@+id/specificrenewPassword" android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:hint="@string/renewPW"
+                        android:imeActionLabel="@string/action_sign_in_short"
+                        android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                        android:maxLines="1" android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button android:id="@+id/specificDoneButton" style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" android:text="@string/specificButton"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="(Udfyld kun nye kodeord og gentag nye kodeord hvis kodeordet ønskes ændret)"
+                    android:id="@+id/textView4"
+                    android:alpha="0.8"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

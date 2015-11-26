@@ -20,4 +20,18 @@
         completions."
     </string>
     <string name="title_activity_register">Register</string>
+    <string name="login">Log Ind</string>
+    <string name="password">Kode</string>
+    <string name="username">Brugernavn</string>
+    <string name="wusername">Ønsket Brugernavn</string>
+    <string name="wpassword">Ønsket Kodeord</string>
+    <string name="repassword">Gentag Kodeord</string>
+    <string name="currentPW">Nuværende Kodeord</string>
+    <string name="newPW">Nye Kodeord</string>
+    <string name="renewPW">Gentag nye Kodeord</string>
+    <string name="changePW">Skift kode</string>
+    <string name="specificUN">Brugernavn</string>
+    <string name="specificButton">Færdig</string>
+
+
 </resources>

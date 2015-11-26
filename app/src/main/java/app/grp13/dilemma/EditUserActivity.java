@@ -1,6 +1,5 @@
 package app.grp13.dilemma;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,16 +10,28 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class EditUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    ScrollView normalEditUser;
+    ScrollView adminEditUser;
+    LinearLayout chooseEditUser;
+    LinearLayout specificEditUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_edit_user);
+        normalEditUser = (ScrollView) findViewById(R.id.normalEditUser);
+        adminEditUser =(ScrollView) findViewById(R.id.adminEditUser);
+        chooseEditUser = (LinearLayout) findViewById(R.id.chooseEditUser);
+        specificEditUser = (LinearLayout) findViewById(R.id.specificEditUser);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Log ind");
+        toolbar.setTitle("Rediger bruger");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -72,20 +83,20 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             finish();
         } else if (id == R.id.nav_myDilemmas) {
             finish();
-            startActivity(new Intent(LoginActivity.this, DilemmaListActivity.class));
+            startActivity(new Intent(EditUserActivity.this, DilemmaListActivity.class));
         } else if (id == R.id.nav_answers) {
             finish();
-            startActivity(new Intent(LoginActivity.this, DilemmaListActivity.class));
+            startActivity(new Intent(EditUserActivity.this, DilemmaListActivity.class));
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
-
+            finish();
+            startActivity(new Intent(EditUserActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
             finish();
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            startActivity(new Intent(EditUserActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            finish();
-            startActivity(new Intent(LoginActivity.this, EditUserActivity.class));
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

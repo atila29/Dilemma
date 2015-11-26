@@ -1,19 +1,17 @@
 package app.grp13.dilemma;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,8 +19,8 @@ import android.widget.Toast;
 
 import app.grp13.dilemma.logic.dto.IDilemma;
 
-public class MainActivity extends Activity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class DilemmaListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     TextView gravityText;
     String[] tempGravity, tempQuestion;
     ListView dilemmaList;
@@ -30,20 +28,10 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dilemma_list);
+        dilemmaList = (ListView) findViewById(R.id.specificDilemmaList);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Aktive Dilemmaer");
-
-        dilemmaList = (ListView) findViewById(R.id.dilemmaList);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
-            }
-        });
-
+        toolbar.setTitle("Din liste");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -52,6 +40,7 @@ public class MainActivity extends Activity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         tempQuestion = new String[5];
         tempQuestion[0] = "Tester 1";
@@ -90,7 +79,6 @@ public class MainActivity extends Activity
 
         //dilemmaList.setOnItemClickListener();
         dilemmaList.setAdapter(adapter);
-
     }
 
     public void updateList(IDilemma[] array){
@@ -124,6 +112,7 @@ public class MainActivity extends Activity
         };
         dilemmaList.setAdapter(adapter);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -164,29 +153,28 @@ public class MainActivity extends Activity
         int id = item.getItemId();
 
         if (id == R.id.nav_active_dilemmas) {
-
+            finish();
         } else if (id == R.id.nav_myDilemmas) {
-            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+            finish();
+            startActivity(new Intent(DilemmaListActivity.this, DilemmaListActivity.class));
         } else if (id == R.id.nav_answers) {
-            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+            finish();
+            startActivity(new Intent(DilemmaListActivity.this, DilemmaListActivity.class));
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+            startActivity(new Intent(DilemmaListActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            finish();
+            startActivity(new Intent(DilemmaListActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            startActivity(new Intent(MainActivity.this, EditUserActivity.class));
+            finish();
+            startActivity(new Intent(DilemmaListActivity.this, EditUserActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
-    }
 }
-
-

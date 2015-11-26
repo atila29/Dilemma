@@ -8,8 +8,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "app.grp13.dilemma.LoginActivity"/>
       <point      
-        x = "1200"      
-        y = "92"/>
+        x = "1364"      
+        y = "72"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -22,10 +22,26 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "app.grp13.dilemma.AnswerDilemma"/>
+      <point      
+        x = "4308"      
+        y = "72"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "app.grp13.dilemma.MainActivity"/>
       <point      
-        x = "264"      
-        y = "100"/>
+        x = "332"      
+        y = "88"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "app.grp13.dilemma.dilemmaRowActivity"/>
+      <point      
+        x = "308"      
+        y = "1564"/>
     </statePointEntry>
     <statePointEntry>
       <state      

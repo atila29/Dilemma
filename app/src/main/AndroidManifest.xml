@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.grp13.dilemma" >
 
-
-
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
@@ -21,18 +19,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="Log ind" >
-        </activity>
-        <activity android:name=".CreateDilemma" >
-        </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:name=".CreateDilemma"
+            android:label="Opret Dilemma" >
         </activity>
         <activity android:name=".dilemmaRowActivity" >
         </activity>
-        <activity android:name=".AnswerDilemma" >
+        <activity
+            android:name=".AnswerDilemma"
+            android:label="Dilemma Showcase" >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="Log ind"
+            android:theme="@style/AppTheme.NoActionBar" >
+>
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Registrer"
+            android:theme="@style/AppTheme.NoActionBar" >
+>
+        </activity>
+        <activity
+            android:name=".EditUserActivity"
+            android:label="Rediger bruger"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".DilemmaListActivity"
+            android:label="Din liste"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
