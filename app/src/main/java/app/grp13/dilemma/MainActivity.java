@@ -133,16 +133,17 @@ public class MainActivity extends Activity
 
         if (id == R.id.nav_active_dilemmas) {
 
-        } else if (id == R.id.nav_placeholder1) {
+        } else if (id == R.id.nav_myDilemmas) {
 
-        } else if (id == R.id.nav_placeholder2) {
+        } else if (id == R.id.nav_answers) {
 
-        } else if (id == R.id.nav_placeholder3) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_login) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+        } else if (id == R.id.nav_editUser) {
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

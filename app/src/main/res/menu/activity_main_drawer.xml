@@ -4,12 +4,12 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_active_dilemmas" android:icon="@mipmap/placeholder"
             android:title="Aktive Dilemmaer" />
-        <item android:id="@+id/nav_placeholder1" android:icon="@mipmap/placeholder"
-            android:title="Placeholder" />
-        <item android:id="@+id/nav_placeholder2" android:icon="@mipmap/placeholder"
-            android:title="Placeholder" />
-        <item android:id="@+id/nav_placeholder3" android:icon="@mipmap/placeholder"
-            android:title="Placeholder" />
+        <item android:id="@+id/nav_myDilemmas" android:icon="@mipmap/placeholder"
+            android:title="Mine Dilemmaer" />
+        <item android:id="@+id/nav_answers" android:icon="@mipmap/placeholder"
+            android:title="Mine svar" />
+        <item android:id="@+id/nav_settings" android:icon="@mipmap/placeholder"
+            android:title="Indstillinger" />
     </group>
 
     <item android:title="Bruger indstillinger">
@@ -18,6 +18,8 @@
                 android:title="Log ind" />
             <item android:id="@+id/nav_register" android:icon="@mipmap/ic_register"
                 android:title="Registrer" />
+            <item android:id="@+id/nav_editUser" android:icon="@mipmap/placeholder"
+                android:title="Rediger bruger" />
         </menu>
     </item>
 

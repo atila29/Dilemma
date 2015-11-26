@@ -43,9 +43,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
         answer1.setVisibility(View.VISIBLE);
         answer2.setVisibility(View.VISIBLE);
-        answer3.setVisibility(View.INVISIBLE);
-        answer4.setVisibility(View.INVISIBLE);
-        answer5.setVisibility(View.INVISIBLE);
+
 
         selectedButton = gravity1Btn;
 

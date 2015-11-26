@@ -151,7 +151,7 @@
                 android:layout_below="@+id/scrollView"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="right"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
         </LinearLayout>
     </ScrollView>

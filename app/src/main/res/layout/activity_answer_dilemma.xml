@@ -7,135 +7,161 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="app.grp13.dilemma.AnswerDilemma">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView3" >
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/gravity1_container"
-                android:text="1"
-                android:id="@+id/gravityTxt"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_marginRight="10dp" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:weightSum="1">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/QuestionTxt"
-                    android:layout_marginBottom="5dp"
-                    android:textSize="17dp" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/gravity1_container"
+                    android:text="1"
+                    android:id="@+id/gravityTxt"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_marginRight="10dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/DescriptionTxt" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/QuestionTxt"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="17dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/DescriptionTxt" />
+                </LinearLayout>
+
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Du stemte: "
+                android:id="@+id/votedTxt"
+                android:layout_gravity="center_horizontal"
+                android:textSize="24dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ja"
+                android:id="@+id/vote1Btn" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nej"
+                android:id="@+id/vote2Btn" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Måske"
+                android:id="@+id/vote3Btn"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Whatever"
+                android:id="@+id/vote4Btn"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Something"
+                android:id="@+id/vote5Btn"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ja"
+                android:id="@+id/vote1Text" />
+
+            <FrameLayout
+                android:layout_width="350dp"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimary"></FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nej"
+                android:id="@+id/vote2Text" />
+
+            <FrameLayout
+                android:layout_width="350dp"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimary"></FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Måske"
+                android:id="@+id/vote3Text"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="350dp"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"></FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Whatever"
+                android:id="@+id/vote4Text"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="350dp"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"></FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Something"
+                android:id="@+id/vote5Text"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="350dp"
+                android:layout_height="20dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"></FrameLayout>
+
         </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ja"
-            android:id="@+id/vote1Btn" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nej"
-            android:id="@+id/vote2Btn" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Måske"
-            android:id="@+id/vote3Btn" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Whatever"
-            android:id="@+id/vote4Btn" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Something"
-            android:id="@+id/vote5Btn" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ja"
-            android:id="@+id/vote1Text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"></FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nej"
-            android:id="@+id/vote2Text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"></FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Måske"
-            android:id="@+id/vote3Text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"></FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Whatever"
-            android:id="@+id/vote4Text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"></FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Something"
-            android:id="@+id/vote5Text" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"></FrameLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
