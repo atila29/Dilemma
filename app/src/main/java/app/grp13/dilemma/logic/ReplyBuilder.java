@@ -16,6 +16,21 @@ public class ReplyBuilder {
 
     }
 
+    public IReply createReply(IAnswer answerOption, int id) throws IllegalAccessException, InstantiationException, DilemmaException {
+        IReply temp = null;
+
+        for(IAnswer a : map.keySet()){
+            if(answerOption.getClass().equals(a.getClass())){
+                temp = this.map.get(a).getClass().newInstance();
+                temp.setReply(a.getAnswer());
+                temp.setID(id);
+            }
+        }
+        if(temp == null)
+            throw new DilemmaException("Reply kunne ikke findes");
+        return temp;
+    }
+
     public IReply createReply(IAnswer answerOption, String reply, int id) throws IllegalAccessException, InstantiationException, DilemmaException {
         IReply temp = null;
 

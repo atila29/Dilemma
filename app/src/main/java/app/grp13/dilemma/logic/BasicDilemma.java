@@ -89,4 +89,9 @@ public class BasicDilemma implements IDilemma {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public void addReply(IReply reply) {
+        this.answers.add(reply);
+    }
 }

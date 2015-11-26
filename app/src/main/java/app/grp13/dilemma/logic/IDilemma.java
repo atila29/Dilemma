@@ -19,4 +19,5 @@ public interface IDilemma {
     void setGravity(int gravity);
     void setTitle(String title);
     void setActive(boolean active);
+    void addReply(IReply reply);
 }
