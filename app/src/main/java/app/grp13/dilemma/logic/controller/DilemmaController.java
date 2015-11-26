@@ -55,6 +55,12 @@ public class DilemmaController {
 
     }
 
+    public List<IDilemma> getAllDilemmas(){
+        List<IDilemma> temp = new ArrayList<>();
+        temp.addAll(dilemmaMap.values());
+        return temp;
+    }
+
     public void deleteDilemma(int id) throws DilemmaException {
         if(!dilemmaMap.containsKey(id))
             throw new DilemmaException("Dilemma not found");
