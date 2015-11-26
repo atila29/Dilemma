@@ -1,4 +1,4 @@
-package app.grp13.dilemma.logic;
+package app.grp13.dilemma.logic.dto;
 
 import java.util.List;
 

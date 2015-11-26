@@ -1,7 +1,9 @@
-package app.grp13.dilemma.logic;
+package app.grp13.dilemma.logic.builder;
 
 import java.util.Map;
 
+import app.grp13.dilemma.logic.dto.IAnswer;
+import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /**

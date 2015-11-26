@@ -1,10 +1,17 @@
-package app.grp13.dilemma.logic;
+package app.grp13.dilemma.logic.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.grp13.dilemma.logic.builder.DilemmaBuilder;
+import app.grp13.dilemma.logic.builder.ReplyBuilder;
+import app.grp13.dilemma.logic.dto.BasicAnswer;
+import app.grp13.dilemma.logic.dto.BasicReply;
+import app.grp13.dilemma.logic.dto.IAnswer;
+import app.grp13.dilemma.logic.dto.IDilemma;
+import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /**

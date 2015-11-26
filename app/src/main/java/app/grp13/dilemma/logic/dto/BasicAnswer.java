@@ -1,6 +1,4 @@
-package app.grp13.dilemma.logic;
-
-import app.grp13.dilemma.logic.IAnswer;
+package app.grp13.dilemma.logic.dto;
 
 /**
  * Created by champen on 24-11-2015.

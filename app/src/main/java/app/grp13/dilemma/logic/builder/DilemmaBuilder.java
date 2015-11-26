@@ -1,6 +1,10 @@
-package app.grp13.dilemma.logic;
+package app.grp13.dilemma.logic.builder;
 
 import java.util.List;
+
+import app.grp13.dilemma.logic.dto.BasicDilemma;
+import app.grp13.dilemma.logic.dto.IAnswer;
+import app.grp13.dilemma.logic.dto.IDilemma;
 
 /**
  * Created by champen on 22-11-2015.

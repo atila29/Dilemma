@@ -1,10 +1,9 @@
-package app.grp13.dilemma.logic;
-
-import android.accounts.AccountsException;
+package app.grp13.dilemma.logic.controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /**

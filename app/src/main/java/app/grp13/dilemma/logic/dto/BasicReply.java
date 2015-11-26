@@ -1,9 +1,11 @@
-package app.grp13.dilemma.logic;
+package app.grp13.dilemma.logic.dto;
+
+import app.grp13.dilemma.logic.dto.IReply;
 
 /**
  * Created by champen on 24-11-2015.
  */
-public class BasicReply implements IReply{
+public class BasicReply implements IReply {
 
     private String reply = new String("");
     private int id = 0;
