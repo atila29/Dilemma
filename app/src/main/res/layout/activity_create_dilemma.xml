@@ -32,7 +32,7 @@
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="10dp">
 
                 <EditText android:id="@+id/dilemmaDesc" android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:hint="Dilemma beskrivelse"
@@ -40,36 +40,6 @@
                     android:maxLines="100" android:singleLine="false" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <EditText android:id="@+id/answer1" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Svarmulighed 1"
-                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" android:visibility="gone"
-                android:layout_marginBottom="10dp" android:textColor="#000000"/>
-
-            <EditText android:id="@+id/answer2" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Svarmulighed 2"
-                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" android:visibility="gone"
-                android:layout_marginBottom="10dp" android:textColor="#000000"/>
-
-            <EditText android:id="@+id/answer3" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Svarmulighed 3"
-                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" android:visibility="gone"
-                android:layout_marginBottom="10dp" android:textColor="#000000"/>
-
-            <EditText android:id="@+id/answer4" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Svarmulighed 4"
-                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" android:visibility="gone"
-                android:layout_marginBottom="10dp" android:textColor="#000000"/>
-
-            <EditText android:id="@+id/answer5" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="Svarmulighed 5"
-                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
-                android:maxLines="1" android:singleLine="true" android:visibility="gone"
-                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -80,13 +50,15 @@
                 android:layout_marginLeft="5dp"
                 android:text="Dilemma seriøsitet"
                 android:textColor="#000000"
-                android:layout_marginTop="0dp"/>
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="5dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:layout_width="50dp"
@@ -140,6 +112,36 @@
                     android:textColor="#ffffff" />
 
             </LinearLayout>
+
+            <EditText android:id="@+id/answer1" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 1"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
+
+            <EditText android:id="@+id/answer2" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 2"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
+
+            <EditText android:id="@+id/answer3" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 3"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
+
+            <EditText android:id="@+id/answer4" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 4"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
+
+            <EditText android:id="@+id/answer5" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Svarmulighed 5"
+                android:imeOptions="actionUnspecified" android:inputType="textCapSentences"
+                android:maxLines="1" android:singleLine="true" android:visibility="gone"
+                android:layout_marginBottom="10dp" android:textColor="#000000"/>
 
             <Button
                 android:layout_width="wrap_content"
