@@ -17,6 +17,7 @@ import java.util.Map;
 
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
+import app.grp13.dilemma.logic.exceptions.LoginException;
 
 /**
  * Created by champen on 22-11-2015.
@@ -44,13 +45,28 @@ public class AccountController {
     }
 
 
-    public void createAccount(String username, String password, int type) {
+    public void createAccount(String username, String password, int type) throws LoginException {
+
+        for( Account a : accounts.values()) {
+            if(username.equals(a.getUserName()))
+                throw new LoginException("Username not available");
+        }
+
         Integer key = 0;
         do {
             key = (int)(Math.random()*(2^16));
         } while(accounts.containsKey(key));
 
         accounts.put(key, new Account(username, password, type, key));
+    }
+
+    public Account login(String username, String password) throws LoginException {
+        for(Account a : accounts.values()) {
+            if(username.equals(a.getUserName()))
+                if(password.equals(a.getPassword()))
+                    return a;
+        }
+        throw new LoginException("username or password was not correct");
     }
 
     public void deleteAccount(int id) throws Exception{
@@ -65,6 +81,8 @@ public class AccountController {
 
         return accounts.get(id);
     }
+
+
 
     public List<Account> getAllAccounts() {
         List<Account> temp = new ArrayList<>();
