@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +54,13 @@ public class MainActivity extends Activity
 
         aController = new AccountController();
         dController = new DilemmaController();
-
+        try {
+            dController.loadDilemmasFromDevice(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         dController.createDilemma("test1", "Dette er en test. hafhuiajaepødfiojka foøiuajh dfoøia ofiu haoødif hoadøif jhoadi fjoiadjkm fa fda fad fad fad fad fadf adf adfadf das d fa", 2, "svar et", "svar to", "svar tre", "svar fire");
         dController.createDilemma("test2", "Dette er en test2", 1, "svar et", "svar to");
         dController.createDilemma("test3", "Dette er en test3", 4, "svar et", "svar to");
@@ -80,7 +87,11 @@ public class MainActivity extends Activity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        updateList(dController.getAllDilemmasArray());
+        try {
+            updateList(dController.getAllDilemmasArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         dilemmaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -120,7 +131,15 @@ public class MainActivity extends Activity
 
 
 
-    public void updateList(IDilemma[] array){
+    public void updateList(IDilemma[] array) throws IOException {
+        dController.saveDilemmasToDevice(getApplicationContext());
+        try {
+            dController.loadDilemmasFromDevice(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         dilemmaTitles = new String[array.length];
         dilemmaGravities = new String[array.length];
         for(int i=0 ; i<array.length ; i++){
@@ -174,7 +193,11 @@ public class MainActivity extends Activity
     @Override
     public void onResume(){
         super.onResume();
-        updateList(dController.getAllDilemmasArray());
+        try {
+            updateList(dController.getAllDilemmasArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -201,10 +224,9 @@ public class MainActivity extends Activity
         if (id == R.id.nav_active_dilemmas) {
 
         } else if (id == R.id.nav_myDilemmas) {
-            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
-
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
@@ -212,7 +234,7 @@ public class MainActivity extends Activity
         } else if (id == R.id.nav_register) {
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            startActivity(new Intent(MainActivity.this, EditUserActivity.class));
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

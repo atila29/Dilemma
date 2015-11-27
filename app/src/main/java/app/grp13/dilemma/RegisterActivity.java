@@ -90,11 +90,11 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
-            finish();
-            startActivity(new Intent(RegisterActivity.this, DilemmaListActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            finish();
-            startActivity(new Intent(RegisterActivity.this, DilemmaListActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
@@ -103,8 +103,8 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_register) {
 
         } else if (id == R.id.nav_editUser) {
-            finish();
-            startActivity(new Intent(RegisterActivity.this, EditUserActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -126,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
                 }
                 try {
                     accountController.saveUsersToDevice(getApplicationContext());
+                    Log.v("AB", "Det virker");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

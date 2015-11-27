@@ -19,6 +19,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private TextView vote1Frame, vote2Frame, vote3Frame, vote4Frame, vote5Frame;
     private int totalCount, vote1Count, vote2Count, vote3Count, vote4Count, vote5Count;
     private BasicDilemma dilemma;
+    TextView gravityTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +34,18 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         TextView descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
         questionTxt.setText(dilemma.getTitle());
         descriptionTxt.setText(dilemma.getDescription());
-        vote1Count = 0;
+/*        vote1Count = 0;
         vote2Count = 0;
         vote3Count = 0;
         vote4Count = 0;
         vote5Count = 0;
-        totalCount = 0;
+        totalCount = 0;*/
         vote1Btn = (Button) findViewById(R.id.vote1Btn);
         vote2Btn = (Button) findViewById(R.id.vote2Btn);
         vote3Btn = (Button) findViewById(R.id.vote3Btn);
         vote4Btn = (Button) findViewById(R.id.vote4Btn);
         vote5Btn = (Button) findViewById(R.id.vote5Btn);
+        gravityTxt = (TextView) findViewById(R.id.gravityTxt);
         vote1Btn.setOnClickListener(this);
         vote2Btn.setOnClickListener(this);
         vote3Btn.setOnClickListener(this);
@@ -60,6 +62,18 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         vote4Frame = (TextView) findViewById(R.id.vote4Frame);
         vote5Frame = (TextView) findViewById(R.id.vote5Frame);
         vote1Frame.setWidth(0);
+        gravityTxt.setText(String.valueOf(dilemma.getgravity()));
+        if (gravityTxt.getText().equals("1")) {
+            gravityTxt.setBackgroundResource(R.drawable.gravity1_container);
+        } else if (gravityTxt.getText().equals("2")) {
+            gravityTxt.setBackgroundResource(R.drawable.gravity2_container);
+        } else if (gravityTxt.getText().equals("3")) {
+            gravityTxt.setBackgroundResource(R.drawable.gravity3_container);
+        } else if (gravityTxt.getText().equals("4")) {
+            gravityTxt.setBackgroundResource(R.drawable.gravity4_container);
+        } else {
+            gravityTxt.setBackgroundResource(R.drawable.gravity5_container);
+        }
 
         vote1Btn.setText(dilemma.getPossibleAnswers().get(0).getAnswer());
         vote1Text.setText(dilemma.getPossibleAnswers().get(0).getAnswer());

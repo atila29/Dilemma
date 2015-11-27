@@ -1,5 +1,6 @@
 package app.grp13.dilemma.logic.builder;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import app.grp13.dilemma.logic.dto.IAnswer;
@@ -9,7 +10,7 @@ import app.grp13.dilemma.logic.exceptions.DilemmaException;
 /**
  * Created by champen on 22-11-2015.
  */
-public class ReplyBuilder {
+public class ReplyBuilder implements Serializable {
 
     Map<IAnswer, IReply> map;
 

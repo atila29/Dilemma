@@ -95,11 +95,11 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
-            finish();
-            startActivity(new Intent(LoginActivity.this, DilemmaListActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            finish();
-            startActivity(new Intent(LoginActivity.this, DilemmaListActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
@@ -108,8 +108,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             finish();
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            finish();
-            startActivity(new Intent(LoginActivity.this, EditUserActivity.class));
+//            finish();
+            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
