@@ -3,6 +3,7 @@ package app.grp13.dilemma.logic.controller;
 import android.content.Context;
 import android.os.Environment;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +26,8 @@ import app.grp13.dilemma.logic.exceptions.LoginException;
 /**
  * Created by champen on 22-11-2015.
  */
-public class AccountController {
-    private final String FILENAME = "users.dil";
+public class AccountController implements Serializable{
+    private final String FILENAME = "users.bin";
 
 
     private Map<Integer, Account> accounts;
@@ -94,34 +96,47 @@ public class AccountController {
 
     public void saveUsersToDevice(Context ctx) throws IOException {
 
+        AccountStorage storage = new AccountStorage();
+        storage.setList(this.getAllAccounts());
+
         File file = new File(ctx.getFilesDir() + FILENAME);
         if(!file.exists())
             file.createNewFile();
 
         FileOutputStream fos = ctx.openFileOutput(FILENAME, Context.MODE_PRIVATE);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
-        objectOutputStream.writeObject(this.getAllAccounts());
+        objectOutputStream.writeObject(storage);
         fos.flush();
         objectOutputStream.flush();
         fos.close();
-        objectOutputStream.close();
     }
 
     public void loadUsersFromDevice(Context ctx) throws IOException, ClassNotFoundException {
-        FileInputStream inputStream = new FileInputStream(ctx.getFilesDir() + FILENAME);
+
+        FileInputStream inputStream = ctx.openFileInput(FILENAME);
+
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-        ArrayList<Account> list = new ArrayList<Account>();
+        AccountStorage temp = (AccountStorage)objectInputStream.readObject();
 
-
-        while(inputStream.available() >0) {
-            list.add((Account)objectInputStream.readObject());
-        }
+        inputStream.close();
 
         this.accounts = new HashMap<>();
 
-        for(Account a : list) {
+        for(Account a : temp.getList()) {
             this.accounts.put(a.getId(), a);
+        }
+    }
+
+    private class AccountStorage implements Serializable{
+        private List<Account> list = new ArrayList<>();
+
+        public List<Account> getList() {
+            return list;
+        }
+
+        public void setList(List<Account> list) {
+            this.list = list;
         }
     }
 }

@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
                 try{
                     ac.login(username.getText().toString(), password.getText().toString());
+                    finish();
                 } catch (LoginException e) {
                     Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
