@@ -13,11 +13,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+
+import app.grp13.dilemma.logic.controller.AccountController;
+import app.grp13.dilemma.logic.exceptions.LoginException;
 
 public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     Button loginBtn;
+    AccountController ac = new AccountController();
+    EditText username;
+    EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +39,15 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        try {
+            ac.loadUsersFromDevice(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -103,7 +120,17 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
         if (v == loginBtn) {
-
+            if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
+                try{
+                    ac.login(username.getText().toString(), password.getText().toString());
+                } catch (LoginException e) {
+                    Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+            else{
+                Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

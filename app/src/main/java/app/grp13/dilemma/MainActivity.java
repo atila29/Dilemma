@@ -89,7 +89,7 @@ public class MainActivity extends Activity
                 Intent openAnswerDilemma = new Intent(MainActivity.this, AnswerDilemma.class);
                 //openAnswerDilemma.putExtra("dilemma", dilemmaBundle(dController.getAllDilemmasArray()[position]));
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("test", (BasicDilemma)dController.getAllDilemmasArray()[position]);
+                bundle.putSerializable("test", (BasicDilemma) dController.getAllDilemmasArray()[position]);
                 openAnswerDilemma.putExtra("dilemma", bundle);
 
                 startActivity(openAnswerDilemma);
@@ -117,6 +117,7 @@ public class MainActivity extends Activity
         return bundle;
 
     }
+
 
 
     public void updateList(IDilemma[] array){
@@ -171,6 +172,12 @@ public class MainActivity extends Activity
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        updateList(dController.getAllDilemmasArray());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -195,6 +202,7 @@ public class MainActivity extends Activity
 
         } else if (id == R.id.nav_myDilemmas) {
             startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+
         } else if (id == R.id.nav_answers) {
             startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
         } else if (id == R.id.nav_settings) {

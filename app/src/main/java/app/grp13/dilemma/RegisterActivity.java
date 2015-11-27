@@ -16,7 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import app.grp13.dilemma.logic.controller.AccountController;
+import app.grp13.dilemma.logic.exceptions.LoginException;
 
 public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -115,7 +118,17 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         if (v == registerBtn) {
             if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
                     !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
-                accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString(), 1);
+                try {
+                    accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString(), AccountController.USER);
+                } catch (LoginException e) {
+                    Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                try {
+                    accountController.saveUsersToDevice(getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 finish();
 
             } else {

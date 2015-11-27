@@ -94,7 +94,7 @@ public class AccountController {
 
     public void saveUsersToDevice(Context ctx) throws IOException {
 
-        File file = new File(Environment.getDataDirectory()+"/" + FILENAME);
+        File file = new File(ctx.getFilesDir() + FILENAME);
         if(!file.exists())
             file.createNewFile();
 
@@ -108,7 +108,7 @@ public class AccountController {
     }
 
     public void loadUsersFromDevice(Context ctx) throws IOException, ClassNotFoundException {
-        FileInputStream inputStream = new FileInputStream(FILENAME);
+        FileInputStream inputStream = new FileInputStream(ctx.getFilesDir() + FILENAME);
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
         ArrayList<Account> list = (ArrayList<Account>)objectInputStream.readObject();
