@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="New Text"
                         android:id="@+id/QuestionTxt"
@@ -49,7 +49,7 @@
                         android:textSize="17dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="New Text"
                         android:id="@+id/DescriptionTxt" />
@@ -58,7 +58,7 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Du stemte: "
                 android:id="@+id/votedTxt"
@@ -104,6 +104,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Statistik: "
+                android:textSize="23dp"
+                android:id="@+id/randomtextview"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Ja"
                 android:id="@+id/vote1Text" />
 
@@ -133,7 +142,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:layout_width="350dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
@@ -147,7 +156,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:layout_width="350dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
@@ -161,7 +170,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:layout_width="350dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
