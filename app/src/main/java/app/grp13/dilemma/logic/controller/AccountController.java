@@ -111,7 +111,12 @@ public class AccountController {
         FileInputStream inputStream = new FileInputStream(ctx.getFilesDir() + FILENAME);
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-        ArrayList<Account> list = (ArrayList<Account>)objectInputStream.readObject();
+        ArrayList<Account> list = new ArrayList<Account>();
+
+
+        while(inputStream.available() >0) {
+            list.add((Account)objectInputStream.readObject());
+        }
 
         this.accounts = new HashMap<>();
 
