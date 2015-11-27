@@ -123,7 +123,6 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             selectedGravity = 5;
         } else if (v == createDilemma) {
             if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
-                Log.v("ab", "Kører perfekt");
                 dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                         selectedGravity, answer1.getText().toString(), answer2.getText().toString());
                 finish();

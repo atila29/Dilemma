@@ -8,11 +8,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import app.grp13.dilemma.logic.controller.AccountController;
+
+public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    EditText usernameText, passwordText, repasswordText;
+    Button registerBtn;
+    AccountController accountController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,13 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        usernameText = (EditText) findViewById(R.id.regUsername);
+        passwordText = (EditText) findViewById(R.id.regPassword);
+        repasswordText = (EditText) findViewById(R.id.regRePassword);
+        registerBtn = (Button) findViewById(R.id.registrerButton);
+        registerBtn.setOnClickListener(this);
+        accountController = new AccountController();
+
     }
     @Override
     public void onBackPressed() {
@@ -90,5 +107,21 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v == registerBtn) {
+            if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
+                    !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
+                accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString(), 1);
+                Log.v("ab", accountController.getAllAccounts().get(accountController.getAllAccounts().size() - 1).getPassword());
+                finish();
+
+            }
+
+
+        }
     }
 }

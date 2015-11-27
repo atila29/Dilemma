@@ -11,9 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
+
+    Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        loginBtn = (Button) findViewById(R.id.login);
+        loginBtn.setOnClickListener(this);
     }
     @Override
     public void onBackPressed() {
@@ -91,5 +98,13 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == loginBtn) {
+
+        }
+
     }
 }
