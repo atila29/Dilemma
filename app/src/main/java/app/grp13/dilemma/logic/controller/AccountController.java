@@ -94,7 +94,7 @@ public class AccountController {
 
     public void saveUsersToDevice(Context ctx) throws IOException {
 
-        File file = new File(Environment.getDataDirectory() + FILENAME);
+        File file = new File(Environment.getDataDirectory()+"/" + FILENAME);
         if(!file.exists())
             file.createNewFile();
 
