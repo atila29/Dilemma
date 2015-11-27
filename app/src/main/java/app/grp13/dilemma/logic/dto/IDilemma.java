@@ -20,4 +20,9 @@ public interface IDilemma {
     void setTitle(String title);
     void setActive(boolean active);
     void addReply(IReply reply);
+
+    //  evt. opret owner attribute, så der er en reference til brugeren der opretter dilemma.
+    //  Account getOwner();
+
+
 }

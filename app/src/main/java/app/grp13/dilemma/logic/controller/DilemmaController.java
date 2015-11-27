@@ -27,7 +27,7 @@ public class DilemmaController {
 
     public DilemmaController() {
 
-        dilemmaMap = new HashMap<>();
+        dilemmaMap = new HashMap<Integer, IDilemma>();
 
         Map<IAnswer, IReply> a2r = new HashMap<>();
         a2r.put(new BasicAnswer(""), new BasicReply());
@@ -58,6 +58,16 @@ public class DilemmaController {
     public List<IDilemma> getAllDilemmas(){
         List<IDilemma> temp = new ArrayList<>();
         temp.addAll(dilemmaMap.values());
+        return temp;
+    }
+
+    public IDilemma[] getAllDilemmasArray() {
+        //  return dilemmaMap.values().toArray();
+        int i = 0;
+        IDilemma[] temp = new IDilemma[dilemmaMap.values().size()];
+        for(IDilemma d : dilemmaMap.values()) {
+            temp[i++] = d;
+        }
         return temp;
     }
 

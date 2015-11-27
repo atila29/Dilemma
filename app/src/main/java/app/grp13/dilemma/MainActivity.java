@@ -3,7 +3,9 @@ package app.grp13.dilemma;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,13 +21,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import app.grp13.dilemma.logic.controller.AccountController;
+import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 
 public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView gravityText;
-    String[] tempGravity, tempQuestion;
-    ListView dilemmaList;
+    private TextView gravityText;
+    private ListView dilemmaList;
+    private DilemmaController dController;
+    private AccountController aController;
+
+    private String[] dilemmaTitles;
+    private String[] dilemmaGravities;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,14 @@ public class MainActivity extends Activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Aktive Dilemmaer");
 
+        aController = new AccountController();
+        dController = new DilemmaController();
+
+        dController.createDilemma("test1", "Dette er en test", 2, "svar et", "svar to");
+        dController.createDilemma("test2", "Dette er en test2", 1, "svar et", "svar to");
+        dController.createDilemma("test3", "Dette er en test3", 4, "svar et", "svar to");
+        dController.createDilemma("test4", "Dette er en test4", 5, "svar et", "svar to");
+
         dilemmaList = (ListView) findViewById(R.id.dilemmaList);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -41,6 +62,7 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+
             }
         });
 
@@ -53,68 +75,43 @@ public class MainActivity extends Activity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        tempQuestion = new String[5];
-        tempQuestion[0] = "Tester 1";
-        tempQuestion[1] = "Tester 2";
-        tempQuestion[2] = "Tester 3";
-        tempQuestion[3] = "Tester 4";
-        tempQuestion[4] = "Tester 5";
-        tempGravity = new String[5];
-        tempGravity[0] = "1";
-        tempGravity[1] = "2";
-        tempGravity[2] = "3";
-        tempGravity[3] = "4";
-        tempGravity[4] = "5";
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_dilemma_row, R.id.questionText, tempQuestion) {
+        updateList(dController.getAllDilemmasArray());
+
+
+        dilemmaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public View getView(int position, View cachedView, ViewGroup parent) {
-                View view = super.getView(position, cachedView, parent);
-
-                gravityText = (TextView) view.findViewById(R.id.gravityText);
-                gravityText.setText(tempGravity[position]);
-                if (tempGravity[position].equals("1")) {
-                    gravityText.setBackgroundResource(R.drawable.gravity1_container);
-                } else if (tempGravity[position].equals("2")) {
-                    gravityText.setBackgroundResource(R.drawable.gravity2_container);
-                } else if (tempGravity[position].equals("3")) {
-                    gravityText.setBackgroundResource(R.drawable.gravity3_container);
-                } else if (tempGravity[position].equals("4")) {
-                    gravityText.setBackgroundResource(R.drawable.gravity4_container);
-                } else {
-                    gravityText.setBackgroundResource(R.drawable.gravity5_container);
-                }
-                return view;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent openAnswerDilemma = new Intent(MainActivity.this, AnswerDilemma.class);
+                openAnswerDilemma.putExtra("dilemma", (Parcelable)dController.getAllDilemmasArray()[position]);
+                startActivity(openAnswerDilemma);
             }
-        };
-
-        //dilemmaList.setOnItemClickListener();
-        dilemmaList.setAdapter(adapter);
+        });
 
     }
 
     public void updateList(IDilemma[] array){
-        String[] tempTitle = new String[array.length];
-        final String[] tempGravity = new String[array.length];
+        dilemmaTitles = new String[array.length];
+        dilemmaGravities = new String[array.length];
         for(int i=0 ; i<array.length ; i++){
-            tempTitle[i] = array[i].getTitle();
-            tempGravity[i] = String.valueOf(array[i].getgravity());
+            dilemmaTitles[i] = array[i].getTitle();
+            dilemmaGravities[i] = String.valueOf(array[i].getgravity());
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_dilemma_row, R.id.questionText, tempTitle) {
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_dilemma_row, R.id.questionText, dilemmaTitles) {
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
                 View view = super.getView(position, cachedView, parent);
 
                 gravityText = (TextView) view.findViewById(R.id.gravityText);
-                gravityText.setText(tempGravity[position]);
-                if (tempGravity[position].equals("1")) {
+                gravityText.setText(dilemmaGravities[position]);
+                if (dilemmaGravities[position].equals("1")) {
                     gravityText.setBackgroundResource(R.drawable.gravity1_container);
-                } else if (tempGravity[position].equals("2")) {
+                } else if (dilemmaGravities[position].equals("2")) {
                     gravityText.setBackgroundResource(R.drawable.gravity2_container);
-                } else if (tempGravity[position].equals("3")) {
+                } else if (dilemmaGravities[position].equals("3")) {
                     gravityText.setBackgroundResource(R.drawable.gravity3_container);
-                } else if (tempGravity[position].equals("4")) {
+                } else if (dilemmaGravities[position].equals("4")) {
                     gravityText.setBackgroundResource(R.drawable.gravity4_container);
                 } else {
                     gravityText.setBackgroundResource(R.drawable.gravity5_container);

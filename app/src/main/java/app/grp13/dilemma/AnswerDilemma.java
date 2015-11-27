@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import app.grp13.dilemma.logic.dto.BasicDilemma;
+import app.grp13.dilemma.logic.dto.IDilemma;
+
 public class AnswerDilemma extends AppCompatActivity implements View.OnClickListener {
 
     private Button vote1Btn, vote2Btn, vote3Btn, vote4Btn, vote5Btn;
@@ -20,6 +23,10 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_dilemma);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle extra = getIntent().getExtras();
+        IDilemma dilemma = (BasicDilemma)extra.get("dilemma");
+
         vote1Btn = (Button) findViewById(R.id.vote1Btn);
         vote2Btn = (Button) findViewById(R.id.vote2Btn);
         vote3Btn = (Button) findViewById(R.id.vote3Btn);

@@ -1,6 +1,8 @@
 package app.grp13.dilemma.logic.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import app.grp13.dilemma.logic.dto.Account;
@@ -39,5 +41,11 @@ public class AccountController {
             throw new DilemmaException("user not found");
 
         return accounts.get(id);
+    }
+
+    public List<Account> getAllAccounts() {
+        List<Account> temp = new ArrayList<>();
+        temp.addAll(accounts.values());
+        return temp;
     }
 }
