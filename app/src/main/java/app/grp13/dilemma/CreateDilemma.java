@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.grp13.dilemma.logic.controller.DilemmaController;
 
@@ -122,24 +123,31 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             gravity5Btn.setBackgroundResource(R.drawable.gravity5_btn_selected);
             selectedGravity = 5;
         } else if (v == createDilemma) {
-            if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
-                dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
-                        selectedGravity, answer1.getText().toString(), answer2.getText().toString());
-                finish();
-            } else if (answer4.getVisibility() == View.VISIBLE && answer4.getText().toString().matches("")) {
-                dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
-                        selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
-                finish();
-            } else if (answer5.getVisibility() == View.VISIBLE && answer5.getText().toString().matches("")) {
-                dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
-                        selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
-                        answer3.getText().toString(), answer4.getText().toString());
-                finish();
+            if (!dilemmaName.getText().toString().matches("") && !dilemmaDesc.getText().toString().matches("")) {
+
+                if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
+                    dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                            selectedGravity, answer1.getText().toString(), answer2.getText().toString());
+                    finish();
+                } else if (answer4.getVisibility() == View.VISIBLE && answer4.getText().toString().matches("")) {
+                    dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                            selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
+                    finish();
+                } else if (answer5.getVisibility() == View.VISIBLE && answer5.getText().toString().matches("")) {
+                    dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                            selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
+                            answer3.getText().toString(), answer4.getText().toString());
+                    finish();
+                } else if (answer5.getVisibility() == View.VISIBLE && !answer5.getText().toString().matches("")) {
+                    dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                            selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
+                            answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
+                    finish();
+                } else {
+                    Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
-                        selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
-                        answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
-                finish();
+                Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
             }
         }
     }

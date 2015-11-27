@@ -116,9 +116,10 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
             if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
                     !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
                 accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString(), 1);
-                Log.v("ab", accountController.getAllAccounts().get(accountController.getAllAccounts().size() - 1).getPassword());
                 finish();
 
+            } else {
+                Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
             }
 
 
