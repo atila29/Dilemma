@@ -1,6 +1,7 @@
 package app.grp13.dilemma.logic.controller;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -93,13 +94,15 @@ public class AccountController {
 
     public void saveUsersToDevice(Context ctx) throws IOException {
 
-        File file = new File(FILENAME);
+        File file = new File(Environment.getDataDirectory() + FILENAME);
         if(!file.exists())
             file.createNewFile();
 
         FileOutputStream fos = ctx.openFileOutput(FILENAME, Context.MODE_PRIVATE);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
         objectOutputStream.writeObject(this.getAllAccounts());
+        fos.flush();
+        objectOutputStream.flush();
         fos.close();
         objectOutputStream.close();
     }
