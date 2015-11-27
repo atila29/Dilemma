@@ -1,12 +1,13 @@
 package app.grp13.dilemma.logic.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by champen on 22-11-2015.
  */
-public class Account {
+public class Account implements Serializable{
 
     private String userName;
     private String password;
