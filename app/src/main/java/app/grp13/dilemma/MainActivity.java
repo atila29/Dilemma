@@ -22,12 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
+import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
+import app.grp13.dilemma.logic.dto.IReply;
 
 public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,12 +87,37 @@ public class MainActivity extends Activity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent openAnswerDilemma = new Intent(MainActivity.this, AnswerDilemma.class);
-                openAnswerDilemma.putExtra("dilemma", (Parcelable)dController.getAllDilemmasArray()[position]);
+                //openAnswerDilemma.putExtra("dilemma", dilemmaBundle(dController.getAllDilemmasArray()[position]));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("test", (BasicDilemma)dController.getAllDilemmasArray()[position]);
+                openAnswerDilemma.putExtra("dilemma", bundle);
+
                 startActivity(openAnswerDilemma);
             }
         });
 
     }
+
+    private Bundle dilemmaBundle(IDilemma dilemma) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title",dilemma.getTitle());
+        bundle.putString("description", dilemma.getDescription());
+        bundle.putInt("gravity", dilemma.getgravity());
+        bundle.putInt("id", dilemma.getID());
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<String> tempReplys = new ArrayList<>();
+        for(IAnswer a : dilemma.getPossibleAnswers()){
+            temp.add(a.getAnswer());
+        }
+        for(IReply r : dilemma.getReplys()) {
+            tempReplys.add(r.getReply());
+        }
+        bundle.putStringArrayList("panswers", temp);
+        bundle.putStringArrayList("replys", tempReplys);
+        return bundle;
+
+    }
+
 
     public void updateList(IDilemma[] array){
         dilemmaTitles = new String[array.length];

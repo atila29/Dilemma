@@ -3,13 +3,14 @@ package app.grp13.dilemma.logic.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by champen on 23-11-2015.
  */
-public class BasicDilemma implements IDilemma, Parcelable {
+public class BasicDilemma implements IDilemma, Serializable {
 
     private List<IAnswer> answerOptions;
     private String title;
@@ -97,42 +98,4 @@ public class BasicDilemma implements IDilemma, Parcelable {
         this.answers.add(reply);
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeList(this.answerOptions);
-        dest.writeString(this.title);
-        dest.writeString(this.description);
-        dest.writeInt(this.gravity);
-        dest.writeInt(this.id);
-        dest.writeByte(active ? (byte) 1 : (byte) 0);
-        dest.writeList(this.answers);
-    }
-
-    protected BasicDilemma(Parcel in) {
-        this.answerOptions = new ArrayList<IAnswer>();
-        in.readList(this.answerOptions, List.class.getClassLoader());
-        this.title = in.readString();
-        this.description = in.readString();
-        this.gravity = in.readInt();
-        this.id = in.readInt();
-        this.active = in.readByte() != 0;
-        this.answers = new ArrayList<IReply>();
-        in.readList(this.answers, List.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<BasicDilemma> CREATOR = new Parcelable.Creator<BasicDilemma>() {
-        public BasicDilemma createFromParcel(Parcel source) {
-            return new BasicDilemma(source);
-        }
-
-        public BasicDilemma[] newArray(int size) {
-            return new BasicDilemma[size];
-        }
-    };
 }

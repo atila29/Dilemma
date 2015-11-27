@@ -1,5 +1,6 @@
 package app.grp13.dilemma;
 
+import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,8 +25,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_answer_dilemma);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bundle extra = getIntent().getExtras();
-        IDilemma dilemma = (BasicDilemma)extra.get("dilemma");
+        Bundle extra = getIntent().getBundleExtra("dilemma");
+        BasicDilemma dilemma = (BasicDilemma)extra.getSerializable("test");
 
         vote1Btn = (Button) findViewById(R.id.vote1Btn);
         vote2Btn = (Button) findViewById(R.id.vote2Btn);
