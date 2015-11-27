@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -91,6 +92,10 @@ public class AccountController {
     }
 
     public void saveUsersToDevice(Context ctx) throws IOException {
+
+        File file = new File(FILENAME);
+        if(!file.exists())
+            file.createNewFile();
 
         FileOutputStream fos = ctx.openFileOutput(FILENAME, Context.MODE_PRIVATE);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
