@@ -25,7 +25,7 @@ public class ReplyBuilder implements Serializable {
         for(IAnswer a : map.keySet()){
             if(answerOption.getClass().equals(a.getClass())){
                 temp = this.map.get(a).getClass().newInstance();
-                temp.setReply(a.getAnswer());
+                temp.setReply(answerOption.getAnswer());
                 temp.setID(id);
             }
         }
