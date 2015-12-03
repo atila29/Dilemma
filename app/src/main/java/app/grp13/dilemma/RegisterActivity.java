@@ -47,6 +47,13 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         registerBtn = (Button) findViewById(R.id.registrerButton);
         registerBtn.setOnClickListener(this);
         accountController = new AccountController();
+        try {
+            accountController.loadUsersFromDevice(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
     @Override
@@ -130,7 +137,15 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                finish();
+                try {
+                    accountController.login(usernameText.getText().toString(), passwordText.getText().toString());
+                        finish();
+                } catch (LoginException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             } else {
                 Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();

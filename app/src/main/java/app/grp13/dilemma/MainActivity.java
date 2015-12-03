@@ -61,10 +61,12 @@ public class MainActivity extends Activity
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        dController.createDilemma("test1", "Dette er en test. hafhuiajaepødfiojka foøiuajh dfoøia ofiu haoødif hoadøif jhoadi fjoiadjkm fa fda fad fad fad fad fadf adf adfadf das d fa", 2, "svar et", "svar to", "svar tre", "svar fire");
-        dController.createDilemma("test2", "Dette er en test2", 1, "svar et", "svar to");
-        dController.createDilemma("test3", "Dette er en test3", 4, "svar et", "svar to");
-        dController.createDilemma("test4", "Dette er en test4", 5, "svar et", "svar to");
+        if(dController.getAllDilemmas().isEmpty()) {
+            dController.createDilemma("test1", "Dette er en test. hafhuiajaepødfiojka foøiuajh dfoøia ofiu haoødif hoadøif jhoadi fjoiadjkm fa fda fad fad fad fad fadf adf adfadf das d fa", 2, "svar et", "svar to", "svar tre", "svar fire");
+            dController.createDilemma("test2", "Dette er en test2", 1, "svar et", "svar to");
+            dController.createDilemma("test3", "Dette er en test3", 4, "svar et", "svar to");
+            dController.createDilemma("test4", "Dette er en test4", 5, "svar et", "svar to");
+        }
 
         dilemmaList = (ListView) findViewById(R.id.dilemmaList);
 
@@ -132,7 +134,6 @@ public class MainActivity extends Activity
 
 
     public void updateList(IDilemma[] array) throws IOException {
-        dController.saveDilemmasToDevice(getApplicationContext());
         try {
             dController.loadDilemmasFromDevice(getApplicationContext());
         } catch (IOException e) {
@@ -193,6 +194,7 @@ public class MainActivity extends Activity
     @Override
     public void onResume(){
         super.onResume();
+
         try {
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
