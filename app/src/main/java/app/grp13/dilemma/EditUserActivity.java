@@ -13,7 +13,15 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
+/*
+Lavet af:
+Sazvan Kasim Ali - S144884
+Mathias Petersen - S144874
+Bao Duy Nguyen - S144880
+Christian Jappe - S144866
+Magnus Nielsen - S141899
+Nicolai Hansen - S133974
+*/
 public class EditUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     ScrollView normalEditUser;

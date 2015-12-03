@@ -11,7 +11,15 @@ import android.widget.TextView;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
-
+/*
+Lavet af:
+Sazvan Kasim Ali - S144884
+Mathias Petersen - S144874
+Bao Duy Nguyen - S144880
+Christian Jappe - S144866
+Magnus Nielsen - S141899
+Nicolai Hansen - S133974
+*/
 public class AnswerDilemma extends AppCompatActivity implements View.OnClickListener {
 
     private Button vote1Btn, vote2Btn, vote3Btn, vote4Btn, vote5Btn;

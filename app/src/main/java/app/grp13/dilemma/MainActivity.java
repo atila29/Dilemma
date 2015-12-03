@@ -34,6 +34,17 @@ import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
 
+/*
+Lavet af:
+Sazvan Kasim Ali - S144884
+Mathias Petersen - S144874
+Bao Duy Nguyen - S144880
+Christian Jappe - S144866
+Magnus Nielsen - S141899
+Nicolai Hansen - S133974
+*/
+
+
 public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView gravityText;
