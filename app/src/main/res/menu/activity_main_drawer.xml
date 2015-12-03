@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_active_dilemmas" android:icon="@mipmap/placeholder"
+        <item android:id="@+id/nav_active_dilemmas" android:icon="@mipmap/ic_active_dilemmas"
             android:title="Aktive Dilemmaer" />
-        <item android:id="@+id/nav_myDilemmas" android:icon="@mipmap/placeholder"
+        <item android:id="@+id/nav_myDilemmas" android:icon="@mipmap/ic_my_dilemmas"
             android:title="Mine Dilemmaer" />
-        <item android:id="@+id/nav_answers" android:icon="@mipmap/placeholder"
+        <item android:id="@+id/nav_answers" android:icon="@mipmap/ic_my_answers"
             android:title="Mine svar" />
         <item android:id="@+id/nav_settings" android:icon="@mipmap/ic_settings"
             android:title="Indstillinger" />
