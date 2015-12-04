@@ -17,7 +17,7 @@ Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 Denne klasse følger midlertidigt factory pattern
 */
-public class DilemmaBuilder implements Serializable{
+public class DilemmaFactory implements Serializable{
 
 
 

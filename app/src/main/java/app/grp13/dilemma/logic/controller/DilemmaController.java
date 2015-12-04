@@ -14,9 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.grp13.dilemma.logic.builder.DilemmaBuilder;
+import app.grp13.dilemma.logic.builder.DilemmaFactory;
 import app.grp13.dilemma.logic.builder.ReplyBuilder;
-import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.BasicAnswer;
 import app.grp13.dilemma.logic.dto.BasicReply;
 import app.grp13.dilemma.logic.dto.IAnswer;
@@ -36,7 +35,7 @@ Nicolai Hansen - S133974
 public class DilemmaController implements Serializable{
 
     private ReplyBuilder replyBuilder;
-    private DilemmaBuilder dilemmaBuilder;
+    private DilemmaFactory dilemmaFactory;
     private final String FILENAME = "dilemmas.bin";
 
     private Map<Integer,IDilemma> dilemmaMap;
@@ -50,7 +49,7 @@ public class DilemmaController implements Serializable{
         a2r.put(new BasicAnswer(""), new BasicReply());
         replyBuilder = new ReplyBuilder(a2r);
 
-        dilemmaBuilder = new DilemmaBuilder();
+        dilemmaFactory = new DilemmaFactory();
 
     }
 
@@ -68,7 +67,7 @@ public class DilemmaController implements Serializable{
             tempAnswerOptions.add(new BasicAnswer(s));
         }
 
-        this.dilemmaMap.put(key, dilemmaBuilder.createBasicDilemma(key, title, description, gravity, tempAnswerOptions));
+        this.dilemmaMap.put(key, dilemmaFactory.createBasicDilemma(key, title, description, gravity, tempAnswerOptions));
 
     }
 
