@@ -53,6 +53,11 @@ public class DilemmaController implements Serializable{
 
     }
 
+    public void addDilemma(IDilemma dilemma) {
+
+        this.dilemmaMap.put(dilemma.getID(), dilemma);
+    }
+
     // ikke en synderlig fleksibel måde at lave dilemmaer, men virker (nok!)
     public void createDilemma(String title, String description, int gravity, String ... answerOptions) {
 
@@ -101,7 +106,15 @@ public class DilemmaController implements Serializable{
     }
 
     public void answerDilemma(int id, int answerIndex) throws IllegalAccessException, DilemmaException, InstantiationException {
-            dilemmaMap.get(id).addReply(replyBuilder.createReply(dilemmaMap.get(id).getPossibleAnswers().get(answerIndex), id));
+        dilemmaMap.get(id).addReply(replyBuilder.createReply(dilemmaMap.get(id).getPossibleAnswers().get(answerIndex), id));
+    }
+
+    public int getDilemmaKey(IDilemma dilemma) throws DilemmaException {
+        for(IDilemma i : dilemmaMap.values()) {
+            if(i.getID() == dilemma.getID())
+                return i.getID();
+        }
+        throw new DilemmaException("ID NOT FOUND");
     }
 
     public void saveDilemmasToDevice(Context ctx) throws IOException {

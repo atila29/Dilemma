@@ -3,14 +3,20 @@ package app.grp13.dilemma;
 import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
+
+import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
+import app.grp13.dilemma.logic.exceptions.DilemmaException;
+
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -26,7 +32,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private TextView vote1Text, vote2Text, vote3Text, vote4Text, vote5Text;
     private TextView vote1Frame, vote2Frame, vote3Frame, vote4Frame, vote5Frame;
     private int totalCount, vote1Count, vote2Count, vote3Count, vote4Count, vote5Count;
-    private BasicDilemma dilemma;
+    private IDilemma dilemma;
+    private DilemmaController controller;
     TextView gravityTxt;
 
     @Override
@@ -37,6 +44,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
         Bundle extra = getIntent().getBundleExtra("dilemma");
         dilemma = (BasicDilemma)extra.getSerializable("test");
+        controller = new DilemmaController();
+
 
         TextView questionTxt = (TextView) findViewById(R.id.QuestionTxt);
         TextView descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
@@ -108,28 +117,61 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             vote5Frame.setVisibility(View.VISIBLE);
             vote5Text.setText(dilemma.getPossibleAnswers().get(4).getAnswer());
         }
-        for(IReply rep : dilemma.getReplys()){
-            totalCount++;
-            if(rep.getReply().equals(vote1Text.getText()))
-                vote1Count++;
-            else if(rep.getReply().equals(vote1Text.getText()))
-                vote2Count++;
-            else if(rep.getReply().equals(vote2Text.getText()))
-                vote3Count++;
-            else if(rep.getReply().equals(vote3Text.getText()))
-                vote3Count++;
-            else if(rep.getReply().equals(vote4Text.getText()))
-                vote4Count++;
-            else if(rep.getReply().equals(vote5Text.getText()))
-                vote5Count++;
-            updateFrames();
-            updateText();
+        try {
+            controller.loadDilemmasFromDevice(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        //controller.addDilemma(dilemma);
+        updateVotes();
+
+
+    }
+
+    public void updateVotes() {
+        try {
+            controller.loadDilemmasFromDevice(getApplicationContext());
+            dilemma = controller.getDilemma(controller.getDilemmaKey(dilemma));
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        // Skal refactores væk, hele denne klasse skal optimeres
+        vote1Count = 0;
+        vote2Count = 0;
+        vote3Count = 0;
+        vote4Count = 0;
+        vote5Count = 0;
+        totalCount = 0;
 
+        for(IReply rep : dilemma.getReplys()){
+            totalCount++;
+            Log.v("SHIT", rep.getReply());
+            if(rep.getReply().equals(dilemma.getPossibleAnswers().get(0).getAnswer()))
+                vote1Count++;
+            else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(1).getAnswer()))
+                vote2Count++;
+            else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(2).getAnswer()))
+                vote3Count++;
+            else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(3).getAnswer()))
+                vote4Count++;
+            else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(4).getAnswer()))
+                vote5Count++;
+        }
 
-
-
+        try {
+            controller.saveDilemmasToDevice(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        updateFrames();
+        updateText();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -139,37 +181,38 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == vote1Btn) {
-            vote1Count++;
-            totalCount++;
-            updateFrames();
-            updateText();
-            hideButtons();
-        } else if (v == vote2Btn) {
-            vote2Count++;
-            totalCount++;
-            updateFrames();
-            updateText();
-            hideButtons();
-        } else if (v == vote3Btn) {
-            vote3Count++;
-            totalCount++;
-            updateFrames();
-            updateText();
-            hideButtons();
-        } else if (v == vote4Btn) {
-            vote4Count++;
-            totalCount++;
-            updateFrames();
-            updateText();
-            hideButtons();
-        } else if (v == vote5Btn) {
-            vote5Count++;
-            totalCount++;
-            updateFrames();
-            updateText();
-            hideButtons();
+        try {
+            if (v == vote1Btn) {
+                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                Log.v("TEXZ", String.valueOf(dilemma.getID()));
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), 0);
+                Log.v("TEXZ", String.valueOf(dilemma.getReplys().size()));
+            } else if (v == vote2Btn) {
+                Log.v("TEXZ","bliver kørt");
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), 1);
+                Log.v("TEXZ", dilemma.getPossibleAnswers().get(1).getAnswer());
+            } else if (v == vote3Btn) {
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), 2);
+            } else if (v == vote4Btn) {
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), 3);
+            } else if (v == vote5Btn) {
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), 4);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
+        try {
+            controller.saveDilemmasToDevice(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        updateVotes();
+        hideButtons();
     }
 
     public void updateText() {
@@ -195,12 +238,32 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
         //Resources r = getResources();
         //float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, r.getDisplayMetrics());
+        try {
+            vote1Frame.setWidth((int)px * vote1Count / totalCount);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+        try {
+            vote2Frame.setWidth((int)px * vote2Count/totalCount);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+        try {
+            vote3Frame.setWidth((int)px * vote3Count/totalCount);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+        try {
+            vote4Frame.setWidth((int)px * vote4Count/totalCount);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+        try {
+            vote5Frame.setWidth((int)px * vote5Count/totalCount);
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
 
-        vote1Frame.setWidth((int)px * vote1Count / totalCount);
-        vote2Frame.setWidth((int)px * vote2Count/totalCount);
-        vote3Frame.setWidth((int)px * vote3Count/totalCount);
-        vote4Frame.setWidth((int)px * vote4Count/totalCount);
-        vote5Frame.setWidth((int)px * vote5Count/totalCount);
     }
 }
 
