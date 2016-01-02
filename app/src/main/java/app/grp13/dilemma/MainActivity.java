@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Aktive Dilemmaer");
@@ -120,6 +123,7 @@ public class MainActivity extends Activity
                         "they getting foul on the star.", 3, "Drake", "Meek Mill");
             }
             try {
+                dController.saveDilemmasToDevice(getApplicationContext());
                 updateList(dController.getAllDilemmasArray());
             } catch (IOException e) {
                 e.printStackTrace();

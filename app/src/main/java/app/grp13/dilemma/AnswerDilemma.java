@@ -119,13 +119,14 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         }
         try {
             controller.loadDilemmasFromDevice(getApplicationContext());
+            controller.saveDilemmasToDevice(getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //controller.addDilemma(dilemma);
-        updateVotes();
+
 
 
     }
