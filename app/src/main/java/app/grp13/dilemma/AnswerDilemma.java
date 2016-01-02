@@ -12,9 +12,11 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
+import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /*
@@ -129,6 +131,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
 
 
+
     }
 
     public void updateVotes() {
@@ -208,7 +211,12 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         }
         try {
             controller.saveDilemmasToDevice(this.getApplicationContext());
+            new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
             e.printStackTrace();
         }
 

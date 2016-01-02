@@ -31,10 +31,12 @@ import java.util.List;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
+import app.grp13.dilemma.logic.exceptions.DAOException;
 
 /*
 Lavet af:
@@ -103,13 +105,13 @@ public class MainActivity extends Activity
 
         try {
             dController.loadDilemmasFromDevice(getApplicationContext());
+            //dController = new DilemmaController(new DilemmaFirebaseDAO().getDilemmas());
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally{
+        } finally{
             if(dController.getAllDilemmas().isEmpty()) {
                 dController.createDilemma("Æg eller pizza?", "Jeg er yderst sulten og overvejer at lave nogle æg. Dog er jeg meget lysten til at bestille en pizza. Hvad burde jeg gøre? Måske en pizza med æg?", 2, "Pizza", "Æg", "Pizza med æg!", "Æg med pizza?");
                 dController.createDilemma("Pest eller kolera", "Hej, jeg har virkelig lyst til at dø... Burde jeg vælge pest eller kolera? Hvad er hurtigts og sjovest ?", 5, "Pest", "Kolera");

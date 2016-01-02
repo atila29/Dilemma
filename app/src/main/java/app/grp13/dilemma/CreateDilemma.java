@@ -13,6 +13,10 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.exceptions.DAOException;
+import app.grp13.dilemma.logic.exceptions.DilemmaException;
+
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -144,14 +148,19 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString())){
-                        dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString());
                         try {
                             dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
                             finish();
                         } catch (IOException e) {
                             e.printStackTrace();
                             Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                        } catch (DilemmaException e) {
+                            e.printStackTrace();
+                        } catch (DAOException e) {
+                            e.printStackTrace();
                         }
                     }
                     else{
@@ -159,14 +168,19 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                     }
                 } else if (answer4.getVisibility() == View.VISIBLE && answer4.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString())){
-                        dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
                         try {
                             dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
                             finish();
                         } catch (IOException e) {
                             e.printStackTrace();
                             Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                        } catch (DilemmaException e) {
+                            e.printStackTrace();
+                        } catch (DAOException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();
@@ -174,15 +188,20 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 } else if (answer5.getVisibility() == View.VISIBLE && answer5.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString())){
-                        dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString());
                         try {
                             dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
                             finish();
                         } catch (IOException e) {
                             e.printStackTrace();
                             Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                        } catch (DilemmaException e) {
+                            e.printStackTrace();
+                        } catch (DAOException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();
@@ -190,15 +209,20 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 } else if (answer5.getVisibility() == View.VISIBLE && !answer5.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || answer1.getText().toString().matches(answer5.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || answer2.getText().toString().matches(answer5.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString()) || answer3.getText().toString().matches(answer5.getText().toString()) || answer4.getText().toString().matches(answer5.getText().toString())){
-                        dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
                         try {
                             dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
                             finish();
                         } catch (IOException e) {
                             e.printStackTrace();
                             Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                        } catch (DilemmaException e) {
+                            e.printStackTrace();
+                        } catch (DAOException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();

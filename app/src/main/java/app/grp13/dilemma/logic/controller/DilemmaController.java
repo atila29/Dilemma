@@ -2,6 +2,8 @@ package app.grp13.dilemma.logic.controller;
 
 import android.content.Context;
 
+import com.firebase.client.Firebase;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -58,8 +60,15 @@ public class DilemmaController implements Serializable{
         this.dilemmaMap.put(dilemma.getID(), dilemma);
     }
 
+    public DilemmaController(List<IDilemma> dilemmas) {
+        this();
+        for(IDilemma d : dilemmas) {
+            this.addDilemma(d);
+        }
+    }
+
     // ikke en synderlig fleksibel måde at lave dilemmaer, men virker (nok!)
-    public void createDilemma(String title, String description, int gravity, String ... answerOptions) {
+    public int createDilemma(String title, String description, int gravity, String ... answerOptions) {
 
         // id skal være unikt, skal derfor laves om.
         Integer key = 0;
@@ -73,8 +82,9 @@ public class DilemmaController implements Serializable{
         }
 
         this.dilemmaMap.put(key, dilemmaFactory.createBasicDilemma(key, title, description, gravity, tempAnswerOptions));
-
+        return key;
     }
+
 
     public List<IDilemma> getAllDilemmas(){
         List<IDilemma> temp = new ArrayList<>();
