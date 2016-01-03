@@ -32,6 +32,7 @@ import java.util.List;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
@@ -59,6 +60,8 @@ public class MainActivity extends Activity
     private String[] dilemmaTitles;
     private String[] dilemmaGravities;
 
+    private IDilemmaDAO dilemmaDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +73,8 @@ public class MainActivity extends Activity
 
         aController = new AccountController();
         dController = new DilemmaController();
-        try {
-            dController.loadDilemmasFromDevice(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        dilemmaDAO = new DilemmaFirebaseDAO();
+
 
         dilemmaList = (ListView) findViewById(R.id.dilemmaList);
 
@@ -104,28 +102,17 @@ public class MainActivity extends Activity
         navigationView.setNavigationItemSelectedListener(this);
 
         try {
-            dController.loadDilemmasFromDevice(getApplicationContext());
-            //dController = new DilemmaController(new DilemmaFirebaseDAO().getDilemmas());
+            //dController.loadDilemmasFromDevice(getApplicationContext());
+            dController = new DilemmaController(dilemmaDAO.getDilemmas());
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (DAOException e) {
             e.printStackTrace();
         } finally{
-            if(dController.getAllDilemmas().isEmpty()) {
-                dController.createDilemma("Æg eller pizza?", "Jeg er yderst sulten og overvejer at lave nogle æg. Dog er jeg meget lysten til at bestille en pizza. Hvad burde jeg gøre? Måske en pizza med æg?", 2, "Pizza", "Æg", "Pizza med æg!", "Æg med pizza?");
-                dController.createDilemma("Pest eller kolera", "Hej, jeg har virkelig lyst til at dø... Burde jeg vælge pest eller kolera? Hvad er hurtigts og sjovest ?", 5, "Pest", "Kolera");
-                dController.createDilemma("Erduole Jahvad?", "Hvad fanden betyder det?", 1, "Ole er ja", "Hvor er hvad i ole?");
-                dController.createDilemma("Drake eller Meek Mill?", "Chances Are Most of the day you was lying around\n" +
-                        "i made money thats why these girls eyeing me down\n" +
-                        "by nineteen i might seem desitend for millions\n" +
-                        "promoters on my ass so im guessing they filled\n" +
-                        "in i take q's from my big boy popz\n" +
-                        "i 'm the only young dude that the big boys watch\n" +
-                        "they getting foul on the star.", 3, "Drake", "Meek Mill");
-            }
             try {
-                dController.saveDilemmasToDevice(getApplicationContext());
+                //dController.saveDilemmasToDevice(getApplicationContext());
+
                 updateList(dController.getAllDilemmasArray());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -227,11 +214,11 @@ public class MainActivity extends Activity
     public void onResume(){
         super.onResume();
         try {
-            dController.loadDilemmasFromDevice(getApplicationContext());
+            dController = new DilemmaController(dilemmaDAO.getDilemmas());
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (DAOException e) {
             e.printStackTrace();
         }
     }

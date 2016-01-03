@@ -1,6 +1,7 @@
 package app.grp13.dilemma.logic.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.firebase.client.Firebase;
 
@@ -45,6 +46,8 @@ public class DilemmaController implements Serializable{
 
     public DilemmaController() {
 
+        Log.v("SHIT", "bliver kørt 1");
+
         dilemmaMap = new HashMap<Integer, IDilemma>();
 
         Map<IAnswer, IReply> a2r = new HashMap<>();
@@ -62,7 +65,9 @@ public class DilemmaController implements Serializable{
 
     public DilemmaController(List<IDilemma> dilemmas) {
         this();
+        Log.v("SHIT", "bliver kørt 3");
         for(IDilemma d : dilemmas) {
+            Log.v("SHIT", "bliver kørt 2");
             this.addDilemma(d);
         }
     }
