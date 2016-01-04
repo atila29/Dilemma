@@ -125,9 +125,14 @@ public class DilemmaController implements Serializable{
     }
 
     public int getDilemmaKey(IDilemma dilemma) throws DilemmaException {
+        boolean fejl = true;
         for(IDilemma i : dilemmaMap.values()) {
-            if(i.getID() == dilemma.getID())
+            Log.v("TE2", String.valueOf(dilemma.getID()));
+            Log.v("TE2", String.valueOf(i.getID()));
+            if(i.getID() == dilemma.getID()){
+                Log.v("TE2", "bliver kørt");
                 return i.getID();
+            }
         }
         throw new DilemmaException("ID NOT FOUND");
     }

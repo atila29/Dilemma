@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
@@ -36,7 +37,9 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private int totalCount, vote1Count, vote2Count, vote3Count, vote4Count, vote5Count;
     private IDilemma dilemma;
     private DilemmaController controller;
-    TextView gravityTxt;
+    private TextView gravityTxt;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         Bundle extra = getIntent().getBundleExtra("dilemma");
         dilemma = (BasicDilemma)extra.getSerializable("test");
         controller = new DilemmaController();
+        controller.addDilemma(dilemma);
 
 
         TextView questionTxt = (TextView) findViewById(R.id.QuestionTxt);
@@ -119,14 +123,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             vote5Frame.setVisibility(View.VISIBLE);
             vote5Text.setText(dilemma.getPossibleAnswers().get(4).getAnswer());
         }
-        try {
-            controller.loadDilemmasFromDevice(getApplicationContext());
-            controller.saveDilemmasToDevice(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         //controller.addDilemma(dilemma);
 
 
@@ -136,13 +133,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
     public void updateVotes() {
         try {
-            controller.loadDilemmasFromDevice(getApplicationContext());
             dilemma = controller.getDilemma(controller.getDilemmaKey(dilemma));
         } catch (DilemmaException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -193,13 +185,21 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
                 Log.v("TEXZ", String.valueOf(dilemma.getReplys().size()));
             } else if (v == vote2Btn) {
                 Log.v("TEXZ","bliver kørt");
+                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 1);
                 Log.v("TEXZ", dilemma.getPossibleAnswers().get(1).getAnswer());
             } else if (v == vote3Btn) {
+                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 2);
             } else if (v == vote4Btn) {
+                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 3);
             } else if (v == vote5Btn) {
+                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 4);
             }
         } catch (IllegalAccessException e) {
