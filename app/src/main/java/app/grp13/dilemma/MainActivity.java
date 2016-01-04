@@ -1,8 +1,10 @@
 package app.grp13.dilemma;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -18,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,9 +60,10 @@ public class MainActivity extends Activity
     private ListView dilemmaList;
     private DilemmaController dController;
     private AccountController aController;
-
+    private ProgressBar prog;
     private String[] dilemmaTitles;
     private String[] dilemmaGravities;
+    private RelativeLayout loadingView;
 
     private IDilemmaDAO dilemmaDAO;
 
@@ -70,7 +75,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Aktive Dilemmaer");
-
+        loadingView = (RelativeLayout) findViewById(R.id.loadingView);
         aController = new AccountController();
         dController = new DilemmaController();
         dilemmaDAO = new DilemmaFirebaseDAO();
@@ -101,6 +106,9 @@ public class MainActivity extends Activity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //loading bar
+        prog = (ProgressBar) findViewById(R.id.progressBar2);
+
         try {
             //dController.loadDilemmasFromDevice(getApplicationContext());
             dController = new DilemmaController(dilemmaDAO.getDilemmas());
@@ -118,6 +126,26 @@ public class MainActivity extends Activity
                 e.printStackTrace();
             }
         }
+        //Loading bar
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!dilemmaDAO.isLoading() && dilemmaDAO.isConnected()){
+                    errorToast("Loading complete!");
+                    loadingView.setVisibility(View.GONE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    onResume();
+                }
+                if(!dilemmaDAO.isLoading() && !dilemmaDAO.isConnected()){
+                    errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
+                    loadingView.setVisibility(View.GONE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                }
+            }
+        }, 5000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
 
 
 
@@ -263,6 +291,14 @@ public class MainActivity extends Activity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void errorToast(String str){
+        Context context = getApplicationContext();
+        CharSequence text =str;
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public void onItemClick(AdapterView<?> l, View v, int position, long id) {
