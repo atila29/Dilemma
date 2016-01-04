@@ -57,12 +57,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         TextView descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
         questionTxt.setText(dilemma.getTitle());
         descriptionTxt.setText(dilemma.getDescription());
-/*        vote1Count = 0;
-        vote2Count = 0;
-        vote3Count = 0;
-        vote4Count = 0;
-        vote5Count = 0;
-        totalCount = 0;*/
+
         vote1Btn = (Button) findViewById(R.id.vote1Btn);
         vote2Btn = (Button) findViewById(R.id.vote2Btn);
         vote3Btn = (Button) findViewById(R.id.vote3Btn);
@@ -161,11 +156,6 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
                 vote5Count++;
         }
 
-        try {
-            controller.saveDilemmasToDevice(this.getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         updateFrames();
         updateText();
     }
@@ -210,10 +200,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
         try {
-            controller.saveDilemmasToDevice(this.getApplicationContext());
             new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (DilemmaException e) {
             e.printStackTrace();
         } catch (DAOException e) {
