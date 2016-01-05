@@ -36,9 +36,11 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
 
     public DilemmaFirebaseDAO() {
         dilemmas = new ArrayList<>();
+        loading = true;
         dilemmaref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                loading = true;
                 Firebase con = new Firebase("https://dtu-dilemma.firebaseio.com/.info/connected");
                 con.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -52,7 +54,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
                     }
                 });
 
-                loading = true;
+
                 for(DataSnapshot d : dataSnapshot.getChildren()) {
                     System.out.println(d.child("title").getValue());
                     String title = (String)d.child("title").getValue();
