@@ -126,30 +126,7 @@ public class MainActivity extends Activity
                 e.printStackTrace();
             }
         }
-        //Loading bar
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(!dilemmaDAO.isLoading() && dilemmaDAO.isConnected()){
-                    errorToast("Loading complete!");
-                    loadingView.setVisibility(View.GONE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
-                    onResume();
-                }
-                if(!dilemmaDAO.isLoading() && !dilemmaDAO.isConnected()){
-                    errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
-                    loadingView.setVisibility(View.GONE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
-                }
-            }
-        }, 5000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
-
-
-
-
+        loadList();
         dilemmaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -303,6 +280,29 @@ public class MainActivity extends Activity
 
     public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadList(){
+        //Loading bar
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!dilemmaDAO.isLoading() && dilemmaDAO.isConnected()){
+                    errorToast("Loading complete!");
+                    loadingView.setVisibility(View.GONE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    onResume();
+                }
+                if(!dilemmaDAO.isLoading() && !dilemmaDAO.isConnected()){
+                    errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
+                    loadingView.setVisibility(View.GONE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                }
+            }
+        }, 5000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
     }
 }
 
