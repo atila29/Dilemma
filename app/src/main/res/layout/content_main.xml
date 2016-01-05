@@ -18,13 +18,14 @@
         android:fastScrollAlwaysVisible="false"
         android:divider="#5C6BC0"
         android:dividerHeight="1dp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
-        android:id="@+id/loadingView">
+        android:id="@+id/loadingView"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
