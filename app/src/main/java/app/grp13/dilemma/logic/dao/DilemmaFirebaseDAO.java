@@ -36,7 +36,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
 
     public DilemmaFirebaseDAO() {
         dilemmas = new ArrayList<>();
-        loading = true;
+
         dilemmaref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
