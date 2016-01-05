@@ -108,24 +108,6 @@ public class MainActivity extends Activity
 
         //loading bar
         prog = (ProgressBar) findViewById(R.id.progressBar2);
-
-        try {
-            //dController.loadDilemmasFromDevice(getApplicationContext());
-            dController = new DilemmaController(dilemmaDAO.getDilemmas());
-            updateList(dController.getAllDilemmasArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DAOException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                //dController.saveDilemmasToDevice(getApplicationContext());
-
-                updateList(dController.getAllDilemmasArray());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         loadList();
         dilemmaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -302,7 +284,7 @@ public class MainActivity extends Activity
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                 }
             }
-        }, 5000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
+        }, 4000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
     }
 }
 
