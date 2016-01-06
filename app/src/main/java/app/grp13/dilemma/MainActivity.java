@@ -273,14 +273,14 @@ public class MainActivity extends Activity
                 if(!dilemmaDAO.isLoading() && dilemmaDAO.isConnected()){
                     errorToast("Loading complete!");
                     loadingView.setVisibility(View.GONE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     onResume();
                 }
                 if(!dilemmaDAO.isLoading() && !dilemmaDAO.isConnected()){
                     errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
                     loadingView.setVisibility(View.GONE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                 }
             }

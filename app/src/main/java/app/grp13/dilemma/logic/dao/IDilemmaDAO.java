@@ -14,7 +14,6 @@ public interface IDilemmaDAO {
     List<IDilemma> getDilemmas()throws DAOException;
     void deleteDilemma(IDilemma dilemma) throws  DAOException;
     boolean isLoading();
-
     boolean isConnected();
 
 
