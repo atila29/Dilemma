@@ -16,25 +16,22 @@ Nicolai Hansen - S133974
 public class Account implements Serializable{
 
     private String userName;
-    private String password;
     private int type;
 
     private boolean active;
-    private int id;
+    private String id;
 
     private List<IDilemma> myDilemmas;
     private List<IReply> myReplys;
 
-    public Account(String userName, String password, int type, int id) {
+
+    public Account(String userName, int type, String id) {
         this.active = true;
         this.userName = userName;
-        this.password = password;
+        this.id = id;
         this.type = type;
-
         myDilemmas = new ArrayList<>();
         myReplys = new ArrayList<>();
-
-       this.id = id;
     }
 
     public String getUserName() {
@@ -43,14 +40,6 @@ public class Account implements Serializable{
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getType() {
@@ -67,10 +56,6 @@ public class Account implements Serializable{
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public List<IDilemma> getMyDilemmas() {
@@ -90,9 +75,11 @@ public class Account implements Serializable{
     }
 
 
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

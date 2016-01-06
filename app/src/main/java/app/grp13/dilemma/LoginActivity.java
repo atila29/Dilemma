@@ -50,13 +50,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        try {
-            ac.loadUsersFromDevice(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
