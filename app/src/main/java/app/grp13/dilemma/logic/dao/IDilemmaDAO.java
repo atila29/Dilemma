@@ -13,7 +13,7 @@ public interface IDilemmaDAO {
     void saveDilemma(IDilemma dilemma) throws DAOException;
     List<IDilemma> getDilemmas()throws DAOException;
     void deleteDilemma(IDilemma dilemma) throws  DAOException;
-    boolean isLoading();
+    boolean isNetworkAvalible();
     boolean isConnected();
 
 

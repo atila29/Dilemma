@@ -1,6 +1,9 @@
 package app.grp13.dilemma.logic.dao;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
@@ -12,6 +15,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.grp13.dilemma.MainActivity;
 import app.grp13.dilemma.logic.builder.DilemmaFactory;
 import app.grp13.dilemma.logic.dto.BasicAnswer;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
@@ -114,8 +118,10 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
 
     }
 
-    public boolean isLoading() {
-        return loading;
+    public boolean isNetworkAvalible(){
+        ConnectivityManager cm = (ConnectivityManager) MainActivity.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni !=null && ni.isConnected();
     }
 
     public boolean isConnected() {

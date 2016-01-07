@@ -3,6 +3,8 @@ package app.grp13.dilemma;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -64,7 +66,7 @@ public class MainActivity extends Activity
     private String[] dilemmaTitles;
     private String[] dilemmaGravities;
     private RelativeLayout loadingView;
-
+    private static Context context;
     private IDilemmaDAO dilemmaDAO;
 
 
@@ -79,7 +81,7 @@ public class MainActivity extends Activity
         aController = new AccountController();
         dController = new DilemmaController();
         dilemmaDAO = new DilemmaFirebaseDAO();
-
+        context = getApplicationContext();
 
         dilemmaList = (ListView) findViewById(R.id.dilemmaList);
 
@@ -264,27 +266,38 @@ public class MainActivity extends Activity
         Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
     }
 
+    public static Context getContext(){
+        return context;
+    }
+
     public void loadList(){
         //Loading bar
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!dilemmaDAO.isLoading() && dilemmaDAO.isConnected()){
+                if(!dilemmaDAO.isNetworkAvalible()){
+                    errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
+                    loadingView.setVisibility(View.GONE);
+                    findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                }
+                if(dilemmaDAO.isNetworkAvalible() && dilemmaDAO.isConnected()){
                     errorToast("Loading complete!");
                     loadingView.setVisibility(View.GONE);
                     findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     onResume();
                 }
-                if(!dilemmaDAO.isLoading() && !dilemmaDAO.isConnected()){
-                    errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
+                if(dilemmaDAO.isNetworkAvalible() && !dilemmaDAO.isConnected()){
+                    loadList();
+                    /*errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
                     loadingView.setVisibility(View.GONE);
                     findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fab).setVisibility(View.VISIBLE);*/
                 }
             }
-        }, 4000); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
+        }, 10); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
     }
 }
 
