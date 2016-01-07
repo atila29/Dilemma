@@ -1,14 +1,13 @@
 package app.grp13.dilemma;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import app.grp13.dilemma.logic.controller.AccountController;
-import app.grp13.dilemma.logic.exceptions.LoginException;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.exceptions.DAOException;
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -29,7 +27,7 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, IAccountControllerActivity {
 
     private EditText usernameText, passwordText, repasswordText;
     private Button registerBtn;
@@ -54,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         repasswordText = (EditText) findViewById(R.id.regRePassword);
         registerBtn = (Button) findViewById(R.id.registrerButton);
         registerBtn.setOnClickListener(this);
-        accountController = new AccountController();
+        accountController = new AccountController(this);
 
     }
     @Override
@@ -128,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
                     !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
                 try {
                     accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString());
-                } catch (LoginException e) {
+                } catch (DAOException e) {
                     Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -140,5 +138,15 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
 
         }
+    }
+
+    @Override
+    public void ShowErrorMessage(Exception e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 }

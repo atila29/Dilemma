@@ -1,13 +1,12 @@
 package app.grp13.dilemma;
 
-import android.app.ActionBar;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
@@ -18,10 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import app.grp13.dilemma.logic.controller.AccountController;
-import app.grp13.dilemma.logic.exceptions.LoginException;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.exceptions.DAOException;
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -31,10 +29,10 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, IAccountControllerActivity{
 
     private Button loginBtn;
-    private AccountController ac = new AccountController();
+    private AccountController ac = new AccountController(this);
     private EditText username;
     private EditText password;
     private TextView rT;
@@ -128,13 +126,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     public void onClick(View v) {
         if (v == loginBtn) {
             if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
-                try{
-                    ac.login(username.getText().toString(), password.getText().toString());
-                    finish();
-                } catch (LoginException e) {
-                    Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                ac.login(username.getText().toString(), password.getText().toString());
             }
             else{
                 Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
@@ -145,5 +137,16 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         }
 
+    }
+
+    @Override
+    public void ShowErrorMessage(Exception e) {
+        Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

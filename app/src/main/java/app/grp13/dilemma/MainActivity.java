@@ -37,6 +37,7 @@ import java.util.List;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
@@ -57,7 +58,7 @@ Nicolai Hansen - S133974
 
 
 public class MainActivity extends Activity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IAccountControllerActivity {
     private TextView gravityText;
     private ListView dilemmaList;
     private DilemmaController dController;
@@ -78,7 +79,7 @@ public class MainActivity extends Activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Aktive Dilemmaer");
         loadingView = (RelativeLayout) findViewById(R.id.loadingView);
-        aController = new AccountController();
+        aController = new AccountController(this);
         dController = new DilemmaController();
         dilemmaDAO = new DilemmaFirebaseDAO();
         context = getApplicationContext();
@@ -298,6 +299,16 @@ public class MainActivity extends Activity
                 }
             }
         }, 10); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
+    }
+
+    @Override
+    public void ShowErrorMessage(Exception e) {
+
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+
     }
 }
 
