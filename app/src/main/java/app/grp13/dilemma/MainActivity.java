@@ -46,6 +46,7 @@ import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DAOException;
+import app.grp13.dilemma.logic.exceptions.LoginException;
 
 /*
 Lavet af:
@@ -92,11 +93,12 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View view) {
                 try {
-                    dController.saveDilemmasToDevice(getApplicationContext());
-                } catch (IOException e) {
+                    aController.authenticate();
+                } catch (LoginException e) {
                     e.printStackTrace();
+                    errorToast("Du skal være logget ind for at oprette dilemmaer.");
                 }
-                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+
 
             }
         });
@@ -293,10 +295,6 @@ public class MainActivity extends Activity
                 }
                 if(dilemmaDAO.isNetworkAvalible() && !dilemmaDAO.isConnected()){
                     loadList();
-                    /*errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
-                    loadingView.setVisibility(View.GONE);
-                    findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
-                    findViewById(R.id.fab).setVisibility(View.VISIBLE);*/
                 }
             }
         }, 10); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
@@ -314,7 +312,7 @@ public class MainActivity extends Activity
 
     @Override
     public void accountAuthentication(Account acc) {
-
+        startActivity(new Intent(MainActivity.this, CreateDilemma.class));
     }
 }
 

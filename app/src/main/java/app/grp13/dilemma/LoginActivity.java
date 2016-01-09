@@ -14,8 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
@@ -39,6 +42,11 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     private EditText username;
     private EditText password;
     private TextView rT;
+    private LinearLayout logoutView;
+    private LinearLayout loginView;
+    private Button logoutButton;
+    private TextView logoutText;
+    private LinearLayout loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,11 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        loadingView = (LinearLayout) findViewById(R.id.loadingView);
+        logoutText = (TextView) findViewById(R.id.emailTextView);
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        loginView = (LinearLayout) findViewById(R.id.loginView);
+        logoutView = (LinearLayout) findViewById(R.id.logoutView);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -61,11 +74,12 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         rT.setOnClickListener(this);
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(this);
-        ac.logout();
+        logoutButton.setOnClickListener(this);
         try {
             ac.authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
+            loginView.setVisibility(View.VISIBLE);
         }
     }
     @Override
@@ -134,20 +148,31 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
         if (v == loginBtn) {
+            loginView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.VISIBLE);
             if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
                 try {
                     ac.login(username.getText().toString(), password.getText().toString());
                 } catch (LoginException e) {
                     e.printStackTrace();
+                    loadingView.setVisibility(View.GONE);
+                    loginView.setVisibility(View.VISIBLE);
                 }
             }
             else{
                 Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+                loadingView.setVisibility(View.GONE);
+                loginView.setVisibility(View.VISIBLE);
             }
         }
         if(v == rT){
             finish();
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        }
+        if(v == logoutButton){
+            ac.logout();
+            Toast.makeText(getApplicationContext(), "Du er blevet logget ud", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }
@@ -165,6 +190,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void accountAuthentication(Account acc) {
-
+        logoutText.setText(acc.getUserName());
+        loginView.setVisibility(View.GONE);
+        logoutView.setVisibility(View.VISIBLE);
     }
 }
