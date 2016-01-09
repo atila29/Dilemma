@@ -40,6 +40,7 @@ import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dao.IDilemmaDAO;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
@@ -308,6 +309,11 @@ public class MainActivity extends Activity
 
     @Override
     public void showLoginToast(String msg) {
+
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
 
     }
 }

@@ -1,17 +1,12 @@
 package app.grp13.dilemma.logic.dao;
 
 import android.util.Log;
-import android.widget.MultiAutoCompleteTextView;
 
-import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.security.token.TokenGenerator;
+import com.firebase.client.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 
@@ -21,19 +16,35 @@ import app.grp13.dilemma.logic.exceptions.DAOException;
 public class AccountDAO {
 
     private Firebase firebase;
+    private Account account;
 
 
 
     public AccountDAO(){
         firebase = new Firebase("https://dtu-dilemma.firebaseio.com/");
-
+        account = null;
     }
 
 
 
 
-    public Account getAccount(String uid) throws DAOException{
-        throw new DAOException("FUNCTION MISSING");
+    public void getAccount(String uid, final IAccountParser parser){
+        Firebase accountref = firebase.child("accounts").child(uid.replace("-",""));
+        accountref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //dataSnapshot.child("active");
+                String id = (String) dataSnapshot.child("id").getValue(); // skal (måske) ikke bruges.
+                int type = Integer.valueOf(dataSnapshot.child("type").getValue().toString());
+                String uname = (String) dataSnapshot.child("userName").getValue();
+                parser.parseAccount(new Account(uname, type, id));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
 
@@ -49,5 +60,11 @@ public class AccountDAO {
     }
 
 
+    private Account getAccount() {
+        return account;
+    }
 
+    private void setAccount(Account account) {
+        this.account = account;
+    }
 }

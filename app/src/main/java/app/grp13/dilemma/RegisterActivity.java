@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 /*
 Lavet af:
@@ -148,5 +149,10 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void showLoginToast(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+
     }
 }

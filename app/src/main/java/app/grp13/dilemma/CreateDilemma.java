@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
@@ -26,18 +29,19 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class CreateDilemma extends AppCompatActivity implements View.OnClickListener {
-    EditText dilemmaName;
-    EditText dilemmaDesc;
-    Button createDilemma;
-    EditText answer1;
-    EditText answer2;
-    EditText answer3;
-    EditText answer4;
-    EditText answer5;
-    Button gravity1Btn, gravity2Btn, gravity3Btn, gravity4Btn, gravity5Btn, gravitySelected;
-    int selectedGravity;
-    DilemmaController dilemmaController;
+public class CreateDilemma extends AppCompatActivity implements View.OnClickListener, IAccountControllerActivity {
+    private EditText dilemmaName;
+    private EditText dilemmaDesc;
+    private Button createDilemma;
+    private EditText answer1;
+    private EditText answer2;
+    private EditText answer3;
+    private EditText answer4;
+    private EditText answer5;
+    private Button gravity1Btn, gravity2Btn, gravity3Btn, gravity4Btn, gravity5Btn, gravitySelected;
+    private int selectedGravity;
+    private DilemmaController dilemmaController;
+    private AccountController accountController;
 
     String[] gravity = {"1", "2", "3", "4", "5"};
 
@@ -67,6 +71,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         gravity5Btn.setOnClickListener(this);
         createDilemma.setOnClickListener(this);
         dilemmaController = new DilemmaController();
+        accountController = new AccountController(this);
         try {
             dilemmaController.loadDilemmasFromDevice(getApplicationContext());
         } catch (IOException e) {
@@ -151,12 +156,9 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString());
                         try {
-                            dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            accountController.authenticate();
                             new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
-                            finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                            // firebase Dao shit skal rykkes til auth, og alle disse "gentagelser burde vi kunne slippe for.
                         } catch (DilemmaException e) {
                             e.printStackTrace();
                         } catch (DAOException e) {
@@ -213,12 +215,9 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
                         try {
-                            dilemmaController.saveDilemmasToDevice(getApplicationContext());
+                            accountController.authenticate();
                             new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
                             finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
                         } catch (DilemmaException e) {
                             e.printStackTrace();
                         } catch (DAOException e) {
@@ -237,4 +236,19 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public void ShowErrorMessage(Exception e) {
+        Log.v("LOL", e.getMessage());
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+        Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 }

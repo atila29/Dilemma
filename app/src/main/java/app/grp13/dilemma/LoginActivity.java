@@ -19,7 +19,10 @@ import android.widget.Toast;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
+import app.grp13.dilemma.logic.exceptions.LoginException;
+
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -58,6 +61,12 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         rT.setOnClickListener(this);
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(this);
+        ac.logout();
+        try {
+            ac.authenticate();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void onBackPressed() {
@@ -126,7 +135,11 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     public void onClick(View v) {
         if (v == loginBtn) {
             if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
-                ac.login(username.getText().toString(), password.getText().toString());
+                try {
+                    ac.login(username.getText().toString(), password.getText().toString());
+                } catch (LoginException e) {
+                    e.printStackTrace();
+                }
             }
             else{
                 Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
@@ -148,5 +161,10 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     public void showLoginToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+
     }
 }

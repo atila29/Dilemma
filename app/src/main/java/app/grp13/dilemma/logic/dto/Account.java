@@ -21,8 +21,8 @@ public class Account implements Serializable{
     private boolean active;
     private String id;
 
-    private List<IDilemma> myDilemmas;
-    private List<IReply> myReplys;
+    private List<Integer> myDilemmas; // lav om til relationer -> <Integer>
+    private List<Integer> myReplys; // lav om til relationer -> <Integer>
 
 
     public Account(String userName, int type, String id) {
@@ -58,19 +58,19 @@ public class Account implements Serializable{
         this.active = active;
     }
 
-    public List<IDilemma> getMyDilemmas() {
+    public List<Integer> getMyDilemmas() {
         return myDilemmas;
     }
 
-    public void setMyDilemmas(List<IDilemma> myDilemmas) {
+    public void setMyDilemmas(List<Integer> myDilemmas) {
         this.myDilemmas = myDilemmas;
     }
 
-    public List<IReply> getMyReplys() {
+    public List<Integer> getMyReplys() {
         return myReplys;
     }
 
-    public void setMyReplys(List<IReply> myReplys) {
+    public void setMyReplys(List<Integer> myReplys) {
         this.myReplys = myReplys;
     }
 

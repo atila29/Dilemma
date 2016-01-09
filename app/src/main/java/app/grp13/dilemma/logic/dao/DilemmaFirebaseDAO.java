@@ -31,7 +31,6 @@ import app.grp13.dilemma.logic.exceptions.DAOException;
 public class DilemmaFirebaseDAO implements IDilemmaDAO {
 
     private Firebase firebase = new Firebase("https://dtu-dilemma.firebaseio.com/");
-    private Firebase dilemmaref = firebase.child("dilemmas");
     private List<IDilemma> dilemmas;
 
     private boolean loading;
@@ -41,6 +40,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
     public DilemmaFirebaseDAO() {
         dilemmas = new ArrayList<>();
 
+        Firebase dilemmaref = firebase.child("dilemmas");
         dilemmaref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,29 +59,29 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
                 });
 
 
-                for(DataSnapshot d : dataSnapshot.getChildren()) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
                     System.out.println(d.child("title").getValue());
-                    String title = (String)d.child("title").getValue();
+                    String title = (String) d.child("title").getValue();
                     //boolean active = (boolean)d.child("active").getValue();
-                    String description = (String)d.child("description").getValue();
+                    String description = (String) d.child("description").getValue();
                     int gravity = Integer.valueOf(d.child("gravity").getValue().toString());
                     int id = Integer.valueOf(d.child("id").getValue().toString());
 
                     List<IAnswer> possibleAnswers = new ArrayList<>();
-                    for(DataSnapshot l : d.child("possibleAnswers").getChildren()) {
-                        String answer = (String)l.child("answer").getValue();
+                    for (DataSnapshot l : d.child("possibleAnswers").getChildren()) {
+                        String answer = (String) l.child("answer").getValue();
                         possibleAnswers.add(new BasicAnswer(answer));
                     }
 
                     // laver selve dilemma'et
-                    IDilemma dilemma = new DilemmaFactory().createBasicDilemma(id,title,description,gravity,possibleAnswers);
+                    IDilemma dilemma = new DilemmaFactory().createBasicDilemma(id, title, description, gravity, possibleAnswers);
 
                     // test
-                    Log.v("SHIT", dilemma.getTitle()+ " her,");
+                    Log.v("SHIT", dilemma.getTitle() + " her,");
 
-                    for(DataSnapshot l : d.child("replys").getChildren()) {
+                    for (DataSnapshot l : d.child("replys").getChildren()) {
                         int replyID = Integer.valueOf(l.child("id").getValue().toString());
-                        String reply = (String)l.child("reply").getValue();
+                        String reply = (String) l.child("reply").getValue();
                         IReply temp = new BasicReply();
                         temp.setID(replyID);
                         temp.setReply(reply);

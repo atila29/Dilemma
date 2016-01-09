@@ -9,10 +9,15 @@ import com.firebase.client.FirebaseError;
 import java.io.Serializable;
 import java.util.Map;
 
+import app.grp13.dilemma.MainActivity;
 import app.grp13.dilemma.logic.dao.AccountDAO;
+import app.grp13.dilemma.logic.dao.IAccountParser;
 import app.grp13.dilemma.logic.dto.Account;
+import app.grp13.dilemma.logic.dto.RealmToken;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.LoginException;
+import io.realm.Realm;
+import io.realm.RealmQuery;
 
 /*
 Lavet af:
@@ -50,12 +55,20 @@ public class AccountController implements Serializable{
     }
 
 
-    public void login(String username, String password){
-        auth.login(username,password);
+    public void login(String username, String password) throws LoginException {
+        auth.login(username, password);
+    }
+
+    public void authenticate() throws LoginException {
+        auth.authenticateUser();
     }
 
     public void deleteAccount() throws Exception{
         // WIP
+    }
+
+    public void logout() {
+        auth.logout();
     }
 
 
@@ -90,13 +103,28 @@ public class AccountController implements Serializable{
 
         }
 
-        public void login(String mail, String password){
+        public void login(String mail, String password) throws LoginException{
             firebase.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
                 @Override
                 public void onAuthenticated(AuthData authData) {
-                    setToken(authData.getToken());
+                    /*try {
+                        accountDAO.getAccount(authData.getUid());
+                    } catch (DAOException e) {
+                        activity.ShowErrorMessage(e);
+                    }*/
                     Log.v("FH", authData.getProvider());
                     activity.showLoginToast("Du er nu logget ind");
+
+                    Realm realm = Realm.getInstance(MainActivity.getContext());
+                    RealmQuery<RealmToken> q = realm.where(RealmToken.class);
+                    realm.beginTransaction();
+                    if (q.findAll().size() > 0)
+                        q.findAll().clear();
+                    RealmToken t = realm.createObject(RealmToken.class);
+                    t.setToken(authData.getToken());
+                    Log.v("TOK", authData.getToken());
+                    realm.copyToRealm(t);
+                    realm.commitTransaction();
                 }
 
                 @Override
@@ -105,28 +133,39 @@ public class AccountController implements Serializable{
                 }
             });
 
-            Account acc = new Account(mail, AccountController.USER, this.token);
-            // mangler at få data ind.
-
-            account = acc;
         }
 
         public void logout() {
             firebase.unauth();
         }
 
-        public void authenticateUser(Account account) {
-            firebase.authWithOAuthToken("password", account.getId(), new Firebase.AuthResultHandler() {
+        public void authenticateUser() throws LoginException{
+
+            if(firebase.getAuth() == null)
+                throw new LoginException("Bruger ikke logget ind.");
+
+            accountDAO.getAccount(firebase.getAuth().getUid(), new IAccountParser() {
+                @Override
+                public void parseAccount(Account account) {
+                    activity.accountAuthentication(account);
+                }
+            });
+            /*firebase.authWithOAuthToken("password", firebase.getAuth().getToken(), new Firebase.AuthResultHandler() {
                 @Override
                 public void onAuthenticated(AuthData authData) {
-                    activity.showLoginToast("0");
+                    accountDAO.getAccount(authData.getUid(), new IAccountParser() {
+                        @Override
+                        public void parseAccount(Account account) {
+                            activity.accountAuthentication(account);
+                        }
+                    });
                 }
 
                 @Override
                 public void onAuthenticationError(FirebaseError firebaseError) {
-                    activity.showLoginToast("1");
+                    activity.ShowErrorMessage(new Exception(firebaseError.getMessage()));
                 }
-            });
+            });*/
         }
 
         public void setToken(String token) {

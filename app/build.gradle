@@ -24,7 +24,6 @@ android {
         exclude 'META-INF/NOTICE'
     }
 }
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -33,4 +32,8 @@ dependencies {
     compile 'com.wefika:horizontal-picker:1.1.0'
     compile 'com.firebase:firebase-client-android:2.5.0+'
     compile 'com.firebase:firebase-token-generator:2.0.0'
+    compile 'io.realm:realm-android:0.87.2'
+}
+repositories {
+    jcenter()
 }

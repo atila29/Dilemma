@@ -78,7 +78,7 @@ public class DilemmaController implements Serializable{
         // id skal være unikt, skal derfor laves om.
         Integer key = 0;
         do {
-            key = (int)(Math.random()*(2^16));
+            key = (int)(Math.random()*(2^32));
         } while(dilemmaMap.containsKey(key));
 
         List<IAnswer> tempAnswerOptions = new ArrayList<>();
