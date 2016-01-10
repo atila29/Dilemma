@@ -22,7 +22,7 @@ public class Account implements Serializable{
     private String id;
 
     private List<Integer> myDilemmas; // lav om til relationer -> <Integer>
-    private List<Integer> myReplys; // lav om til relationer -> <Integer>
+    private List<IReply> myReplys; // lav om til relationer -> <Integer>
 
 
     public Account(String userName, int type, String id) {
@@ -33,6 +33,8 @@ public class Account implements Serializable{
         myDilemmas = new ArrayList<>();
         myReplys = new ArrayList<>();
     }
+
+    private Account() {}
 
     public String getUserName() {
         return userName;
@@ -66,11 +68,11 @@ public class Account implements Serializable{
         this.myDilemmas = myDilemmas;
     }
 
-    public List<Integer> getMyReplys() {
+    public List<IReply> getMyReplys() {
         return myReplys;
     }
 
-    public void setMyReplys(List<Integer> myReplys) {
+    public void setMyReplys(List<IReply> myReplys) {
         this.myReplys = myReplys;
     }
 
@@ -82,4 +84,5 @@ public class Account implements Serializable{
     public void setId(String id) {
         this.id = id;
     }
+
 }

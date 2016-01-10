@@ -11,14 +11,21 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dao.AccountDAO;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dao.IAccountParser;
 import app.grp13.dilemma.logic.dao.IDilemmaDAO;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
+import app.grp13.dilemma.logic.dto.BasicReply;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
+import app.grp13.dilemma.logic.exceptions.LoginException;
 
 /*
 Lavet af:
@@ -29,7 +36,7 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class AnswerDilemma extends AppCompatActivity implements View.OnClickListener {
+public class AnswerDilemma extends AppCompatActivity implements View.OnClickListener, IAccountControllerActivity {
 
     private Button vote1Btn, vote2Btn, vote3Btn, vote4Btn, vote5Btn;
     private TextView vote1Text, vote2Text, vote3Text, vote4Text, vote5Text;
@@ -38,6 +45,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private IDilemma dilemma;
     private DilemmaController controller;
     private TextView gravityTxt;
+    private int answer;
+    private AccountController accountController;
 
 
 
@@ -52,6 +61,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         controller = new DilemmaController();
         controller.addDilemma(dilemma);
 
+        accountController = new AccountController(this);
 
         TextView questionTxt = (TextView) findViewById(R.id.QuestionTxt);
         TextView descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
@@ -169,46 +179,29 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         try {
             if (v == vote1Btn) {
-                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
+                answer = 0;
+                /*Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
                 Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 0);
-                Log.v("TEXZ", String.valueOf(dilemma.getReplys().size()));
+                Log.v("TEXZ", String.valueOf(dilemma.getReplys().size()));*/
+                accountController.authenticate();
             } else if (v == vote2Btn) {
-                Log.v("TEXZ","bliver kørt");
-                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
-                Log.v("TEXZ", String.valueOf(dilemma.getID()));
-                controller.answerDilemma(controller.getDilemmaKey(dilemma), 1);
-                Log.v("TEXZ", dilemma.getPossibleAnswers().get(1).getAnswer());
+                answer = 1;
+                accountController.authenticate();
             } else if (v == vote3Btn) {
-                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
-                Log.v("TEXZ", String.valueOf(dilemma.getID()));
-                controller.answerDilemma(controller.getDilemmaKey(dilemma), 2);
+                answer = 2;
+                accountController.authenticate();
             } else if (v == vote4Btn) {
-                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
-                Log.v("TEXZ", String.valueOf(dilemma.getID()));
-                controller.answerDilemma(controller.getDilemmaKey(dilemma), 3);
+                answer = 3;
+                accountController.authenticate();
             } else if (v == vote5Btn) {
-                Log.v("TEXZ", String.valueOf(controller.getDilemmaKey(dilemma)));
-                Log.v("TEXZ", String.valueOf(dilemma.getID()));
-                controller.answerDilemma(controller.getDilemmaKey(dilemma), 4);
+                answer = 4;
+                accountController.authenticate();
             }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (DilemmaException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        try {
-            new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
-        } catch (DilemmaException e) {
-            e.printStackTrace();
-        } catch (DAOException e) {
+        } catch (LoginException e) {
             e.printStackTrace();
         }
 
-        updateVotes();
-        hideButtons();
     }
 
     public void updateText() {
@@ -261,6 +254,45 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
+    @Override
+    public void ShowErrorMessage(Exception e) {
+
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+
+        try {
+            IReply r = new BasicReply();
+            r.setID(controller.getDilemma(controller.getDilemmaKey(dilemma)).getID());
+            r.setReply(controller.getDilemma(controller.getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
+
+            if(!acc.getMyReplys().contains(r)){
+                controller.answerDilemma(controller.getDilemmaKey(dilemma), answer);
+                acc.getMyReplys().add(r);
+                new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
+                new AccountDAO().saveAccount(acc, acc.getId());
+                updateVotes();
+                hideButtons();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 
 

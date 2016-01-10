@@ -8,6 +8,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import app.grp13.dilemma.logic.dto.Account;
+import app.grp13.dilemma.logic.dto.BasicReply;
+import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 
 /**
@@ -41,6 +43,12 @@ public class AccountDAO {
                 Account a = new Account(uname, type, id);
                 for(DataSnapshot dilemma : dataSnapshot.child("myDilemmas").getChildren()) {
                     a.getMyDilemmas().add(Integer.valueOf(dilemma.getValue().toString()));
+                }
+                for(DataSnapshot r : dataSnapshot.child("myReplys").getChildren()) {
+                    IReply reply = new BasicReply();
+                    reply.setID(Integer.valueOf(r.child("id").getValue().toString()));
+                    reply.setReply(r.child("reply").getValue().toString());
+                    a.getMyReplys().add(reply);
                 }
                 parser.parseAccount(a);
             }

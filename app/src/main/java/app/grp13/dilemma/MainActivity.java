@@ -123,7 +123,7 @@ public class MainActivity extends Activity
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("test", (BasicDilemma) dController.getAllDilemmasArray()[position]);
                 openAnswerDilemma.putExtra("dilemma", bundle);
-
+                aController = null;
                 startActivity(openAnswerDilemma);
             }
         });

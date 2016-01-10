@@ -41,4 +41,14 @@ public class BasicReply implements IReply, Serializable{
         this.reply = reply;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if(other == null)
+            return false;
+        if(other instanceof BasicReply)
+            if(((BasicReply) other).getID() == this.getID())
+                return true;
+        return false;
+    }
+
 }
