@@ -22,6 +22,8 @@ import org.w3c.dom.Text;
 
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.LoginException;
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     private Button logoutButton;
     private TextView logoutText;
     private LinearLayout loadingView;
+    private IDilemmaDAO dilemmaDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        dilemmaDAO = new DilemmaFirebaseDAO();
         loadingView = (LinearLayout) findViewById(R.id.loadingView);
         logoutText = (TextView) findViewById(R.id.emailTextView);
         logoutButton = (Button) findViewById(R.id.logoutButton);
@@ -148,19 +152,31 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
         if (v == loginBtn) {
-            loginView.setVisibility(View.GONE);
-            loadingView.setVisibility(View.VISIBLE);
-            if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
-                try {
-                    ac.login(username.getText().toString(), password.getText().toString());
-                } catch (LoginException e) {
-                    e.printStackTrace();
+            if(dilemmaDAO.isNetworkAvalible()){
+                loginView.setVisibility(View.GONE);
+                loadingView.setVisibility(View.VISIBLE);
+                if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
+                    try {
+                        ac.login(username.getText().toString(), password.getText().toString());
+                    } catch (LoginException e) {
+                        e.printStackTrace();
+                        loadingView.setVisibility(View.GONE);
+                        loginView.setVisibility(View.VISIBLE);
+                    }
+                }
+                else if(!dilemmaDAO.isConnected()){
+                    Toast.makeText(this, "Problemer med forbindelsen. Tjek venligst din internetadgang, eller prøv igen senere", Toast.LENGTH_LONG).show();
+                    loadingView.setVisibility(View.GONE);
+                    loginView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
                     loadingView.setVisibility(View.GONE);
                     loginView.setVisibility(View.VISIBLE);
                 }
             }
             else{
-                Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Problemer med forbindelsen. Tjek venligst din internetadgang, eller prøv igen senere", Toast.LENGTH_LONG).show();
                 loadingView.setVisibility(View.GONE);
                 loginView.setVisibility(View.VISIBLE);
             }
