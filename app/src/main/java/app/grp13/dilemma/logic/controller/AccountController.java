@@ -47,7 +47,9 @@ public class AccountController implements Serializable{
     }
 
 
-
+    public void saveAccount(Account account) {
+        accountDAO.saveAccount(account, account.getId());
+    }
 
     public void createAccount(String username, String password) throws DAOException {
         auth.createUser(username, password);
@@ -102,6 +104,8 @@ public class AccountController implements Serializable{
             });
 
         }
+
+
 
         public void login(String mail, String password) throws LoginException{
             firebase.authWithPassword(mail, password, new Firebase.AuthResultHandler() {

@@ -208,6 +208,7 @@ public class MainActivity extends Activity
         super.onResume();
         try {
             dController = new DilemmaController(dilemmaDAO.getDilemmas());
+            aController = new AccountController(this);
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
@@ -312,6 +313,7 @@ public class MainActivity extends Activity
 
     @Override
     public void accountAuthentication(Account acc) {
+        aController=null;
         startActivity(new Intent(MainActivity.this, CreateDilemma.class));
     }
 }

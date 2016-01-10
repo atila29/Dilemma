@@ -17,6 +17,7 @@ public class AccountDAO {
 
     private Firebase firebase;
     private Account account;
+    private MyValueEventListener listener;
 
 
 
@@ -37,7 +38,11 @@ public class AccountDAO {
                 String id = (String) dataSnapshot.child("id").getValue(); // skal (måske) ikke bruges.
                 int type = Integer.valueOf(dataSnapshot.child("type").getValue().toString());
                 String uname = (String) dataSnapshot.child("userName").getValue();
-                parser.parseAccount(new Account(uname, type, id));
+                Account a = new Account(uname, type, id);
+                for(DataSnapshot dilemma : dataSnapshot.child("myDilemmas").getChildren()) {
+                    a.getMyDilemmas().add(Integer.valueOf(dilemma.getValue().toString()));
+                }
+                parser.parseAccount(a);
             }
 
             @Override
@@ -66,5 +71,33 @@ public class AccountDAO {
 
     private void setAccount(Account account) {
         this.account = account;
+    }
+
+    private class MyValueEventListener implements ValueEventListener {
+
+        Firebase accountref;
+
+        public MyValueEventListener (String uid) {
+            accountref = firebase.child("accounts").child(uid.replace("-",""));
+            accountref.addValueEventListener(this);
+        }
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            //dataSnapshot.child("active");
+            String id = (String) dataSnapshot.child("id").getValue(); // skal (måske) ikke bruges.
+            int type = Integer.valueOf(dataSnapshot.child("type").getValue().toString());
+            String uname = (String) dataSnapshot.child("userName").getValue();
+            Account a = new Account(uname, type, id);
+            for(DataSnapshot dilemma : dataSnapshot.child("myDilemmas").getChildren()) {
+                a.getMyDilemmas().add(Integer.valueOf(dilemma.getValue().toString()));
+            }
+            account = a;
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
     }
 }

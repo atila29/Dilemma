@@ -1,13 +1,13 @@
 package app.grp13.dilemma;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dao.AccountDAO;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.exceptions.DAOException;
@@ -42,8 +43,9 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
     private int selectedGravity;
     private DilemmaController dilemmaController;
     private AccountController accountController;
+    private int id;
 
-    String[] gravity = {"1", "2", "3", "4", "5"};
+    private String[] gravity = {"1", "2", "3", "4", "5"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +74,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         createDilemma.setOnClickListener(this);
         dilemmaController = new DilemmaController();
         accountController = new AccountController(this);
-        try {
-            dilemmaController.loadDilemmasFromDevice(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         selectedGravity = 1;
 
 
@@ -153,14 +149,10 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString())){
-                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString());
                         try {
                             accountController.authenticate();
-                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
-                            // firebase Dao shit skal rykkes til auth, og alle disse "gentagelser burde vi kunne slippe for.
-                        } catch (DilemmaException e) {
-                            e.printStackTrace();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -170,17 +162,10 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                     }
                 } else if (answer4.getVisibility() == View.VISIBLE && answer4.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString())){
-                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
                         try {
-                            dilemmaController.saveDilemmasToDevice(getApplicationContext());
-                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
-                            finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
-                        } catch (DilemmaException e) {
-                            e.printStackTrace();
+                            accountController.authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -190,18 +175,11 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 } else if (answer5.getVisibility() == View.VISIBLE && answer5.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString())){
-                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString());
                         try {
-                            dilemmaController.saveDilemmasToDevice(getApplicationContext());
-                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
-                            finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
-                        } catch (DilemmaException e) {
-                            e.printStackTrace();
+                            accountController.authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -211,15 +189,11 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
                 } else if (answer5.getVisibility() == View.VISIBLE && !answer5.getText().toString().matches("")) {
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || answer1.getText().toString().matches(answer5.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || answer2.getText().toString().matches(answer5.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString()) || answer3.getText().toString().matches(answer5.getText().toString()) || answer4.getText().toString().matches(answer5.getText().toString())){
-                        int temp = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
+                        id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
                         try {
                             accountController.authenticate();
-                            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(temp));
-                            finish();
-                        } catch (DilemmaException e) {
-                            e.printStackTrace();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -248,7 +222,17 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void accountAuthentication(Account acc) {
+        if(!acc.getMyDilemmas().contains(id)) // ldt cowboyder kode
+            acc.getMyDilemmas().add(id);
+        try {
+            new AccountDAO().saveAccount(acc,acc.getId());
+            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(id));
+        } catch (DAOException e) {
+            e.printStackTrace();
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        }
         Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
-        finish();
+        this.finish();
     }
 }
