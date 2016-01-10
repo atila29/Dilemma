@@ -236,8 +236,8 @@ public class MainActivity extends Activity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        aController = null;
         int id = item.getItemId();
-
         if (id == R.id.nav_active_dilemmas) {
 
         } else if (id == R.id.nav_myDilemmas) {
@@ -251,7 +251,8 @@ public class MainActivity extends Activity
         } else if (id == R.id.nav_register) {
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, EditUserActivity.class));
+            //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -13,58 +13,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/normalEditUser"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText android:id="@+id/currentPassword" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/currentPW"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                    android:maxLines="1" android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText android:id="@+id/newPassword" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/newPW"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                    android:maxLines="1" android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText android:id="@+id/renewPassword" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/renewPW"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                    android:maxLines="1" android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button android:id="@+id/changePWButton" style="?android:textAppearanceSmall"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/changePW"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/adminEditUser"
         android:visibility="gone">
 
@@ -162,5 +110,110 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2"
+        android:layout_gravity="center_horizontal" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Nuværende e-mail: "
+                android:id="@+id/textViewx"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ikke fundet"
+                android:id="@+id/emailTW"
+                android:layout_marginTop="5dp" />
+
+            <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText android:id="@+id/newEmailText" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Ny E-mail"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified" android:inputType="textEmailAddress"
+                    android:maxLines="1" android:singleLine="true"
+                    android:layout_marginTop="20dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/changePasswordView"
+                android:visibility="visible"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Ændre kodeord: "
+                        android:id="@+id/textView8"
+                        android:layout_marginTop="20dp" />
+
+                    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText android:id="@+id/currentPassword" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:hint="@string/currentPW"
+                            android:imeActionLabel="@string/action_sign_in_short"
+                            android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                            android:maxLines="1" android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText android:id="@+id/newPassword" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:hint="@string/newPW"
+                            android:imeActionLabel="@string/action_sign_in_short"
+                            android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                            android:maxLines="1" android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText android:id="@+id/renewPassword" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:hint="@string/renewPW"
+                            android:imeActionLabel="@string/action_sign_in_short"
+                            android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                            android:maxLines="1" android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button android:id="@+id/updateUserButton" style="?android:textAppearanceSmall"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Opdater bruger"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp" />
 
 </LinearLayout>
