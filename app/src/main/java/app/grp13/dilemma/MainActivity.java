@@ -236,7 +236,6 @@ public class MainActivity extends Activity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        aController = null;
         int id = item.getItemId();
         if (id == R.id.nav_active_dilemmas) {
 
@@ -247,10 +246,13 @@ public class MainActivity extends Activity
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
+            aController = null;
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
+            aController = null;
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
+            aController = null;
             startActivity(new Intent(MainActivity.this, EditUserActivity.class));
             //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
