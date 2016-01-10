@@ -1,5 +1,6 @@
 package app.grp13.dilemma;
 
+import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -47,6 +49,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private TextView gravityTxt;
     private int answer;
     private AccountController accountController;
+    private boolean checkAnswered;
 
 
 
@@ -60,7 +63,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         dilemma = (BasicDilemma)extra.getSerializable("test");
         controller = new DilemmaController();
         controller.addDilemma(dilemma);
-
+        checkAnswered = false;
         accountController = new AccountController(this);
 
         TextView questionTxt = (TextView) findViewById(R.id.QuestionTxt);
@@ -90,6 +93,11 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         vote4Frame = (TextView) findViewById(R.id.vote4Frame);
         vote5Frame = (TextView) findViewById(R.id.vote5Frame);
         vote1Frame.setWidth(0);
+        try {
+            accountController.authenticate();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
         gravityTxt.setText(String.valueOf(dilemma.getgravity()));
         if (gravityTxt.getText().equals("1")) {
             gravityTxt.setBackgroundResource(R.drawable.gravity1_container);
@@ -165,8 +173,14 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(4).getAnswer()))
                 vote5Count++;
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateFrames();
+            }
+        }, 100);
 
-        updateFrames();
         updateText();
     }
 
@@ -200,6 +214,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             }
         } catch (LoginException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Du skal være logget på for at stemme på et dilemma", Toast.LENGTH_SHORT);
         }
 
     }
@@ -243,7 +258,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
         try {
-            vote4Frame.setWidth((int)px * vote4Count/totalCount);
+            vote4Frame.setWidth((int) px * vote4Count / totalCount);
         } catch (ArithmeticException e) {
             e.printStackTrace();
         }
@@ -272,8 +287,11 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             IReply r = new BasicReply();
             r.setID(controller.getDilemma(controller.getDilemmaKey(dilemma)).getID());
             r.setReply(controller.getDilemma(controller.getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
-
-            if(!acc.getMyReplys().contains(r)){
+            if(!checkAnswered && acc.getMyReplys().contains(r)){
+                updateVotes();
+                hideButtons();
+            }
+            if(checkAnswered && !acc.getMyReplys().contains(r)){
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), answer);
                 acc.getMyReplys().add(r);
                 new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
@@ -281,6 +299,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
                 updateVotes();
                 hideButtons();
             }
+            checkAnswered = true;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (DilemmaException e) {

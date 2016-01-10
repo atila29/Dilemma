@@ -222,17 +222,19 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void accountAuthentication(Account acc) {
-        if(!acc.getMyDilemmas().contains(id)) // ldt cowboyder kode
+        if(!acc.getMyDilemmas().contains(id)) { // ldt cowboyder kode
             acc.getMyDilemmas().add(id);
-        try {
-            new AccountDAO().saveAccount(acc,acc.getId());
-            new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(id));
-        } catch (DAOException e) {
-            e.printStackTrace();
-        } catch (DilemmaException e) {
-            e.printStackTrace();
+            try {
+                new AccountDAO().saveAccount(acc, acc.getId());
+                new DilemmaFirebaseDAO().saveDilemma(dilemmaController.getDilemma(id));
+            } catch (DAOException e) {
+                e.printStackTrace();
+            } catch (DilemmaException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
+        accountController = null;
         this.finish();
     }
 }

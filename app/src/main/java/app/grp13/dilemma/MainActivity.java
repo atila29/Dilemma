@@ -71,6 +71,7 @@ public class MainActivity extends Activity
     private RelativeLayout loadingView;
     private static Context context;
     private IDilemmaDAO dilemmaDAO;
+    private boolean checkLogin;
 
 
     @Override
@@ -87,19 +88,18 @@ public class MainActivity extends Activity
         context = getApplicationContext();
 
         dilemmaList = (ListView) findViewById(R.id.dilemmaList);
-
+        checkLogin = false;
+        try {
+            aController.authenticate();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    aController.authenticate();
-                } catch (LoginException e) {
-                    e.printStackTrace();
-                    errorToast("Du skal være logget ind for at oprette dilemmaer.");
-                }
-
-
+                aController=null;
+                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
 
@@ -298,7 +298,7 @@ public class MainActivity extends Activity
                     loadList();
                 }
             }
-        }, 10); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
+        }, 100); //Find smartere metode til at tjekke når isloading er færdig og isconnected er færdig?
     }
 
     @Override
@@ -313,8 +313,7 @@ public class MainActivity extends Activity
 
     @Override
     public void accountAuthentication(Account acc) {
-        aController=null;
-        startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+        checkLogin = true;
     }
 }
 
