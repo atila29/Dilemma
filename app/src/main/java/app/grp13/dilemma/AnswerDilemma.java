@@ -214,7 +214,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             }
         } catch (LoginException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Du skal være logget på for at stemme på et dilemma", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Du skal være logget på for at stemme på et dilemma", Toast.LENGTH_SHORT).show();
         }
 
     }
