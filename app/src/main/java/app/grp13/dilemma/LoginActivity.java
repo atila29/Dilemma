@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
@@ -40,7 +41,6 @@ Nicolai Hansen - S133974
 public class LoginActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, IAccountControllerActivity{
 
     private Button loginBtn;
-    private AccountController ac = new AccountController(this);
     private EditText username;
     private EditText password;
     private TextView rT;
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
         initializeUIElements();
         toolbar.setTitle("Log ind");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         logoutButton.setOnClickListener(this);
         //tjekker for om du er logget på i forvejen. Hvis ja, sættes viewet til "logOutView".
         try {
-            ac.authenticate();
+            ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
             loginView.setVisibility(View.VISIBLE);
@@ -154,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
                     //Prøver at logge ind med de ønskede indtastede oplysninger
                     try {
-                        ac.login(username.getText().toString(), password.getText().toString());
+                        ApplicationState.getInstance().getAccountController().login(username.getText().toString(), password.getText().toString());
                     //Hvis indtastede oplysninger er forkerte fanges vores exception, som oplyser brugeren om at noget gik galt. Viewet bliver herefter sat til det normale logIn view
                     } catch (LoginException e) {
                         e.printStackTrace();
@@ -189,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         }
         //logger brugeren ud hvis han i forvejen er logget ind, og trykker på log ud knappen.
         if(v == logoutButton){
-            ac.logout();
+            ApplicationState.getInstance().getAccountController().logout();
             Toast.makeText(getApplicationContext(), "Du er blevet logget ud", Toast.LENGTH_SHORT).show();
             finish();
         }

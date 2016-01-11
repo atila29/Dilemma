@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import app.grp13.dilemma.MainActivity;
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.dao.AccountDAO;
 import app.grp13.dilemma.logic.dao.IAccountParser;
 import app.grp13.dilemma.logic.dto.Account;
@@ -125,7 +126,7 @@ public class AccountController implements Serializable{
                     Log.v("FH", authData.getProvider());
                     activity.showLoginToast("Du er nu logget ind");
 
-                    Realm realm = Realm.getInstance(MainActivity.getContext());
+                    Realm realm = Realm.getInstance(ApplicationState.getAppContext());
                     RealmQuery<RealmToken> q = realm.where(RealmToken.class);
                     realm.beginTransaction();
                     if (q.findAll().size() > 0)

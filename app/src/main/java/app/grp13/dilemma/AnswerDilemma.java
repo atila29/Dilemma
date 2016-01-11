@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
@@ -48,7 +49,6 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private DilemmaController controller;
     private TextView gravityTxt;
     private int answer;
-    private AccountController accountController;
     private boolean checkAnswered;
     private TextView questionTxt;
     private TextView descriptionTxt;
@@ -66,7 +66,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         controller = new DilemmaController();
         controller.addDilemma(dilemma);
         checkAnswered = false;
-        accountController = new AccountController(this);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
         initializeUIElements();
         questionTxt.setText(dilemma.getTitle());
         descriptionTxt.setText(dilemma.getDescription());
@@ -79,7 +79,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
         //Authenticater for at sikre at brugeren er logget ind, da "gæster" på nuværende tidspunkt ikke må stemme.
         try {
-            accountController.authenticate();
+            ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
         }
@@ -189,19 +189,19 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
                 Log.v("TEXZ", String.valueOf(dilemma.getID()));
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), 0);
                 Log.v("TEXZ", String.valueOf(dilemma.getReplys().size()));*/
-                accountController.authenticate();
+                ApplicationState.getInstance().getAccountController().authenticate();
             } else if (v == vote2Btn) {
                 answer = 1;
-                accountController.authenticate();
+                ApplicationState.getInstance().getAccountController().authenticate();
             } else if (v == vote3Btn) {
                 answer = 2;
-                accountController.authenticate();
+                ApplicationState.getInstance().getAccountController().authenticate();
             } else if (v == vote4Btn) {
                 answer = 3;
-                accountController.authenticate();
+                ApplicationState.getInstance().getAccountController().authenticate();
             } else if (v == vote5Btn) {
                 answer = 4;
-                accountController.authenticate();
+                ApplicationState.getInstance().getAccountController().authenticate();
             }
         } catch (LoginException e) {
             e.printStackTrace();

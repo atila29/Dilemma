@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.grp13.dilemma.MainActivity;
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.builder.DilemmaFactory;
 import app.grp13.dilemma.logic.dto.BasicAnswer;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
@@ -119,7 +120,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
     }
 
     public boolean isNetworkAvalible(){
-        ConnectivityManager cm = (ConnectivityManager) MainActivity.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) ApplicationState.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return ni !=null && ni.isConnected();
     }

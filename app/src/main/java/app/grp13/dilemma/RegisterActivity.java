@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dto.Account;
@@ -32,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
     private EditText usernameText, passwordText, repasswordText;
     private Button registerBtn;
-    private AccountController accountController;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         registerBtn.setOnClickListener(this);
-        accountController = new AccountController(this);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
     }
     @Override
     public void onBackPressed() {
@@ -121,11 +121,11 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     public void onClick(View v) {
         if (v == registerBtn) {
             //sørger for at username og password boxene ikke er tomme, og password matcher gentag password.
-            if (!usernameText.getText().toString().matches("") && !passwordText.getText().toString().matches("") &&
+            if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
                     !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
                 //forsøger at oprette den ønskede bruger
                 try {
-                    accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString());
+                    ApplicationState.getInstance().getAccountController().createAccount(usernameText.getText().toString(), passwordText.getText().toString());
                     Toast.makeText(this, "Registrering fuldført!", Toast.LENGTH_SHORT).show();
                     finish();
                 //Oplyser brugeren om at noget gik galt.

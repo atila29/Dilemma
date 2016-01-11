@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
@@ -42,7 +43,6 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
     private Button gravity1Btn, gravity2Btn, gravity3Btn, gravity4Btn, gravity5Btn, gravitySelected;
     private int selectedGravity;
     private DilemmaController dilemmaController;
-    private AccountController accountController;
     private int id;
 
     private String[] gravity = {"1", "2", "3", "4", "5"};
@@ -60,7 +60,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         gravity5Btn.setOnClickListener(this);
         createDilemma.setOnClickListener(this);
         dilemmaController = new DilemmaController();
-        accountController = new AccountController(this);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
         selectedGravity = 1;
 
         //Følgende 3 if statements håndtere visibilitet af svarmulighedernes tekst boxe (EditTexts)
@@ -139,7 +139,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString());
                         try {
-                            accountController.authenticate();
+                            ApplicationState.getInstance().getAccountController().authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -155,7 +155,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
                         try {
-                            accountController.authenticate();
+                            ApplicationState.getInstance().getAccountController().authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -171,7 +171,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString());
                         try {
-                            accountController.authenticate();
+                            ApplicationState.getInstance().getAccountController().authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -187,7 +187,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
                                 answer3.getText().toString(), answer4.getText().toString(), answer5.getText().toString());
                         try {
-                            accountController.authenticate();
+                            ApplicationState.getInstance().getAccountController().authenticate();
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
@@ -247,7 +247,6 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             }
             Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
         }
-        accountController = null;
         this.finish();
     }
 }

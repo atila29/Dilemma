@@ -19,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dto.Account;
@@ -45,7 +46,6 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     private EditText newPasswordTextBox;
     private EditText reNewPasswordTextBox;
     private Button updateUserButton;
-    private AccountController accountController;
     private Account account;
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -56,10 +56,10 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
         initializeUIElements();
-        accountController = new AccountController(this);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
         //Authenticater brugeren for at sikre han er logget på (Man må kun ændrer en bruger hvis man er logget på)
         try {
-            accountController.authenticate();
+            ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
             emailTextView.setText("Ikke logget ind");
@@ -72,14 +72,14 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 //Tjekker for at brugeren kun vil skifte email (ny password boksen er tom). Opdaterer emailen hvis informationer stemmer
                 if (!newEmailTextBox.getText().toString().matches("") && (newPasswordTextBox.getText().toString().matches(""))) {
                     Log.v("FHL", "kørt");
-                    accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
-                    showUpdateToast();
+                    ApplicationState.getInstance().getAccountController().changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+                    //showUpdateToast();
                 }
                 //Tjekker for om brugeren kun vil skifte password (ny email boksen er tom).
                 else if (!(newPasswordTextBox.getText().toString().matches("")) && newEmailTextBox.getText().toString().matches("")) {
                     //Tjekker for at de to indtastede kodeord "Nye kodeord" og "Gentag nye kodeord" stemmer. Opdaterer kodeordet hvis informationer stemmer
                     if (newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())) {
-                        accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
+                        ApplicationState.getInstance().getAccountController().changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
                             @Override
                             public void run() {
                                 showUpdateToast();
@@ -95,8 +95,8 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                 else if (!newEmailTextBox.getText().toString().matches("") && !(newPasswordTextBox.getText().toString().matches(""))) {
                     //tjekker for om de to indtastede nye passwords er de samme. Hvis ja, opdateres brugerens informationer
                     if (newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())) {
-                        accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
-                        accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
+                        ApplicationState.getInstance().getAccountController().changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+                        ApplicationState.getInstance().getAccountController().changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
                             @Override
                             public void run() {
                                 showUpdateToast();
@@ -210,12 +210,12 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void showLoginToast(String msg) {
         account.setUserName(msg);
-        accountController.saveAccount(account);
+        ApplicationState.getInstance().getAccountController().saveAccount(account);
+        showUpdateToast();
     }
 
     private void showUpdateToast(){
         Toast.makeText(getApplicationContext(), "bruger opdateret succesfuldt", Toast.LENGTH_SHORT).show();
-        accountController = null;
         finish();
     }
 

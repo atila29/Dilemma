@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
@@ -64,12 +65,11 @@ public class MainActivity extends Activity
     private TextView gravityText;
     private ListView dilemmaList;
     private DilemmaController dController;
-    private AccountController aController;
     private ProgressBar prog;
     private String[] dilemmaTitles;
     private String[] dilemmaGravities;
     private RelativeLayout loadingView;
-    private static Context context;
+
     private IDilemmaDAO dilemmaDAO;
     private boolean checkLogin;
     private FloatingActionButton fab;
@@ -84,21 +84,19 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         initializeUIElements();
         toolbar.setTitle("Aktive Dilemmaer");
-        aController = new AccountController(this);
+        ApplicationState.getInstance().setAccountActivityFocus(this);
         dController = new DilemmaController();
         dilemmaDAO = new DilemmaFirebaseDAO();
-        context = getApplicationContext();
         checkLogin = false;
         try {
-            aController.authenticate();
+            ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
         }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aController = null;
-                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+                    startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -195,7 +193,7 @@ public class MainActivity extends Activity
         super.onResume();
         try {
             dController = new DilemmaController(dilemmaDAO.getDilemmas());
-            aController = new AccountController(this);
+            ApplicationState.getInstance().setAccountActivityFocus(this);
             updateList(dController.getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
@@ -233,13 +231,10 @@ public class MainActivity extends Activity
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
-            aController = null;
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
-            aController = null;
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-            aController = null;
             startActivity(new Intent(MainActivity.this, EditUserActivity.class));
             //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
@@ -261,9 +256,6 @@ public class MainActivity extends Activity
         Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
     }*/
 
-    public static Context getContext(){
-        return context;
-    }
 
     public void loadList(){
         //Loading bar
@@ -308,7 +300,6 @@ public class MainActivity extends Activity
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("test", (BasicDilemma) dController.getAllDilemmasArray()[position]);
                 openAnswerDilemma.putExtra("dilemma", bundle);
-                aController = null;
                 startActivity(openAnswerDilemma);
             }
         });
