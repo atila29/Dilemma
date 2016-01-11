@@ -10,12 +10,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import app.grp13.dilemma.logic.controller.AccountController;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dto.Account;
+import app.grp13.dilemma.logic.exceptions.LoginException;
+
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -25,7 +32,7 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class EditUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class EditUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IAccountControllerActivity{
 
     private ScrollView normalEditUser;
     private ScrollView adminEditUser;
@@ -37,6 +44,8 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     private EditText newPasswordTextBox;
     private EditText reNewPasswordTextBox;
     private Button updateUserButton;
+    private AccountController accountController;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +61,19 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         newPasswordTextBox = (EditText) findViewById(R.id.newPassword);
         reNewPasswordTextBox = (EditText) findViewById(R.id.renewPassword);
         updateUserButton = (Button) findViewById(R.id.updateUserButton);
+
+        accountController = new AccountController(this);
+        try {
+            accountController.authenticate();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+        updateUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rediger bruger");
@@ -125,5 +147,22 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void ShowErrorMessage(Exception e) {
+        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+        account.setUserName(msg);
+        accountController.saveAccount(account);
+        Toast.makeText(getApplicationContext(), "bruger opdateret succesfuldt", Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+        account = acc;
     }
 }

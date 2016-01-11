@@ -61,6 +61,10 @@ public class AccountController implements Serializable{
         auth.login(username, password);
     }
 
+    public void changeUserMail(String oldMail, String newMail, String password) {
+        auth.changeUserMail(oldMail,newMail, password);
+    }
+
     public void authenticate() throws LoginException {
         auth.authenticateUser();
     }
@@ -183,6 +187,23 @@ public class AccountController implements Serializable{
         public void setId(String id) {
             this.id = id;
         }
+
+        public void changeUserMail(String oldMail, final String newMail, String password) {
+            firebase.changeEmail(oldMail, newMail, password, new Firebase.ResultHandler() {
+                @Override
+                public void onSuccess() {
+                    activity.showLoginToast(newMail);
+
+                }
+
+                @Override
+                public void onError(FirebaseError firebaseError) {
+                    activity.ShowErrorMessage(new LoginException(firebaseError.getMessage()));
+                }
+            });
+        }
+
+
     }
 
 
