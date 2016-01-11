@@ -33,34 +33,31 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     private EditText usernameText, passwordText, repasswordText;
     private Button registerBtn;
     private AccountController accountController;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initializeUIElements();
         toolbar.setTitle("Registrer");
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        usernameText = (EditText) findViewById(R.id.regUsername);
-        passwordText = (EditText) findViewById(R.id.regPassword);
-        repasswordText = (EditText) findViewById(R.id.regRePassword);
-        registerBtn = (Button) findViewById(R.id.registrerButton);
         registerBtn.setOnClickListener(this);
         accountController = new AccountController(this);
-
     }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //tjekker for om hamburgermenuen er åben. Hvis den er lukkes denne.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+         //Sørger for at hvis hamburgermenuen er lukket, og man trykker tilbage, lukkes denne activity
         } else {
             finish();
         }
@@ -123,22 +120,38 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onClick(View v) {
         if (v == registerBtn) {
-            if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
+            //sørger for at username og password boxene ikke er tomme, og password matcher gentag password.
+            if (!usernameText.getText().toString().matches("") && !passwordText.getText().toString().matches("") &&
                     !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
+                //forsøger at oprette den ønskede bruger
                 try {
                     accountController.createAccount(usernameText.getText().toString(), passwordText.getText().toString());
+                    Toast.makeText(this, "Registrering fuldført!", Toast.LENGTH_SHORT).show();
+                    finish();
+                //Oplyser brugeren om at noget gik galt.
                 } catch (DAOException e) {
                     Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
-
+            //Oplyser brugeren om at noget gik galt.
             } else {
                 Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
             }
 
 
         }
+    }
+
+    //Initialisere alle vores ui elementer
+    public void initializeUIElements(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        usernameText = (EditText) findViewById(R.id.regUsername);
+        passwordText = (EditText) findViewById(R.id.regPassword);
+        repasswordText = (EditText) findViewById(R.id.regRePassword);
+        registerBtn = (Button) findViewById(R.id.registrerButton);
     }
 
     @Override

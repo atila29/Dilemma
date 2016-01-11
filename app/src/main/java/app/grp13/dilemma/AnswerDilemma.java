@@ -50,6 +50,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private int answer;
     private AccountController accountController;
     private boolean checkAnswered;
+    private TextView questionTxt;
+    private TextView descriptionTxt;
 
 
 
@@ -65,39 +67,24 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         controller.addDilemma(dilemma);
         checkAnswered = false;
         accountController = new AccountController(this);
-
-        TextView questionTxt = (TextView) findViewById(R.id.QuestionTxt);
-        TextView descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
+        initializeUIElements();
         questionTxt.setText(dilemma.getTitle());
         descriptionTxt.setText(dilemma.getDescription());
-
-        vote1Btn = (Button) findViewById(R.id.vote1Btn);
-        vote2Btn = (Button) findViewById(R.id.vote2Btn);
-        vote3Btn = (Button) findViewById(R.id.vote3Btn);
-        vote4Btn = (Button) findViewById(R.id.vote4Btn);
-        vote5Btn = (Button) findViewById(R.id.vote5Btn);
-        gravityTxt = (TextView) findViewById(R.id.gravityTxt);
         vote1Btn.setOnClickListener(this);
         vote2Btn.setOnClickListener(this);
         vote3Btn.setOnClickListener(this);
         vote4Btn.setOnClickListener(this);
         vote5Btn.setOnClickListener(this);
-        vote1Text = (TextView) findViewById(R.id.vote1Text);
-        vote2Text = (TextView) findViewById(R.id.vote2Text);
-        vote3Text = (TextView) findViewById(R.id.vote3Text);
-        vote4Text = (TextView) findViewById(R.id.vote4Text);
-        vote5Text = (TextView) findViewById(R.id.vote5Text);
-        vote1Frame = (TextView) findViewById(R.id.vote1Frame);
-        vote2Frame = (TextView) findViewById(R.id.vote2Frame);
-        vote3Frame = (TextView) findViewById(R.id.vote3Frame);
-        vote4Frame = (TextView) findViewById(R.id.vote4Frame);
-        vote5Frame = (TextView) findViewById(R.id.vote5Frame);
         vote1Frame.setWidth(0);
+
+        //Authenticater for at sikre at brugeren er logget ind, da "gæster" på nuværende tidspunkt ikke må stemme.
         try {
             accountController.authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
+        //Håndtere seriøsiteten af dilemmaet ved at sætte det rette tal samt rette farve i en cirkel
         gravityTxt.setText(String.valueOf(dilemma.getgravity()));
         if (gravityTxt.getText().equals("1")) {
             gravityTxt.setBackgroundResource(R.drawable.gravity1_container);
@@ -111,6 +98,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             gravityTxt.setBackgroundResource(R.drawable.gravity5_container);
         }
 
+        //Sætter knapper og statistik tekster til de svar de repræsenterer
         vote1Btn.setText(dilemma.getPossibleAnswers().get(0).getAnswer());
         vote1Text.setText(dilemma.getPossibleAnswers().get(0).getAnswer());
         vote2Btn.setText(dilemma.getPossibleAnswers().get(1).getAnswer());
@@ -159,6 +147,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         vote5Count = 0;
         totalCount = 0;
 
+        // Tæller antal stemmer i det pågældende dilemma, og tæller antal for hver af svarene.
         for(IReply rep : dilemma.getReplys()){
             totalCount++;
             Log.v("SHIT", rep.getReply());
@@ -173,6 +162,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             else if(rep.getReply().equals(dilemma.getPossibleAnswers().get(4).getAnswer()))
                 vote5Count++;
         }
+
+        // Opdatere statistikken efter 100 ms for at sørge for at stemmerne er talte og vores view ikke er "for hurtigt"
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -236,6 +227,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         vote5Btn.setVisibility(View.GONE);
     }
 
+    //Opdatere den illustrerede statistik
     public void updateFrames() {
 
         float px = findViewById(R.id.scrollView3).getWidth();
@@ -270,6 +262,28 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
     }
 
+    //Initialisere alle vores ui elementer
+    public void initializeUIElements(){
+        vote1Btn = (Button) findViewById(R.id.vote1Btn);
+        vote2Btn = (Button) findViewById(R.id.vote2Btn);
+        vote3Btn = (Button) findViewById(R.id.vote3Btn);
+        vote4Btn = (Button) findViewById(R.id.vote4Btn);
+        vote5Btn = (Button) findViewById(R.id.vote5Btn);
+        gravityTxt = (TextView) findViewById(R.id.gravityTxt);
+        vote1Text = (TextView) findViewById(R.id.vote1Text);
+        vote2Text = (TextView) findViewById(R.id.vote2Text);
+        vote3Text = (TextView) findViewById(R.id.vote3Text);
+        vote4Text = (TextView) findViewById(R.id.vote4Text);
+        vote5Text = (TextView) findViewById(R.id.vote5Text);
+        vote1Frame = (TextView) findViewById(R.id.vote1Frame);
+        vote2Frame = (TextView) findViewById(R.id.vote2Frame);
+        vote3Frame = (TextView) findViewById(R.id.vote3Frame);
+        vote4Frame = (TextView) findViewById(R.id.vote4Frame);
+        vote5Frame = (TextView) findViewById(R.id.vote5Frame);
+        questionTxt = (TextView) findViewById(R.id.QuestionTxt);
+        descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
+    }
+
     @Override
     public void ShowErrorMessage(Exception e) {
 
@@ -282,15 +296,16 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void accountAuthentication(Account acc) {
-
         try {
             IReply r = new BasicReply();
             r.setID(controller.getDilemma(controller.getDilemmaKey(dilemma)).getID());
             r.setReply(controller.getDilemma(controller.getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
+            //Tjekker om man allerede har svaret. Hvis ja, sættes viewet til at vise statistik og stem knapperne gemmes.
             if(!checkAnswered && acc.getMyReplys().contains(r)){
                 updateVotes();
                 hideButtons();
             }
+            //Hvis man ikke har stemt stemmes der og viewet sættes til at vise statistik og stem knapperne gemmes.
             if(checkAnswered && !acc.getMyReplys().contains(r)){
                 controller.answerDilemma(controller.getDilemmaKey(dilemma), answer);
                 acc.getMyReplys().add(r);
@@ -310,8 +325,6 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
     }
-
-
 }
 
 

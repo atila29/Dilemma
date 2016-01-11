@@ -47,23 +47,17 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     private Button updateUserButton;
     private AccountController accountController;
     private Account account;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
-        normalEditUser = (ScrollView) findViewById(R.id.scrollView2);
-        adminEditUser =(ScrollView) findViewById(R.id.adminEditUser);
-        chooseEditUser = (LinearLayout) findViewById(R.id.chooseEditUser);
-        specificEditUser = (LinearLayout) findViewById(R.id.specificEditUser);
-        emailTextView = (TextView) findViewById(R.id.emailTW);
-        newEmailTextBox = (EditText) findViewById(R.id.newEmailText);
-        currentPasswordTextBox = (EditText) findViewById(R.id.currentPassword);
-        newPasswordTextBox = (EditText) findViewById(R.id.newPassword);
-        reNewPasswordTextBox = (EditText) findViewById(R.id.renewPassword);
-        updateUserButton = (Button) findViewById(R.id.updateUserButton);
-
+        initializeUIElements();
         accountController = new AccountController(this);
+        //Authenticater brugeren for at sikre han er logget på (Man må kun ændrer en bruger hvis man er logget på)
         try {
             accountController.authenticate();
         } catch (LoginException e) {
@@ -75,13 +69,16 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         updateUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!newEmailTextBox.getText().toString().matches("") && (newPasswordTextBox.getText().toString().matches(""))) {
+                //Tjekker for at brugeren kun vil skifte email (ny password boksen er tom). Opdaterer emailen hvis informationer stemmer
+                if (!newEmailTextBox.getText().toString().matches("") && (newPasswordTextBox.getText().toString().matches(""))) {
                     Log.v("FHL", "kørt");
                     accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
                     showUpdateToast();
                 }
-                else if(!(newPasswordTextBox.getText().toString().matches("")) && newEmailTextBox.getText().toString().matches("")) {
-                    if(newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())){
+                //Tjekker for om brugeren kun vil skifte password (ny email boksen er tom).
+                else if (!(newPasswordTextBox.getText().toString().matches("")) && newEmailTextBox.getText().toString().matches("")) {
+                    //Tjekker for at de to indtastede kodeord "Nye kodeord" og "Gentag nye kodeord" stemmer. Opdaterer kodeordet hvis informationer stemmer
+                    if (newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())) {
                         accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
                             @Override
                             public void run() {
@@ -89,12 +86,15 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                             }
                         });
                     }
+                    //Fortæller brugeren at de to indtastede kodeord ikke stemmer
                     else {
                         Toast.makeText(getApplicationContext(), "passwords matcher ikke", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else if(!newEmailTextBox.getText().toString().matches("") && !(newPasswordTextBox.getText().toString().matches(""))){
-                    if(newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())){
+                //Tjekker for om brugeren vil ændre både email og kodeord.
+                else if (!newEmailTextBox.getText().toString().matches("") && !(newPasswordTextBox.getText().toString().matches(""))) {
+                    //tjekker for om de to indtastede nye passwords er de samme. Hvis ja, opdateres brugerens informationer
+                    if (newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())) {
                         accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
                         accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
                             @Override
@@ -103,6 +103,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
                             }
                         });
                     }
+                    //Fortæller brugeren at de to indtastede kodeord ikke stemmer
                     else {
                         Toast.makeText(getApplicationContext(), "passwords matcher ikke", Toast.LENGTH_SHORT).show();
                     }
@@ -112,22 +113,20 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rediger bruger");
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //tjekker for om hamburgermenuen er åben. Hvis den er lukkes denne.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        //Sørger for at hvis hamburgermenuen er lukket, og man trykker tilbage, lukkes denne activity
         } else {
             finish();
         }
@@ -184,6 +183,23 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Initialisere alle vores ui elementer
+    public void initializeUIElements(){
+        normalEditUser = (ScrollView) findViewById(R.id.scrollView2);
+        adminEditUser =(ScrollView) findViewById(R.id.adminEditUser);
+        chooseEditUser = (LinearLayout) findViewById(R.id.chooseEditUser);
+        specificEditUser = (LinearLayout) findViewById(R.id.specificEditUser);
+        emailTextView = (TextView) findViewById(R.id.emailTW);
+        newEmailTextBox = (EditText) findViewById(R.id.newEmailText);
+        currentPasswordTextBox = (EditText) findViewById(R.id.currentPassword);
+        newPasswordTextBox = (EditText) findViewById(R.id.newPassword);
+        reNewPasswordTextBox = (EditText) findViewById(R.id.renewPassword);
+        updateUserButton = (Button) findViewById(R.id.updateUserButton);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
     }
 
     @Override

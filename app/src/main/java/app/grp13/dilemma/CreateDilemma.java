@@ -52,20 +52,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_dilemma);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        answer1 = (EditText) findViewById(R.id.answer1);
-        answer2 = (EditText) findViewById(R.id.answer2);
-        answer3 = (EditText) findViewById(R.id.answer3);
-        answer4 = (EditText) findViewById(R.id.answer4);
-        answer5 = (EditText) findViewById(R.id.answer5);
-        gravity1Btn = (Button) findViewById(R.id.gravity1Btn);
-        gravity2Btn = (Button) findViewById(R.id.gravity2Btn);
-        gravity3Btn = (Button) findViewById(R.id.gravity3Btn);
-        gravity4Btn = (Button) findViewById(R.id.gravity4Btn);
-        gravity5Btn = (Button) findViewById(R.id.gravity5Btn);
-        createDilemma = (Button) findViewById(R.id.createDilButton);
-        dilemmaName = (EditText) findViewById(R.id.dilemmaName);
-        dilemmaDesc = (EditText) findViewById(R.id.dilemmaDesc);
+        initializeUIElements();
         gravity1Btn.setOnClickListener(this);
         gravity2Btn.setOnClickListener(this);
         gravity3Btn.setOnClickListener(this);
@@ -74,11 +61,9 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         createDilemma.setOnClickListener(this);
         dilemmaController = new DilemmaController();
         accountController = new AccountController(this);
-
         selectedGravity = 1;
 
-
-
+        //Følgende 3 if statements håndtere visibilitet af svarmulighedernes tekst boxe (EditTexts)
         answer1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus && !answer1.getText().equals("")) {
@@ -145,9 +130,11 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             gravity5Btn.setBackgroundResource(R.drawable.gravity5_btn_selected);
             selectedGravity = 5;
         } else if (v == createDilemma) {
+            //Tjekker for at dilemma titlen ikke er tom, og at beskrivelsen ikke er tom.
             if (!dilemmaName.getText().toString().matches("") && !dilemmaDesc.getText().toString().matches("")) {
-
+                //Tjekker for om svarmulighed 3 er tom, da vi sådan kan vide hvor mange svarmuligheder vi skal tage med
                 if (answer3.getVisibility() == View.VISIBLE && answer3.getText().toString().matches("")) {
+                    //Sørger for der ikke er 2 af samme svar blandt første 2 svar, og opretter hermed et dilemma med 2 svar.
                     if(!answer1.getText().toString().matches(answer2.getText().toString())){
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString());
@@ -157,10 +144,13 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                             e.printStackTrace();
                         }
                     }
+                    //Sørger for at oplyse brugeren om at noget ikke stemmer.
                     else{
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen.", Toast.LENGTH_SHORT).show();
                     }
+                // Her tjekkes for om answer 4 er synlig men tom, da dette kan konkludere at vi kun har 3 mulige svar at oprette dilemmaet med
                 } else if (answer4.getVisibility() == View.VISIBLE && answer4.getText().toString().matches("")) {
+                    //Tjekker for dublikater og opretter herefter et dilemma med 3 svarmuligheder
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString())){
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(), answer3.getText().toString());
@@ -169,11 +159,13 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
+                      //Sørger for at oplyse brugeren om at noget ikke stemmer.
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();
                     }
-
+                //Tjekker for om answer 5 er synlig men tom, da dette kan konkludere at vi kun har 4 mulige svar at oprette et dilemma med
                 } else if (answer5.getVisibility() == View.VISIBLE && answer5.getText().toString().matches("")) {
+                    //Tjekker for dublikater og oprette herefter et dilemma med 4 svarmuligheder
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString())){
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
@@ -183,11 +175,13 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
+                    //Sørger for at oplyse brugeren om at noget ikke stemmer.
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();
                     }
-
+                //tjekker nu for om svarmulighed 5 er synlig men ikke tom, da det betyder at vi har 5 svarmuligheder.
                 } else if (answer5.getVisibility() == View.VISIBLE && !answer5.getText().toString().matches("")) {
+                    //tjekker for dublikater og opretter herefter et dilemma med 5 svarmuligheder
                     if(!answer1.getText().toString().matches(answer2.getText().toString()) || !answer1.getText().toString().matches(answer3.getText().toString()) || answer1.getText().toString().matches(answer4.getText().toString()) || answer1.getText().toString().matches(answer5.getText().toString()) || !answer2.getText().toString().matches(answer3.getText().toString()) || !answer2.getText().toString().matches(answer4.getText().toString()) || answer2.getText().toString().matches(answer5.getText().toString()) || !answer3.getText().toString().matches(answer4.getText().toString()) || answer3.getText().toString().matches(answer5.getText().toString()) || answer4.getText().toString().matches(answer5.getText().toString())){
                         id = dilemmaController.createDilemma(dilemmaName.getText().toString(), dilemmaDesc.getText().toString(),
                                 selectedGravity, answer1.getText().toString(), answer2.getText().toString(),
@@ -197,17 +191,36 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
                         } catch (DAOException e) {
                             e.printStackTrace();
                         }
+                    //Sørger for at oplyse brugeren om at noget ikke stemmer.
                     } else {
                         Toast.makeText(this, "Svarmuligheder må ikke være det samme. Tjek dine svarmuligheder og prøv igen", Toast.LENGTH_SHORT).show();
                     }
-
+                //Sørger for at oplyse brugeren om at noget ikke stemmer.
                 } else {
                     Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
                 }
+            //Sørger for at oplyse brugeren om at noget ikke stemmer.
             } else {
                 Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    //Initialisere alle vores ui elementer
+    public void initializeUIElements(){
+        answer1 = (EditText) findViewById(R.id.answer1);
+        answer2 = (EditText) findViewById(R.id.answer2);
+        answer3 = (EditText) findViewById(R.id.answer3);
+        answer4 = (EditText) findViewById(R.id.answer4);
+        answer5 = (EditText) findViewById(R.id.answer5);
+        gravity1Btn = (Button) findViewById(R.id.gravity1Btn);
+        gravity2Btn = (Button) findViewById(R.id.gravity2Btn);
+        gravity3Btn = (Button) findViewById(R.id.gravity3Btn);
+        gravity4Btn = (Button) findViewById(R.id.gravity4Btn);
+        gravity5Btn = (Button) findViewById(R.id.gravity5Btn);
+        createDilemma = (Button) findViewById(R.id.createDilButton);
+        dilemmaName = (EditText) findViewById(R.id.dilemmaName);
+        dilemmaDesc = (EditText) findViewById(R.id.dilemmaDesc);
     }
 
     @Override
@@ -222,7 +235,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void accountAuthentication(Account acc) {
-        if(!acc.getMyDilemmas().contains(id)) { // ldt cowboyder kode
+        if(!acc.getMyDilemmas().contains(id)) { // lidt cowboyder kode
             acc.getMyDilemmas().add(id);
             try {
                 new AccountDAO().saveAccount(acc, acc.getId());

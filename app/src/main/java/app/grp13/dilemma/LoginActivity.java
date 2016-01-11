@@ -50,35 +50,27 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     private TextView logoutText;
     private LinearLayout loadingView;
     private IDilemmaDAO dilemmaDAO;
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initializeUIElements();
         toolbar.setTitle("Log ind");
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         dilemmaDAO = new DilemmaFirebaseDAO();
-        loadingView = (LinearLayout) findViewById(R.id.loadingView);
-        logoutText = (TextView) findViewById(R.id.emailTextView);
-        logoutButton = (Button) findViewById(R.id.logoutButton);
-        loginView = (LinearLayout) findViewById(R.id.loginView);
-        logoutView = (LinearLayout) findViewById(R.id.logoutView);
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        rT = (TextView) findViewById(R.id.registerText);
         rT.setText(Html.fromHtml("Har du ikke en bruger i forvejen? Klik <u><font color='#0000FF'>her</font></u> for at registrerer!"));
         rT.setOnClickListener(this);
-        loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
+        //tjekker for om du er logget på i forvejen. Hvis ja, sættes viewet til "logOutView".
         try {
             ac.authenticate();
         } catch (LoginException e) {
@@ -89,8 +81,10 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //tjekker for om hamburgermenuen er åben. Hvis den er lukkes denne.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        //Sørger for at hvis hamburgermenuen er lukket, og man trykker tilbage, lukkes denne activity
         } else {
             finish();
         }
@@ -152,45 +146,70 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
         if (v == loginBtn) {
+            //Sørger for at brugeren har internet for ikke at ende i en uendelig visning af loading.
             if(dilemmaDAO.isNetworkAvalible()){
                 loginView.setVisibility(View.GONE);
                 loadingView.setVisibility(View.VISIBLE);
+                //sørger herefter for at brugernavn og adgangskode felterne ikke er tomme
                 if(!username.getText().toString().matches("") && !password.getText().toString().matches("")){
+                    //Prøver at logge ind med de ønskede indtastede oplysninger
                     try {
                         ac.login(username.getText().toString(), password.getText().toString());
+                    //Hvis indtastede oplysninger er forkerte fanges vores exception, som oplyser brugeren om at noget gik galt. Viewet bliver herefter sat til det normale logIn view
                     } catch (LoginException e) {
                         e.printStackTrace();
                         loadingView.setVisibility(View.GONE);
                         loginView.setVisibility(View.VISIBLE);
                     }
                 }
+                //Tjekker for om brugeren er connected til firebase (Databasen). Denne connection skulle ske i main. Oplyser brugeren hvis han/hun ikke er connected
                 else if(!dilemmaDAO.isConnected()){
                     Toast.makeText(this, "Problemer med forbindelsen. Tjek venligst din internetadgang, eller prøv igen senere", Toast.LENGTH_LONG).show();
                     loadingView.setVisibility(View.GONE);
                     loginView.setVisibility(View.VISIBLE);
                 }
+                //Sørger for at oplyse brugeren om at noget gik galt.
                 else{
                     Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
                     loadingView.setVisibility(View.GONE);
                     loginView.setVisibility(View.VISIBLE);
                 }
             }
+            //Sørger for at oplyse brugeren om at han/hun ikke har internet
             else{
                 Toast.makeText(this, "Problemer med forbindelsen. Tjek venligst din internetadgang, eller prøv igen senere", Toast.LENGTH_LONG).show();
                 loadingView.setVisibility(View.GONE);
                 loginView.setVisibility(View.VISIBLE);
             }
         }
+        //Hvis brugeren trykker på teksten "her" for at registrerer sig, åbnes register activity og login activity afsluttes.
         if(v == rT){
             finish();
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         }
+        //logger brugeren ud hvis han i forvejen er logget ind, og trykker på log ud knappen.
         if(v == logoutButton){
             ac.logout();
             Toast.makeText(getApplicationContext(), "Du er blevet logget ud", Toast.LENGTH_SHORT).show();
             finish();
         }
 
+    }
+
+    //Initialisere alle vores ui elementer
+    public void initializeUIElements(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        rT = (TextView) findViewById(R.id.registerText);
+        loginBtn = (Button) findViewById(R.id.login);
+        loadingView = (LinearLayout) findViewById(R.id.loadingView);
+        logoutText = (TextView) findViewById(R.id.emailTextView);
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        loginView = (LinearLayout) findViewById(R.id.loginView);
+        logoutView = (LinearLayout) findViewById(R.id.logoutView);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
     }
 
     @Override
