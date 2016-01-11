@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,11 +68,47 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             accountController.authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
+            emailTextView.setText("Ikke logget ind");
+            updateUserButton.setClickable(false);
+            Toast.makeText(this, "Du er ikke logget ind", Toast.LENGTH_SHORT).show();
         }
         updateUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+                if(!newEmailTextBox.getText().toString().matches("") && (newPasswordTextBox.getText().toString().matches(""))) {
+                    Log.v("FHL", "kørt");
+                    accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+                    showUpdateToast();
+                }
+                else if(!(newPasswordTextBox.getText().toString().matches("")) && newEmailTextBox.getText().toString().matches("")) {
+                    if(newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())){
+                        accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
+                            @Override
+                            public void run() {
+                                showUpdateToast();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "passwords matcher ikke", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(!newEmailTextBox.getText().toString().matches("") && !(newPasswordTextBox.getText().toString().matches(""))){
+                    if(newPasswordTextBox.getText().toString().equals(reNewPasswordTextBox.getText().toString())){
+                        accountController.changeUserMail(account.getUserName(), newEmailTextBox.getText().toString(), currentPasswordTextBox.getText().toString());
+                        accountController.changeUserPass(account.getUserName(), currentPasswordTextBox.getText().toString(), newPasswordTextBox.getText().toString(), new Runnable() {
+                            @Override
+                            public void run() {
+                                showUpdateToast();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "passwords matcher ikke", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
             }
         });
 
@@ -151,18 +188,24 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void ShowErrorMessage(Exception e) {
-        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showLoginToast(String msg) {
         account.setUserName(msg);
         accountController.saveAccount(account);
-        Toast.makeText(getApplicationContext(), "bruger opdateret succesfuldt", Toast.LENGTH_SHORT);
+    }
+
+    private void showUpdateToast(){
+        Toast.makeText(getApplicationContext(), "bruger opdateret succesfuldt", Toast.LENGTH_SHORT).show();
+        accountController = null;
+        finish();
     }
 
     @Override
     public void accountAuthentication(Account acc) {
         account = acc;
+        emailTextView.setText(acc.getUserName());
     }
 }

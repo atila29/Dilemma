@@ -56,6 +56,10 @@ public class AccountController implements Serializable{
 
     }
 
+    public void changeUserPass(String mail, String oldPass, String newPass, Runnable r) {
+        auth.changeUserPassword(mail, oldPass, newPass, r);
+    }
+
 
     public void login(String username, String password) throws LoginException {
         auth.login(username, password);
@@ -108,8 +112,6 @@ public class AccountController implements Serializable{
             });
 
         }
-
-
 
         public void login(String mail, String password) throws LoginException{
             firebase.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
@@ -189,7 +191,10 @@ public class AccountController implements Serializable{
         }
 
         public void changeUserMail(String oldMail, final String newMail, String password) {
-            firebase.changeEmail(oldMail, newMail, password, new Firebase.ResultHandler() {
+            Log.v("FH2", newMail);
+            Log.v("FH2", oldMail);
+            Log.v("FH2", password);
+            firebase.changeEmail(oldMail, password, newMail, new Firebase.ResultHandler() {
                 @Override
                 public void onSuccess() {
                     activity.showLoginToast(newMail);
@@ -199,6 +204,20 @@ public class AccountController implements Serializable{
                 @Override
                 public void onError(FirebaseError firebaseError) {
                     activity.ShowErrorMessage(new LoginException(firebaseError.getMessage()));
+                }
+            });
+        }
+
+        public void changeUserPassword(String mail, String oldPass, String newPass, final Runnable r) {
+            firebase.changePassword(mail, oldPass, newPass, new Firebase.ResultHandler() {
+                @Override
+                public void onSuccess() {
+                    r.run();
+                }
+
+                @Override
+                public void onError(FirebaseError firebaseError) {
+
                 }
             });
         }
