@@ -110,28 +110,6 @@ public class MainActivity extends Activity
 
     }
 
-/*
-    //Skaber et bundle der indeholder alle vores dilemmaer og deres replies som sendes med rundt i intents.
-    private Bundle dilemmaBundle(IDilemma dilemma) {
-        Bundle bundle = new Bundle();
-        bundle.putString("title",dilemma.getTitle());
-        bundle.putString("description", dilemma.getDescription());
-        bundle.putInt("gravity", dilemma.getgravity());
-        bundle.putInt("id", dilemma.getID());
-        ArrayList<String> temp = new ArrayList<>();
-        ArrayList<String> tempReplys = new ArrayList<>();
-        for(IAnswer a : dilemma.getPossibleAnswers()){
-            temp.add(a.getAnswer());
-        }
-        for(IReply r : dilemma.getReplys()) {
-            tempReplys.add(r.getReply());
-        }
-        bundle.putStringArrayList("panswers", temp);
-        bundle.putStringArrayList("replys", tempReplys);
-        return bundle;
-    }*/
-
-
     //Opdaterer vores visuelle dilemma liste.
     public void updateList(IDilemma[] array) throws IOException {
         dilemmaTitles = new String[array.length];
@@ -165,8 +143,6 @@ public class MainActivity extends Activity
         };
         dilemmaList.setAdapter(adapter);
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -251,11 +227,6 @@ public class MainActivity extends Activity
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
-
-/*    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-        Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
-    }*/
-
 
     public void loadList(){
         //Loading bar
