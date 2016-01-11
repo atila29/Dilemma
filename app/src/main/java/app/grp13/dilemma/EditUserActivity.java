@@ -43,6 +43,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     private EditText currentPasswordTextBox;
     private EditText newPasswordTextBox;
     private EditText reNewPasswordTextBox;
+    private EditText currentEmailPasswordTextBox;
     private Button updateUserButton;
     private AccountController accountController;
     private Account account;
@@ -60,6 +61,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         currentPasswordTextBox = (EditText) findViewById(R.id.currentPassword);
         newPasswordTextBox = (EditText) findViewById(R.id.newPassword);
         reNewPasswordTextBox = (EditText) findViewById(R.id.renewPassword);
+        currentEmailPasswordTextBox = (EditText) findViewById(R.id.currentEmailPassword);
         updateUserButton = (Button) findViewById(R.id.updateUserButton);
 
         accountController = new AccountController(this);
