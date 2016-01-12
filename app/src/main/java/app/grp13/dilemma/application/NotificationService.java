@@ -67,7 +67,7 @@ public class NotificationService extends IntentService {
                 .setAutoCancel(true)
                 .setColor(getResources().getColor(R.color.colorBackground))
                 .setContentText("dette virker faktisk wow det er satme vildt. hold da helt ferie, nu må du gerne ryge en smøg.")
-                .setSmallIcon(R.mipmap.ic_icon);
+                .setSmallIcon(R.drawable.ic_notification);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
