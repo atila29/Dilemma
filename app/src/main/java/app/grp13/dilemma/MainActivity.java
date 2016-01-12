@@ -36,6 +36,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
+import app.grp13.dilemma.application.NotificationReceiver;
+import app.grp13.dilemma.application.NotificationService;
 import app.grp13.dilemma.logic.controller.AccountController;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
@@ -96,7 +98,7 @@ public class MainActivity extends Activity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,6 +109,11 @@ public class MainActivity extends Activity
         //loading bar
         loadList();
 
+        NotificationReceiver.setupAlarm(getApplicationContext());
+
+    }
+
+    public void onSendNotificationsButtonClick(View view) {
 
     }
 
