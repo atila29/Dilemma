@@ -183,6 +183,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 loginView.setVisibility(View.VISIBLE);
             }
         }
+
         //Hvis brugeren trykker på teksten "her" for at registrerer sig, åbnes register activity og login activity afsluttes.
         if(v == rT){
             finish();
@@ -216,6 +217,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void ShowErrorMessage(Exception e) {
         Toast.makeText(this, "Noget gik galt! Tjek dit brugernavn og password og forsøg igen.", Toast.LENGTH_SHORT).show();
+        loadingView.setVisibility(View.GONE);
+        loginView.setVisibility(View.VISIBLE);
     }
 
     @Override
