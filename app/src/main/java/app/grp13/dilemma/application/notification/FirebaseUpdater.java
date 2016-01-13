@@ -1,6 +1,7 @@
 package app.grp13.dilemma.application.notification;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by champen on 13-01-2016.
@@ -28,7 +31,7 @@ public class FirebaseUpdater {
         return  firebase;
     }
 
-    public FirebaseUpdater(String url, final IDilemmaNotifier notifier) {
+    public FirebaseUpdater(String url) {
         firebase = new Firebase(url);
         idListe = new ArrayList<>();
         firebase.setAndroidContext(ApplicationState.getAppContext());
@@ -44,12 +47,13 @@ public class FirebaseUpdater {
                     Log.v("NOT", "herder");
                 }
 
-
                 for(Integer i : idListe) {
                     firebase.child("dilemmas").child(i.toString()).child("replys").addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             Log.v("NOT", "besvaret Dilemma");
+                            Intent i = new Intent("app.grp13.dilemma.NOTIFICATION");
+                            ApplicationState.getAppContext().sendBroadcast(i);
                             //notifier.showDilemmaAnsweredNotification();
                         }
 
