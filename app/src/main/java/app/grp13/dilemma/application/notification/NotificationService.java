@@ -74,7 +74,7 @@ public class NotificationService extends IntentService {
         builder.setContentTitle("Dilemma besvaret")
                 .setAutoCancel(true)
                 .setColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setContentText("dette virker faktisk wow det er satme vildt. hold da helt ferie, nu må du gerne ryge en smøg.")
+                .setContentText("Tryk her for at se!")
                 .setSmallIcon(R.drawable.ic_notification);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -95,10 +95,10 @@ public class NotificationService extends IntentService {
         // hent data fra firebase
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("Dilemma Titel")
+        builder.setContentTitle("Timed Notification")
                 .setAutoCancel(true)
                 .setColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setContentText("dette virker faktisk wow det er satme vildt. hold da helt ferie, nu må du gerne ryge en smøg.")
+                .setContentText("Denne notification har ingen anvendelse endnu...")
                 .setSmallIcon(R.drawable.ic_notification);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
