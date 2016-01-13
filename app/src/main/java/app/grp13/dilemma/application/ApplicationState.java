@@ -13,6 +13,7 @@ public class ApplicationState extends Application{
     private static ApplicationState ourInstance;
     private static Context appContext;
     private AccountController accountController;
+    public static final String PREF_NAME = "DIL_PREFS";
 
 
     @Override

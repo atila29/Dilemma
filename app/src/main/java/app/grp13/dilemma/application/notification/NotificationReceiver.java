@@ -1,4 +1,4 @@
-package app.grp13.dilemma.application;
+package app.grp13.dilemma.application.notification;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -20,12 +20,12 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
 
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
-    private static final int ONE_MINUT_INTERVAL = 1 * 60 * 100;
+    private static final int ONE_MINUTE_INTERVAL = 1 * 60 * 100;
 
     public static void setupAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(context);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, getTriggerAt(new Date()), ONE_MINUT_INTERVAL, alarmIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, getTriggerAt(new Date()), ONE_MINUTE_INTERVAL, alarmIntent);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
     private static PendingIntent getStartPendingIntent(Context context) {
         Intent intent = new Intent(context, NotificationReceiver.class);
         intent.setAction(ACTION_START_NOTIFICATION_SERVICE);
-        return PendingIntent.getBroadcast(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent getDeleteIntent(Context context) {

@@ -1,4 +1,4 @@
-package app.grp13.dilemma.application;
+package app.grp13.dilemma.application.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

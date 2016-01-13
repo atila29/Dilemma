@@ -3,13 +3,10 @@ package app.grp13.dilemma;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,24 +27,16 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
-import app.grp13.dilemma.application.NotificationReceiver;
-import app.grp13.dilemma.application.NotificationService;
-import app.grp13.dilemma.logic.controller.AccountController;
+import app.grp13.dilemma.application.notification.NotificationReceiver;
 import app.grp13.dilemma.logic.controller.DilemmaController;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
 import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.BasicDilemma;
-import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
-import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.LoginException;
 
@@ -90,11 +79,7 @@ public class MainActivity extends Activity
         dController = new DilemmaController();
         dilemmaDAO = new DilemmaFirebaseDAO();
         checkLogin = false;
-        try {
-            ApplicationState.getInstance().getAccountController().authenticate();
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +94,8 @@ public class MainActivity extends Activity
         //loading bar
         loadList();
 
-        NotificationReceiver.setupAlarm(getApplicationContext());
+
+
 
     }
 
@@ -181,6 +167,12 @@ public class MainActivity extends Activity
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DAOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ApplicationState.getInstance().getAccountController().authenticate();
+        } catch (LoginException e) {
             e.printStackTrace();
         }
     }
@@ -296,6 +288,12 @@ public class MainActivity extends Activity
     @Override
     public void accountAuthentication(Account acc) {
         checkLogin = true;
+        SharedPreferences pref = ApplicationState.getAppContext().getSharedPreferences(ApplicationState.PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.putString("NOT", acc.getId());
+        editor.commit();
+        NotificationReceiver.setupAlarm(getApplicationContext());
     }
 }
 

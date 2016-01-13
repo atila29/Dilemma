@@ -78,11 +78,11 @@
             android:screenOrientation="portrait">
         </activity>
         <service
-            android:name=".application.NotificationService"
+            android:name=".application.notification.NotificationService"
             android:enabled="true"
             android:exported="true" />
-        <receiver android:name=".application.NotificationReceiver" />
-        <receiver android:name=".application.NotificaationServiceStarterReceiver">
+        <receiver android:name=".application.notification.NotificationReceiver" />
+        <receiver android:name=".application.notification.NotificaationServiceStarterReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
