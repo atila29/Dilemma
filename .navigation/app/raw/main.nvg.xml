@@ -38,7 +38,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "app.grp13.dilemma.dilemmaRowActivity"/>
+        className = "app.grp13.dilemma.DilemmaRow"/>
       <point      
         x = "308"      
         y = "1564"/>

@@ -37,7 +37,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".dilemmaRowActivity"
+        <activity android:name=".DilemmaRow"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
@@ -77,6 +77,19 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
+
+        <!--
+        The following fragments will replace many of the activities in the future, because it's more dynamic -Bao
+        -->
+
+        <fragment
+            android:name=".DilemmaListFragment"
+            android:label="Din liste"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </fragment>
+
         <service
             android:name=".application.notification.NotificationService"
             android:enabled="true"
