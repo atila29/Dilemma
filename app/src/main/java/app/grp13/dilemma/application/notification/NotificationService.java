@@ -5,23 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import app.grp13.dilemma.LoginActivity;
 import app.grp13.dilemma.R;
-import app.grp13.dilemma.application.ApplicationState;
 
 /**
  * Created on 12-01-2016.
@@ -34,61 +24,18 @@ public class NotificationService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
     private static final String ACTION_START = "ACTION_START";
     private static final String ACTION_DELETE = "ACTION_DELETE";
-    private static Firebase firebase;
-    private static String acc;
-    private static List<Integer> idListe;
 
-    private PowerManager.WakeLock wakeLock;
+    // ond cowboyder kode
+    private static Firebase firebase = new FirebaseUpdater("https://dtu-dilemma.firebaseio.com/", new IDilemmaNotifier() {
+        @Override
+        public void showDilemmaAnsweredNotification() {
+            showDilemmaAnsweredNotification();
+        }
+    }).getFirebase();
+
 
     public NotificationService(){
         super(NotificationService.class.getSimpleName());
-        idListe = new ArrayList<>();
-        acc = ApplicationState.getAppContext().getSharedPreferences(ApplicationState.PREF_NAME, Context.MODE_PRIVATE).getString("NOT",null);
-        firebase = new Firebase("https://dtu-dilemma.firebaseio.com/");
-        Firebase userref = firebase.child("accounts").child(acc.replace("-", "")).child("myReplys");
-        userref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                idListe.clear();
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    idListe.add(Integer.valueOf(d.child("id").getValue().toString()));
-                }
-                for (Integer i : idListe) {
-                    firebase.child("dilemmas").child(i.toString()).addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            //showDilemmaAnsweredNotification();
-                            Log.v("NOT", "herder");
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
 
     }
 
@@ -142,7 +89,8 @@ public class NotificationService extends IntentService {
         manager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private void showDilemmaAnsweredNotification(){
+
+    public void showDilemmaAnsweredNotification(){
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle("Dilemma besvaret")
                 .setAutoCancel(true)
@@ -158,5 +106,8 @@ public class NotificationService extends IntentService {
         manager.notify(NOTIFICATION_ID, builder.build());
     }
 
+    public interface DilemmaNotificationable {
+         void showDilemmaAnsweredNotification();
+    }
 
 }

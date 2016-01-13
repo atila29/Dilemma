@@ -82,7 +82,7 @@
             android:enabled="true"
             android:exported="true" />
         <receiver android:name=".application.notification.NotificationReceiver" />
-        <receiver android:name=".application.notification.NotificaationServiceStarterReceiver">
+        <receiver android:name=".application.notification.NotificationServiceStarterReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>

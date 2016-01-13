@@ -83,13 +83,8 @@ public class MainActivity extends Activity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    ApplicationState.getInstance().getAccountController().authenticate();
-                } catch (LoginException e) {
-                    e.printStackTrace();
-                    errorToast("Du skal være logget ind for at oprette et dilemma.");
-                }
-                startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+                if(checkLogin)
+                    startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
