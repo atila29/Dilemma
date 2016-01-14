@@ -77,8 +77,9 @@ public class NotificationService extends IntentService {
                 .setColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setContentText("Tryk her for at se!")
                 .setSmallIcon(R.drawable.ic_notification);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, DilemmaListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent i = new Intent(this, DilemmaListActivity.class);
+        i.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
 
