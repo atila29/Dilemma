@@ -92,6 +92,7 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_active_dilemmas) {
+            finish();
             startActivity(new Intent(DilemmaListActivity.this, MainActivity.class));
         } else if (id == R.id.nav_myDilemmas) {
 
@@ -101,10 +102,13 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
+            finish();
             startActivity(new Intent(DilemmaListActivity.this, LoginActivity.class));
         } else if (id == R.id.nav_register) {
+            finish();
             startActivity(new Intent(DilemmaListActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
+            finish();
             startActivity(new Intent(DilemmaListActivity.this, EditUserActivity.class));
             //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
