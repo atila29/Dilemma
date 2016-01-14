@@ -245,7 +245,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
             } catch (DilemmaException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this, "virker faktisk wuttup?!?!?!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Dilemma oprettet.", Toast.LENGTH_SHORT).show();
         }
         this.finish();
     }
