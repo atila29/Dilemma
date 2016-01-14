@@ -96,10 +96,15 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
             finish();
         } else if (id == R.id.nav_myDilemmas) {
             finish();
-            startActivity(new Intent(RegisterActivity.this, DilemmaListActivity.class));
+            Intent intent = new Intent(RegisterActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+            startActivity(intent);
             // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            Intent intent = new Intent(RegisterActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_REPLYS);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {

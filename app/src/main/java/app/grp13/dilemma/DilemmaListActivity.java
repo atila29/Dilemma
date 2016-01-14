@@ -47,6 +47,7 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
     private ListView dilemmaList;
     private Toolbar toolbar;
     private String action;
+    private NavigationView navigationView;
 
     public static final String ACTION_DILEMMAS = "ACTION_MY_DILEMMAS", ACTION_REPLYS = "ACTION_MY_REPLYS";
 
@@ -64,16 +65,13 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
             // evt gå til login activity
         }
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Mine dilemmaer");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_myDilemmas);
-        navigationView.setSelected(true);
     }
 
     public void onBackPressed() {
@@ -120,7 +118,10 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
 
             // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            Intent intent = new Intent(DilemmaListActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_REPLYS);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
@@ -157,6 +158,9 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
             List<IDilemma> dilemmas = null;
             if(ACTION_DILEMMAS.equals(action)){
                 dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(acc.getMyDilemmas());
+                toolbar.setTitle("Mine dilemmaer");
+                navigationView.setCheckedItem(R.id.nav_myDilemmas);
+                navigationView.setSelected(true);
             }
             if(ACTION_REPLYS.equals(action)){
                 List<Integer> meningsFyldtNavn = new ArrayList<>();
@@ -164,6 +168,9 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
                     meningsFyldtNavn.add(r.getID());
                 }
                 dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(meningsFyldtNavn);
+                toolbar.setTitle("Dilemmaer jeg har svaret på");
+                navigationView.setCheckedItem(R.id.nav_answers);
+                navigationView.setSelected(true);
             }
             ListContainerSerializer<IDilemma> list = new ListContainerSerializer(dilemmas);
             Bundle bundle = new Bundle();
