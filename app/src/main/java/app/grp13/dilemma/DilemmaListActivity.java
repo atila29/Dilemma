@@ -1,6 +1,7 @@
 package app.grp13.dilemma;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -150,10 +151,16 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
             Bundle bundle = new Bundle();
             bundle.putSerializable("dilemmas", list);
             fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().add(R.id.nogetSjovt, fragment).commit();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(R.id.nogetSjovt, fragment);
+            ft.commit();
         } catch (DAOException e) {
             e.printStackTrace();
             // smid fejlmeddelelse
+        } catch (IllegalStateException e){
+            e.printStackTrace();
+            // dette er ikke den rigtige måde at håndtere fejlen på.
+            // den bør rettes
         }
 
     }

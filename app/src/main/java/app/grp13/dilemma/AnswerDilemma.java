@@ -46,7 +46,6 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     private TextView vote1Frame, vote2Frame, vote3Frame, vote4Frame, vote5Frame;
     private int totalCount, vote1Count, vote2Count, vote3Count, vote4Count, vote5Count;
     private IDilemma dilemma;
-    private DilemmaController controller;
     private TextView gravityTxt;
     private int answer;
     private boolean checkAnswered;
@@ -63,8 +62,6 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
         Bundle extra = getIntent().getBundleExtra("dilemma");
         dilemma = (BasicDilemma)extra.getSerializable("test");
-        controller = new DilemmaController();
-        controller.addDilemma(dilemma);
         checkAnswered = false;
         ApplicationState.getInstance().setAccountActivityFocus(this);
         initializeUIElements();
@@ -134,7 +131,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
 
     public void updateVotes() {
         try {
-            dilemma = controller.getDilemma(controller.getDilemmaKey(dilemma));
+            dilemma = ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma));
         } catch (DilemmaException e) {
             e.printStackTrace();
         }
@@ -298,8 +295,8 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
     public void accountAuthentication(Account acc) {
         try {
             IReply r = new BasicReply();
-            r.setID(controller.getDilemma(controller.getDilemmaKey(dilemma)).getID());
-            r.setReply(controller.getDilemma(controller.getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
+            r.setID(ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma)).getID());
+            r.setReply(ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
             //Tjekker om man allerede har svaret. Hvis ja, sættes viewet til at vise statistik og stem knapperne gemmes.
             if(!checkAnswered && acc.getMyReplys().contains(r)){
                 updateVotes();
@@ -307,9 +304,9 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             }
             //Hvis man ikke har stemt stemmes der og viewet sættes til at vise statistik og stem knapperne gemmes.
             if(checkAnswered && !acc.getMyReplys().contains(r)){
-                controller.answerDilemma(controller.getDilemmaKey(dilemma), answer);
+                ApplicationState.getInstance().getDilemmaController().answerDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma), answer);
                 acc.getMyReplys().add(r);
-                new DilemmaFirebaseDAO().saveDilemma(controller.getDilemma(controller.getDilemmaKey(dilemma)));
+                new DilemmaFirebaseDAO().saveDilemma(ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma)));
                 new AccountDAO().saveAccount(acc, acc.getId());
                 updateVotes();
                 hideButtons();
