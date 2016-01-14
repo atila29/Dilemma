@@ -132,7 +132,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
     public List<IDilemma> getSpecificDilemmas(List<Integer> index) throws DAOException {
         List<IDilemma> list = new ArrayList<>();
         for(IDilemma d : getDilemmas()){
-            if(index.contains(d))
+            if(index.contains(Integer.valueOf(d.getID())))
                 list.add(d);
         }
         return list;
