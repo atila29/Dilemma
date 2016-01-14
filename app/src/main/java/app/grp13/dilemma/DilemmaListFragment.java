@@ -1,6 +1,7 @@
 package app.grp13.dilemma;
 
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -31,11 +32,11 @@ import app.grp13.dilemma.logic.dto.ListContainerSerializer;
 /**
  * Created by LuxMiz on 1/13/2016.
  */
-public class DilemmaListFragment extends Fragment {
+public class DilemmaListFragment extends ListFragment {
 
     private TextView gravityText;
     private String[] tempGravity, tempQuestion;
-    private ListView dilemmaList;
+    private ListView dilemmaListView;
 
     @Nullable
     @Override
@@ -47,28 +48,29 @@ public class DilemmaListFragment extends Fragment {
 //        DrawerLayout drawer = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
 
         //dilemmaList.setOnItemClickListener();
+//        dilemmaListView = (ListView) rod.findViewById(R.id.list);
         ListContainerSerializer<IDilemma> containerSerializer = (ListContainerSerializer<IDilemma>)getArguments().getSerializable("dilemmas");
-
         setDilemmaListAdapter(containerSerializer.getList());
-        updateList((IDilemma[])containerSerializer.getList().toArray());
+        updateList(containerSerializer.getList());
 
         Log.i(DilemmaListFragment.class.getSimpleName(), "fragment loadet");
 
         return rod;
     }
 
-    public void updateList(IDilemma[] array){
-        String[] tempTitle = new String[array.length];
-        final String[] tempGravity = new String[array.length];
-        for(int i=0 ; i<array.length ; i++){
-            tempTitle[i] = array[i].getTitle();
-            tempGravity[i] = String.valueOf(array[i].getgravity());
+    public void updateList(List<IDilemma> dlist){
+        String[] tempTitle = new String[dlist.size()];
+        final String[] tempGravity = new String[dlist.size()];
+        for(int i=0 ; i<dlist.size() ; i++){
+            Log.v("TAGSWAG", dlist.get(i).getTitle());
+            tempTitle[i] = dlist.get(i).getTitle();
+            tempGravity[i] = String.valueOf(dlist.get(i).getgravity());
         }
     }
 
     public void setDilemmaListAdapter(List<IDilemma> dilemmaArray){
         CustomArrayAdapter adapter = new CustomArrayAdapter(ApplicationState.getAppContext(), dilemmaArray);
-        dilemmaList.setAdapter(adapter);
+        setListAdapter(adapter);
     }
 
     @Override
