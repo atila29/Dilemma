@@ -15,11 +15,16 @@ Nicolai Hansen - S133974
 */
 public class Account implements Serializable{
 
+    public static  int GUEST = 8;
+    public static int ADMIN = 16;
+    public static int USER = 32;
+
     private String userName;
     private int type;
 
     private boolean active;
     private String id;
+
 
     private List<Integer> myDilemmas; // lav om til relationer -> <Integer>
     private List<IReply> myReplys; // lav om til relationer -> <Integer>

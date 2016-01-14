@@ -34,7 +34,7 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
     private Firebase firebase = new Firebase("https://dtu-dilemma.firebaseio.com/");
     private List<IDilemma> dilemmas;
 
-    private boolean loading;
+
     private boolean connection;
 
 
@@ -45,7 +45,6 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
         dilemmaref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                loading = true;
                 Firebase con = new Firebase("https://dtu-dilemma.firebaseio.com/.info/connected");
                 con.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -91,7 +90,6 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
 
                     dilemmas.add(dilemma);
                 }
-                loading = false;
             }
 
             @Override
@@ -128,4 +126,17 @@ public class DilemmaFirebaseDAO implements IDilemmaDAO {
     public boolean isConnected() {
         return connection;
     }
+
+    // bedre løsning havde været at lave query til firebase for at hente specific data derfra.
+    @Override
+    public List<IDilemma> getSpecificDilemmas(List<Integer> index) throws DAOException {
+        List<IDilemma> list = new ArrayList<>();
+        for(IDilemma d : getDilemmas()){
+            if(index.contains(d))
+                list.add(d);
+        }
+        return list;
+    }
+
+
 }

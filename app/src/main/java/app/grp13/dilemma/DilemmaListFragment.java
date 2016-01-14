@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,19 +21,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.CustomArrayAdapter;
 import app.grp13.dilemma.logic.dto.IDilemma;
+import app.grp13.dilemma.logic.dto.ListContainerSerializer;
 
 /**
  * Created by LuxMiz on 1/13/2016.
  */
 public class DilemmaListFragment extends Fragment {
 
-    TextView gravityText;
-    String[] tempGravity, tempQuestion;
-    ListView dilemmaList;
+    private TextView gravityText;
+    private String[] tempGravity, tempQuestion;
+    private ListView dilemmaList;
 
     @Nullable
     @Override
@@ -44,6 +47,12 @@ public class DilemmaListFragment extends Fragment {
 //        DrawerLayout drawer = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
 
         //dilemmaList.setOnItemClickListener();
+        ListContainerSerializer<IDilemma> containerSerializer = (ListContainerSerializer<IDilemma>)getArguments().getSerializable("dilemmas");
+
+        setDilemmaListAdapter(containerSerializer.getList());
+        updateList((IDilemma[])containerSerializer.getList().toArray());
+
+        Log.i(DilemmaListFragment.class.getSimpleName(), "fragment loadet");
 
         return rod;
     }
@@ -57,7 +66,7 @@ public class DilemmaListFragment extends Fragment {
         }
     }
 
-    public void setDilemmaListAdapter(ArrayList<IDilemma> dilemmaArray){
+    public void setDilemmaListAdapter(List<IDilemma> dilemmaArray){
         CustomArrayAdapter adapter = new CustomArrayAdapter(ApplicationState.getAppContext(), dilemmaArray);
         dilemmaList.setAdapter(adapter);
     }

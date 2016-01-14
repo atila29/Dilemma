@@ -18,7 +18,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import app.grp13.dilemma.application.ApplicationState;
+import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
+import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.IDilemma;
+import app.grp13.dilemma.logic.dto.ListContainerSerializer;
+import app.grp13.dilemma.logic.exceptions.DAOException;
+import app.grp13.dilemma.logic.exceptions.LoginException;
+
 /*
 Lavet af:
 Sazvan Kasim Ali - S144884
@@ -28,7 +37,7 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
-public class DilemmaListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DilemmaListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IAccountControllerActivity {
 
     TextView gravityText;
     String[] tempGravity, tempQuestion;
@@ -39,8 +48,13 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dilemma_list);
-            Fragment fragment = new DilemmaListFragment();
-            getFragmentManager().beginTransaction().add(R.id.nogetSjovt, fragment).commit();
+        ApplicationState.getInstance().setAccountActivityFocus(this); // nødvendigt for at authenticate brugere
+        try {
+            ApplicationState.getInstance().getAccountController().authenticate();
+        } catch (LoginException e) {
+            e.printStackTrace();
+            // evt gå til login activity
+        }
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Mine dilemmaer");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -118,4 +132,30 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
+    @Override
+    public void ShowErrorMessage(Exception e) {
+
+    }
+
+    @Override
+    public void showLoginToast(String msg) {
+
+    }
+
+    @Override
+    public void accountAuthentication(Account acc) {
+        Fragment fragment = new DilemmaListFragment();
+        try {
+            List<IDilemma> dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(acc.getMyDilemmas());
+            ListContainerSerializer<IDilemma> list = new ListContainerSerializer(dilemmas);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("dilemmas", list);
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().add(R.id.nogetSjovt, fragment).commit();
+        } catch (DAOException e) {
+            e.printStackTrace();
+            // smid fejlmeddelelse
+        }
+
+    }
 }

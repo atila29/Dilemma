@@ -57,13 +57,10 @@ public class MainActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener, IAccountControllerActivity {
     private TextView gravityText;
     private ListView dilemmaList;
-    private DilemmaController dController;
     private ProgressBar prog;
     private String[] dilemmaTitles;
     private String[] dilemmaGravities;
     private RelativeLayout loadingView;
-
-    private IDilemmaDAO dilemmaDAO;
     private boolean checkLogin;
     private FloatingActionButton fab;
     private DrawerLayout drawer;
@@ -73,13 +70,11 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_main);
         initializeUIElements();
         toolbar.setTitle("Aktive Dilemmaer");
         ApplicationState.getInstance().setAccountActivityFocus(this);
-        dController = new DilemmaController();
-        dilemmaDAO = new DilemmaFirebaseDAO();
         checkLogin = false;
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -164,9 +159,9 @@ public class MainActivity extends Activity
     public void onResume(){
         super.onResume();
         try {
-            dController = new DilemmaController(dilemmaDAO.getDilemmas());
+            ApplicationState.getInstance().refreshDilemmas();
             ApplicationState.getInstance().setAccountActivityFocus(this);
-            updateList(dController.getAllDilemmasArray());
+            updateList(ApplicationState.getInstance().getDilemmaController().getAllDilemmasArray());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DAOException e) {
@@ -237,20 +232,20 @@ public class MainActivity extends Activity
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!dilemmaDAO.isNetworkAvalible()){
+                if(!ApplicationState.getInstance().isNetworkAvalible()){
                     errorToast("Connection error. Check internet connection. If your internet connection is on, our servers might be down.");
                     loadingView.setVisibility(View.GONE);
                     findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                 }
-                if(dilemmaDAO.isNetworkAvalible() && dilemmaDAO.isConnected()){
+                else if(ApplicationState.getInstance().isNetworkAvalible() && ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().isConnected()){
                     errorToast("Loading complete!");
                     loadingView.setVisibility(View.GONE);
                     findViewById(R.id.dilemmaList).setVisibility(View.VISIBLE);
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     onResume();
                 }
-                if(dilemmaDAO.isNetworkAvalible() && !dilemmaDAO.isConnected()){
+                else if(ApplicationState.getInstance().isNetworkAvalible() && !ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().isConnected()){
                     loadList();
                 }
             }
@@ -272,7 +267,7 @@ public class MainActivity extends Activity
                 Intent openAnswerDilemma = new Intent(MainActivity.this, AnswerDilemma.class);
                 //openAnswerDilemma.putExtra("dilemma", dilemmaBundle(dController.getAllDilemmasArray()[position]));
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("test", (BasicDilemma) dController.getAllDilemmasArray()[position]);
+                bundle.putSerializable("test", (BasicDilemma) ApplicationState.getInstance().getDilemmaController().getAllDilemmasArray()[position]);
                 openAnswerDilemma.putExtra("dilemma", bundle);
                 startActivity(openAnswerDilemma);
             }

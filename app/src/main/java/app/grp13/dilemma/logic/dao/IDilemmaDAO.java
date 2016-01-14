@@ -15,6 +15,7 @@ public interface IDilemmaDAO {
     void deleteDilemma(IDilemma dilemma) throws  DAOException;
     boolean isNetworkAvalible();
     boolean isConnected();
+    List<IDilemma> getSpecificDilemmas(List<Integer> index) throws DAOException;
 
 
 }

@@ -19,11 +19,14 @@ import java.util.Map;
 
 import app.grp13.dilemma.logic.builder.DilemmaFactory;
 import app.grp13.dilemma.logic.builder.ReplyBuilder;
+import app.grp13.dilemma.logic.dao.DilemmaFirebaseDAO;
+import app.grp13.dilemma.logic.dao.IDilemmaDAO;
 import app.grp13.dilemma.logic.dto.BasicAnswer;
 import app.grp13.dilemma.logic.dto.BasicReply;
 import app.grp13.dilemma.logic.dto.IAnswer;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.IReply;
+import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /*
@@ -40,6 +43,7 @@ public class DilemmaController implements Serializable{
     private ReplyBuilder replyBuilder;
     private DilemmaFactory dilemmaFactory;
     private final String FILENAME = "dilemmas.bin";
+    private IDilemmaDAO dilemmaDAO;
 
     private Map<Integer,IDilemma> dilemmaMap;
     //private Map<IAnswer,IReply> answerReplyMap;
@@ -55,8 +59,11 @@ public class DilemmaController implements Serializable{
         replyBuilder = new ReplyBuilder(a2r);
 
         dilemmaFactory = new DilemmaFactory();
+        dilemmaDAO = new DilemmaFirebaseDAO();
 
     }
+
+
 
     public void addDilemma(IDilemma dilemma) {
 
@@ -137,6 +144,7 @@ public class DilemmaController implements Serializable{
         throw new DilemmaException("ID NOT FOUND");
     }
 
+
     public void saveDilemmasToDevice(Context ctx) throws IOException {
 
         DilemmaStorage storage = new DilemmaStorage();
@@ -169,6 +177,10 @@ public class DilemmaController implements Serializable{
         for(IDilemma a : temp.getList()) {
             this.dilemmaMap.put(a.getID(), a);
         }
+    }
+
+    public IDilemmaDAO getDilemmaDAO() {
+        return dilemmaDAO;
     }
 
     private class DilemmaStorage implements Serializable {
