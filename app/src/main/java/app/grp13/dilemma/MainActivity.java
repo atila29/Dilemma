@@ -80,7 +80,7 @@ public class MainActivity extends Activity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkLogin)
+                if (checkLogin)
                     startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
@@ -89,9 +89,10 @@ public class MainActivity extends Activity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         //loading bar
         loadList();
-
 
 
 
@@ -158,6 +159,8 @@ public class MainActivity extends Activity
     //Siger hvad der skal ske når vi vender tilbage til denne activity
     public void onResume(){
         super.onResume();
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         try {
             ApplicationState.getInstance().refreshDilemmas();
             ApplicationState.getInstance().setAccountActivityFocus(this);
@@ -173,6 +176,7 @@ public class MainActivity extends Activity
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -196,7 +200,6 @@ public class MainActivity extends Activity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_active_dilemmas) {
-
         } else if (id == R.id.nav_myDilemmas) {
             Intent intent = new Intent(MainActivity.this, DilemmaListActivity.class);
             intent.setAction(DilemmaListActivity.ACTION_DILEMMAS);
@@ -219,6 +222,8 @@ public class MainActivity extends Activity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         return true;
     }
 

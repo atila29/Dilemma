@@ -71,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         rT.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
+        navigationView.setCheckedItem(R.id.nav_login);
+        navigationView.setSelected(true);
         //tjekker for om du er logget på i forvejen. Hvis ja, sættes viewet til "logOutView".
         try {
             ApplicationState.getInstance().getAccountController().authenticate();
@@ -118,14 +120,13 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
-//            finish();
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(LoginActivity.this, DilemmaListActivity.class));
+            // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-//            finish();
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
@@ -135,8 +136,9 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
             finish();
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
-//            finish();
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(LoginActivity.this, EditUserActivity.class));
+            //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

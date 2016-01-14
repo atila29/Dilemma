@@ -57,6 +57,8 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_edit_user);
         initializeUIElements();
         ApplicationState.getInstance().setAccountActivityFocus(this);
+        navigationView.setCheckedItem(R.id.nav_editUser);
+        navigationView.setSelected(true);
         //Authenticater brugeren for at sikre han er logget på (Man må kun ændrer en bruger hvis man er logget på)
         try {
             ApplicationState.getInstance().getAccountController().authenticate();
@@ -159,14 +161,13 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
-//            finish();
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(EditUserActivity.this, DilemmaListActivity.class));
+            // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-//            finish();
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
@@ -178,6 +179,7 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(EditUserActivity.this, RegisterActivity.class));
         } else if (id == R.id.nav_editUser) {
 
+            //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

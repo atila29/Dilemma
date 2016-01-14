@@ -14,13 +14,16 @@
 
     <item android:title="Bruger indstillinger">
         <menu>
-            <item android:id="@+id/nav_login" android:icon="@mipmap/ic_login"
-                android:title="Log ind/Log ud" />
-            <item android:id="@+id/nav_register" android:icon="@mipmap/ic_register"
-                android:title="Registrer" />
-            <item android:id="@+id/nav_editUser" android:icon="@mipmap/ic_edit_user"
-                android:title="Rediger bruger" />
+            <group android:id="@+id/gruppe2" android:checkableBehavior="single">
+                <item android:id="@+id/nav_login" android:icon="@mipmap/ic_login"
+                    android:title="Log ind/Log ud" />
+                <item android:id="@+id/nav_register" android:icon="@mipmap/ic_register"
+                    android:title="Registrer" />
+                <item android:id="@+id/nav_editUser" android:icon="@mipmap/ic_edit_user"
+                    android:title="Rediger bruger" />
+
+            </group>
         </menu>
     </item>
 
-</menu>
+    </menu>

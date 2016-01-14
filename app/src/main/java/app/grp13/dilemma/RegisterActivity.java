@@ -50,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
         registerBtn.setOnClickListener(this);
         ApplicationState.getInstance().setAccountActivityFocus(this);
+        navigationView.setCheckedItem(R.id.nav_register);
+        navigationView.setSelected(true);
     }
     @Override
     public void onBackPressed() {
@@ -90,14 +92,13 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
-//            finish();
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(RegisterActivity.this, DilemmaListActivity.class));
+            // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-//            finish();
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
@@ -107,8 +108,9 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_register) {
 
         } else if (id == R.id.nav_editUser) {
-//            finish();
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(RegisterActivity.this, EditUserActivity.class));
+            //Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
