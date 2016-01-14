@@ -61,7 +61,7 @@ public class CustomArrayAdapter extends BaseAdapter {
         gravityText = (TextView) convertView.findViewById(R.id.gravityText);
         dilemmaQuestionInText = (TextView) convertView.findViewById(R.id.questionText);
         DilemmaRow row_pos = rowItem.get(position);
-        gravityText.setText(row_pos.getGravity());
+        gravityText.setText(String.valueOf(row_pos.getGravity()));
         dilemmaQuestionInText.setText(row_pos.getQuestion());
 
         if (row_pos.getGravity() == 1) {
