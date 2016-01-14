@@ -2,6 +2,7 @@ package app.grp13.dilemma;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -26,17 +28,19 @@ import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.CustomArrayAdapter;
+import app.grp13.dilemma.logic.dto.BasicDilemma;
 import app.grp13.dilemma.logic.dto.IDilemma;
 import app.grp13.dilemma.logic.dto.ListContainerSerializer;
 
 /**
  * Created by LuxMiz on 1/13/2016.
  */
-public class DilemmaListFragment extends ListFragment {
+public class DilemmaListFragment extends Fragment {
 
     private TextView gravityText;
     private String[] tempGravity, tempQuestion;
     private ListView dilemmaListView;
+    private List<IDilemma> myDilemmaList;
 
     @Nullable
     @Override
@@ -48,8 +52,9 @@ public class DilemmaListFragment extends ListFragment {
 //        DrawerLayout drawer = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
 
         //dilemmaList.setOnItemClickListener();
-//        dilemmaListView = (ListView) rod.findViewById(R.id.list);
+        dilemmaListView = (ListView) rod.findViewById(R.id.dilemmaFragmentList);
         ListContainerSerializer<IDilemma> containerSerializer = (ListContainerSerializer<IDilemma>)getArguments().getSerializable("dilemmas");
+        myDilemmaList = containerSerializer.getList();
         setDilemmaListAdapter(containerSerializer.getList());
         updateList(containerSerializer.getList());
 
@@ -68,9 +73,22 @@ public class DilemmaListFragment extends ListFragment {
         }
     }
 
+
+
     public void setDilemmaListAdapter(List<IDilemma> dilemmaArray){
         CustomArrayAdapter adapter = new CustomArrayAdapter(ApplicationState.getAppContext(), dilemmaArray);
-        setListAdapter(adapter);
+        dilemmaListView.setAdapter(adapter);
+        dilemmaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent openAnswerDilemma = new Intent(getActivity(), AnswerDilemma.class);
+                //openAnswerDilemma.putExtra("dilemma", dilemmaBundle(dController.getAllDilemmasArray()[position]));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("test", (BasicDilemma) myDilemmaList.get(position));
+                openAnswerDilemma.putExtra("dilemma", bundle);
+                startActivity(openAnswerDilemma);
+            }
+        });
     }
 
     @Override
