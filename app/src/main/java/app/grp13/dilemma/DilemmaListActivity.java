@@ -115,6 +115,10 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
         if (id == R.id.nav_active_dilemmas) {
             finish();
         } else if (id == R.id.nav_myDilemmas) {
+            finish();
+            Intent intent = new Intent(DilemmaListActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+            startActivity(intent);
 
             // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
