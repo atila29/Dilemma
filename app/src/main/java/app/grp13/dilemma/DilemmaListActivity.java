@@ -19,12 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.IAccountControllerActivity;
 import app.grp13.dilemma.logic.dto.Account;
 import app.grp13.dilemma.logic.dto.IDilemma;
+import app.grp13.dilemma.logic.dto.IReply;
 import app.grp13.dilemma.logic.dto.ListContainerSerializer;
 import app.grp13.dilemma.logic.exceptions.DAOException;
 import app.grp13.dilemma.logic.exceptions.LoginException;
@@ -40,16 +42,21 @@ Nicolai Hansen - S133974
 */
 public class DilemmaListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IAccountControllerActivity {
 
-    TextView gravityText;
-    String[] tempGravity, tempQuestion;
-    ListView dilemmaList;
-    Toolbar toolbar;
+    private TextView gravityText;
+    private String[] tempGravity, tempQuestion;
+    private ListView dilemmaList;
+    private Toolbar toolbar;
+    private String action;
+
+    public static final String ACTION_DILEMMAS = "ACTION_MY_DILEMMAS", ACTION_REPLYS = "ACTION_MY_REPLYS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dilemma_list);
         ApplicationState.getInstance().setAccountActivityFocus(this); // nødvendigt for at authenticate brugere
+        action = getIntent().getAction();
         try {
             ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
@@ -146,7 +153,17 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
     public void accountAuthentication(Account acc) {
         Fragment fragment = new DilemmaListFragment();
         try {
-            List<IDilemma> dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(acc.getMyDilemmas());
+            List<IDilemma> dilemmas = null;
+            if(ACTION_DILEMMAS.equals(action)){
+                dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(acc.getMyDilemmas());
+            }
+            if(ACTION_REPLYS.equals(action)){
+                List<Integer> meningsFyldtNavn = new ArrayList<>();
+                for(IReply r : acc.getMyReplys()){
+                    meningsFyldtNavn.add(r.getID());
+                }
+                dilemmas = ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().getSpecificDilemmas(meningsFyldtNavn);
+            }
             ListContainerSerializer<IDilemma> list = new ListContainerSerializer(dilemmas);
             Bundle bundle = new Bundle();
             bundle.putSerializable("dilemmas", list);

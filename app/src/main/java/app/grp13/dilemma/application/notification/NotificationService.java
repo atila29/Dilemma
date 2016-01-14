@@ -10,6 +10,7 @@ import android.support.v7.app.NotificationCompat;
 
 import com.firebase.client.Firebase;
 
+import app.grp13.dilemma.DilemmaListActivity;
 import app.grp13.dilemma.LoginActivity;
 import app.grp13.dilemma.R;
 
@@ -77,7 +78,7 @@ public class NotificationService extends IntentService {
                 .setContentText("Tryk her for at se!")
                 .setSmallIcon(R.drawable.ic_notification);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, DilemmaListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
 
@@ -108,23 +109,4 @@ public class NotificationService extends IntentService {
         final NotificationManager manager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
     }
-
-
-    public void showDilemmaAnsweredNotification(){
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("Dilemma besvaret")
-                .setAutoCancel(true)
-                .setColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setContentText("nogen har besvaret dit dilemma")
-                .setSmallIcon(R.drawable.ic_notification);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
-
-        final NotificationManager manager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(NOTIFICATION_ID, builder.build());
-    }
-
-
 }

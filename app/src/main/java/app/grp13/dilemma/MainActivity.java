@@ -198,10 +198,14 @@ public class MainActivity extends Activity
         if (id == R.id.nav_active_dilemmas) {
 
         } else if (id == R.id.nav_myDilemmas) {
-            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+            Intent intent = new Intent(MainActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+            startActivity(intent);
            // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, DilemmaListActivity.class);
+            intent.setAction(DilemmaListActivity.ACTION_REPLYS);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_login) {
