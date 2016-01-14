@@ -80,7 +80,7 @@ public class MainActivity extends Activity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkLogin)
+                if (checkLogin)
                     startActivity(new Intent(MainActivity.this, CreateDilemma.class));
             }
         });
@@ -91,7 +91,6 @@ public class MainActivity extends Activity
         navigationView.setNavigationItemSelectedListener(this);
         //loading bar
         loadList();
-
 
 
 
@@ -173,6 +172,7 @@ public class MainActivity extends Activity
         } catch (LoginException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -196,7 +196,6 @@ public class MainActivity extends Activity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_active_dilemmas) {
-
         } else if (id == R.id.nav_myDilemmas) {
             startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
            // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
