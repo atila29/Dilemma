@@ -71,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         rT.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
+        navigationView.setCheckedItem(R.id.nav_login);
+        navigationView.setSelected(true);
         //tjekker for om du er logget på i forvejen. Hvis ja, sættes viewet til "logOutView".
         try {
             ApplicationState.getInstance().getAccountController().authenticate();

@@ -65,7 +65,8 @@ public class DilemmaListActivity extends AppCompatActivity implements Navigation
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.setCheckedItem(R.id.nav_myDilemmas);
+        navigationView.setSelected(true);
     }
 
     public void onBackPressed() {

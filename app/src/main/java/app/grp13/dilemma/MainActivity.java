@@ -89,6 +89,8 @@ public class MainActivity extends Activity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         //loading bar
         loadList();
 
@@ -157,6 +159,8 @@ public class MainActivity extends Activity
     //Siger hvad der skal ske når vi vender tilbage til denne activity
     public void onResume(){
         super.onResume();
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         try {
             ApplicationState.getInstance().refreshDilemmas();
             ApplicationState.getInstance().setAccountActivityFocus(this);
@@ -214,6 +218,8 @@ public class MainActivity extends Activity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        navigationView.setCheckedItem(R.id.nav_active_dilemmas);
+        navigationView.setSelected(true);
         return true;
     }
 

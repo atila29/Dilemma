@@ -57,6 +57,8 @@ public class EditUserActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_edit_user);
         initializeUIElements();
         ApplicationState.getInstance().setAccountActivityFocus(this);
+        navigationView.setCheckedItem(R.id.nav_editUser);
+        navigationView.setSelected(true);
         //Authenticater brugeren for at sikre han er logget på (Man må kun ændrer en bruger hvis man er logget på)
         try {
             ApplicationState.getInstance().getAccountController().authenticate();

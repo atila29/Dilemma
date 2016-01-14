@@ -50,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
         registerBtn.setOnClickListener(this);
         ApplicationState.getInstance().setAccountActivityFocus(this);
+        navigationView.setCheckedItem(R.id.nav_register);
+        navigationView.setSelected(true);
     }
     @Override
     public void onBackPressed() {
