@@ -26,7 +26,7 @@ public class CustomArrayAdapter extends BaseAdapter {
     TextView gravityText;
     String[] tempGravity = {"1","2","3","4","5"};
 
-    CustomArrayAdapter(Context context, List<IDilemma> rowItem) {
+    public CustomArrayAdapter(Context context, List<IDilemma> rowItem) {
         this.context = context;
         this.rowItem = new ArrayList<>();
 

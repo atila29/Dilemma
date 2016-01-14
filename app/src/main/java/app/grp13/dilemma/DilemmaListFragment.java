@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.CustomArrayAdapter;
 import app.grp13.dilemma.logic.dto.IDilemma;
@@ -36,14 +38,12 @@ public class DilemmaListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.fragment_dilemma_list, container, false);
-        dilemmaList = (ListView) getView().findViewById(R.id.specificDilemmaList);
-        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("Din liste");
-        DrawerLayout drawer = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
+   //     dilemmaList = (ListView) getView().findViewById(R.id.list);
+//        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+//        toolbar.setTitle("Din liste");
+//        DrawerLayout drawer = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
 
         //dilemmaList.setOnItemClickListener();
-        CustomArrayAdapter adapter = new CustomArrayAdapter(ApplicationState.getAppContext(), );
-        dilemmaList.setAdapter(adapter);
 
         return rod;
     }
@@ -55,6 +55,11 @@ public class DilemmaListFragment extends Fragment {
             tempTitle[i] = array[i].getTitle();
             tempGravity[i] = String.valueOf(array[i].getgravity());
         }
+    }
+
+    public void setDilemmaListAdapter(ArrayList<IDilemma> dilemmaArray){
+        CustomArrayAdapter adapter = new CustomArrayAdapter(ApplicationState.getAppContext(), dilemmaArray);
+        dilemmaList.setAdapter(adapter);
     }
 
     @Override

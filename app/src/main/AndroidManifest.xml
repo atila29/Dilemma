@@ -37,10 +37,6 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".DilemmaRow"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait">
-        </activity>
         <activity
             android:name=".AnswerDilemma"
             android:label="Dilemma Showcase"

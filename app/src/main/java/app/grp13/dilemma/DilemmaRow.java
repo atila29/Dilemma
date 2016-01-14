@@ -23,6 +23,9 @@ public class DilemmaRow {
         this.id = id;
     }
 
+    public DilemmaRow(){
+    }
+
     public int getGravity(){
         return this.gravity;
     }

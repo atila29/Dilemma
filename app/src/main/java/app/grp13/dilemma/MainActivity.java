@@ -1,6 +1,8 @@
 package app.grp13.dilemma;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -201,7 +203,8 @@ public class MainActivity extends Activity
         if (id == R.id.nav_active_dilemmas) {
 
         } else if (id == R.id.nav_myDilemmas) {
-            Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, DilemmaListActivity.class));
+           // Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_answers) {
             Toast.makeText(this, "Denne funktion er endnu ikke implementeret", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
