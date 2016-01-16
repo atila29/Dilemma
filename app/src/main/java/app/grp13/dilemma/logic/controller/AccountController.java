@@ -1,6 +1,7 @@
 package app.grp13.dilemma.logic.controller;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -52,8 +53,8 @@ public class AccountController implements Serializable{
         accountDAO.saveAccount(account, account.getId());
     }
 
-    public void createAccount(String username, String password) throws DAOException {
-        auth.createUser(username, password);
+    public void createAccount(String username, String password, Runnable run) throws DAOException {
+        auth.createUser(username, password, run);
 
     }
 
@@ -94,7 +95,9 @@ public class AccountController implements Serializable{
             firebase = new Firebase("https://dtu-dilemma.firebaseio.com/");
         }
 
-        public void createUser(String mail, String password){
+
+        //runnable i metoden er cowboyderløsning for at sørge for at brugeren ikke findes i forvejen, og i hvilket tilfælde den gældne aktivitet ikke lukkes.
+        public void createUser(String mail, String password, final Runnable run){
 
             setTempString(mail); // for at spare en variabel, måske lidt for grimt?
             firebase.createUser(mail, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
@@ -103,6 +106,7 @@ public class AccountController implements Serializable{
                     Log.v("FH", (String) stringObjectMap.get("uid"));
                     setId((String) stringObjectMap.get("uid"));
                     accountDAO.saveAccount(new Account(tempString, AccountController.USER, id), id);
+                    run.run();
                 }
 
                 @Override

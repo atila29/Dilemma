@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 
 import app.grp13.dilemma.application.ApplicationState;
@@ -42,7 +44,7 @@ Nicolai Hansen - S133974
 public class AnswerDilemma extends AppCompatActivity implements View.OnClickListener, IAccountControllerActivity {
 
     private Button vote1Btn, vote2Btn, vote3Btn, vote4Btn, vote5Btn;
-    private TextView vote1Text, vote2Text, vote3Text, vote4Text, vote5Text;
+    private TextView vote1Text, vote2Text, vote3Text, vote4Text, vote5Text, statusText;
     private TextView vote1Frame, vote2Frame, vote3Frame, vote4Frame, vote5Frame;
     private int totalCount, vote1Count, vote2Count, vote3Count, vote4Count, vote5Count;
     private IDilemma dilemma;
@@ -79,6 +81,17 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
+            updateVotes();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideButtons();
+                    updateText();
+                    statusText.setText("Du skal være logget ind for at stemme på dilemmaer");
+                    statusText.setVisibility(View.VISIBLE);
+                }
+            }, 1);
         }
 
         //Håndtere seriøsiteten af dilemmaet ved at sætte det rette tal samt rette farve i en cirkel
@@ -279,6 +292,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
         vote5Frame = (TextView) findViewById(R.id.vote5Frame);
         questionTxt = (TextView) findViewById(R.id.QuestionTxt);
         descriptionTxt = (TextView) findViewById(R.id.DescriptionTxt);
+        statusText = (TextView) findViewById(R.id.statusTextView);
     }
 
     @Override

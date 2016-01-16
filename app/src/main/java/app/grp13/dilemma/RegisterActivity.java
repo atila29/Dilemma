@@ -8,12 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import app.grp13.dilemma.application.ApplicationState;
 import app.grp13.dilemma.logic.controller.AccountController;
@@ -36,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,20 +131,31 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onClick(View v) {
+        Matcher m = p.matcher(usernameText.getText().toString());
         if (v == registerBtn) {
             //sørger for at username og password boxene ikke er tomme, og password matcher gentag password.
-            if (!usernameText.getText().toString().matches("") || !passwordText.getText().toString().matches("") ||
-                    !passwordText.getText().toString().matches(repasswordText.getText().toString())) {
-                //forsøger at oprette den ønskede bruger
-                try {
-                    ApplicationState.getInstance().getAccountController().createAccount(usernameText.getText().toString(), passwordText.getText().toString());
-                    Toast.makeText(this, "Registrering fuldført!", Toast.LENGTH_SHORT).show();
-                    finish();
-                //Oplyser brugeren om at noget gik galt.
-                } catch (DAOException e) {
-                    Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
+            if (!usernameText.getText().toString().matches("") && !passwordText.getText().toString().matches("") &&
+                    passwordText.getText().toString().matches(repasswordText.getText().toString())) {
+                if(m.matches() && usernameText.getText().length()>7){
+                    //forsøger at oprette den ønskede bruger
+                    try {
+                        ApplicationState.getInstance().getAccountController().createAccount(usernameText.getText().toString(), passwordText.getText().toString(), new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ApplicationState.getAppContext(), "Registrering fuldført!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                        //Oplyser brugeren om at noget gik galt.
+                    } catch (DAOException e) {
+                        Toast.makeText(this, "Noget gik galt! Tjek alle felter og prøv igen.", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                } else{
+                    Toast.makeText(this, "Email adresse ikke valid.", Toast.LENGTH_SHORT).show();
                 }
+
+
 
             //Oplyser brugeren om at noget gik galt.
             } else {
