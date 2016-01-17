@@ -18,6 +18,7 @@ public class NotificationBroadcastReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(this.getClass().getSimpleName(), "Custom broadcast received");
         Intent serviceIntent = NotificationService.createIntentShowNotification(context);
+        serviceIntent.putExtra("id", intent.getIntExtra("id",-1));
         startWakefulService(context,serviceIntent);
     }
 }

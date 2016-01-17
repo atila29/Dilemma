@@ -53,6 +53,7 @@ public class FirebaseUpdater {
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             Log.v("NOT", "besvaret Dilemma");
                             Intent i = new Intent("app.grp13.dilemma.NOTIFICATION");
+                            i.putExtra("id", Integer.valueOf(dataSnapshot.child("id").getValue().toString()));
                             ApplicationState.getAppContext().sendBroadcast(i);
                             //notifier.showDilemmaAnsweredNotification();
                         }
@@ -86,34 +87,6 @@ public class FirebaseUpdater {
             }
         });
 
-        for(Integer i : idListe) {
-            firebase.child("dilemmas").child(i.toString()).child("replys").addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.v("NOT", "besvaret Dilemma");
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-        }
 
     }
 

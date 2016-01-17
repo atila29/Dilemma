@@ -5,14 +5,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.NotificationCompat;
 
 import com.firebase.client.Firebase;
 
+import app.grp13.dilemma.AnswerDilemma;
 import app.grp13.dilemma.DilemmaListActivity;
 import app.grp13.dilemma.LoginActivity;
+import app.grp13.dilemma.MainActivity;
 import app.grp13.dilemma.R;
+import app.grp13.dilemma.application.ApplicationState;
+import app.grp13.dilemma.logic.dto.BasicDilemma;
+import app.grp13.dilemma.logic.exceptions.DilemmaException;
 
 /**
  * Created on 12-01-2016.
@@ -77,8 +83,16 @@ public class NotificationService extends IntentService {
                 .setColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setContentText("Tryk her for at se!")
                 .setSmallIcon(R.drawable.ic_notification);
-        Intent i = new Intent(this, DilemmaListActivity.class);
-        i.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+        Intent i = new Intent(this, AnswerDilemma.class);
+        // i.setAction(DilemmaListActivity.ACTION_DILEMMAS);
+        int temp = intent.getIntExtra("id", -1);
+        Bundle bundle = new Bundle();
+        try {
+            bundle.putSerializable("test", (BasicDilemma) ApplicationState.getInstance().getDilemmaController().getDilemma(temp));
+            i.putExtra("dilemma", bundle);
+        } catch (DilemmaException e) {
+            e.printStackTrace();
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, i, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
@@ -103,7 +117,7 @@ public class NotificationService extends IntentService {
                 .setContentText("Denne notification har ingen anvendelse endnu...")
                 .setSmallIcon(R.drawable.ic_notification);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
 
