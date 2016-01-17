@@ -21,12 +21,12 @@ public class NotificationReceiver extends WakefulBroadcastReceiver {
 
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
-    private static final int ONE_MINUTE_INTERVAL = 1 * 60 * 1000;
+    private static final int TIME_ONE_DAY = 1 * 24 * 60 * 60 * 1000;
 
     public static void setupAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(context);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, getTriggerAt(new Date()), AlarmManager.INTERVAL_DAY, alarmIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, getTriggerAt(new Date()), TIME_ONE_DAY, alarmIntent);
     }
 
     @Override
