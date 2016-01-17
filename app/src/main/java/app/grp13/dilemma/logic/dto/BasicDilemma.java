@@ -104,4 +104,14 @@ public class BasicDilemma implements IDilemma, Serializable {
         this.answers.add(reply);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if(other == null)
+            return false;
+        if(other instanceof BasicDilemma)
+            if(((BasicDilemma) other).getID()==this.getID())
+                return true;
+        return false;
+    }
+
 }
