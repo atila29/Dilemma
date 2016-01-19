@@ -33,12 +33,8 @@ Nicolai Hansen - S133974
 public class AccountController implements Serializable{
 
     private AccountDAO accountDAO;
-    private Account account;
     private Authenticater auth;
 
-    public static  int GUEST = 8;
-    public static int ADMIN = 16;
-    public static int USER = 32;
 
     private IAccountControllerActivity activity;
 
@@ -105,7 +101,7 @@ public class AccountController implements Serializable{
                 public void onSuccess(Map<String, Object> stringObjectMap) {
                     Log.v("FH", (String) stringObjectMap.get("uid"));
                     setId((String) stringObjectMap.get("uid"));
-                    accountDAO.saveAccount(new Account(tempString, AccountController.USER, id), id);
+                    accountDAO.saveAccount(new Account(tempString, Account.USER, id), id);
                     run.run();
                 }
 

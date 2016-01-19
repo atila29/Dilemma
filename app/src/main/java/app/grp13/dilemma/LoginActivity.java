@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     private Button logoutButton;
     private TextView logoutText;
     private LinearLayout loadingView;
-    private IDilemmaDAO dilemmaDAO;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -65,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        dilemmaDAO = new DilemmaFirebaseDAO();
         navigationView.setNavigationItemSelectedListener(this);
         rT.setText(Html.fromHtml("Har du ikke en bruger i forvejen? Klik <u><font color='#0000FF'>her</font></u> for at registrerer!"));
         rT.setOnClickListener(this);
@@ -155,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
     public void onClick(View v) {
         if (v == loginBtn) {
             //Sørger for at brugeren har internet for ikke at ende i en uendelig visning af loading.
-            if(dilemmaDAO.isNetworkAvalible()){
+            if(ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().isConnected()){
                 loginView.setVisibility(View.GONE);
                 loadingView.setVisibility(View.VISIBLE);
                 //sørger herefter for at brugernavn og adgangskode felterne ikke er tomme
@@ -171,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
                     }
                 }
                 //Tjekker for om brugeren er connected til firebase (Databasen). Denne connection skulle ske i main. Oplyser brugeren hvis han/hun ikke er connected
-                else if(!dilemmaDAO.isConnected()){
+                else if(ApplicationState.getInstance().getDilemmaController().getDilemmaDAO().isConnected()){
                     Toast.makeText(this, "Problemer med forbindelsen. Tjek venligst din internetadgang, eller prøv igen senere", Toast.LENGTH_LONG).show();
                     loadingView.setVisibility(View.GONE);
                     loginView.setVisibility(View.VISIBLE);

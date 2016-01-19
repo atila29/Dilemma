@@ -59,7 +59,7 @@ public class CreateDilemma extends AppCompatActivity implements View.OnClickList
         gravity4Btn.setOnClickListener(this);
         gravity5Btn.setOnClickListener(this);
         createDilemma.setOnClickListener(this);
-        dilemmaController = new DilemmaController();
+        dilemmaController = ApplicationState.getInstance().getDilemmaController();
         ApplicationState.getInstance().setAccountActivityFocus(this);
         selectedGravity = 1;
 
