@@ -16,6 +16,11 @@ Christian Jappe - S144866
 Magnus Nielsen - S141899
 Nicolai Hansen - S133974
 */
+
+/*
+ *  denne klasse er funktionel, og er ikke bygget efter normalt builder patterr, det er altså ikke et builder pattern.
+ *  dog beholder vi den som den er da den fungerer.
+ */
 public class ReplyBuilder implements Serializable {
 
     Map<IAnswer, IReply> map;
