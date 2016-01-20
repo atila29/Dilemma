@@ -96,10 +96,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log ud"
+            android:text="@string/text_logout"
             android:id="@+id/logoutButton"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="40dp"/>
     </LinearLayout>
 
     <LinearLayout

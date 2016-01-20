@@ -32,6 +32,8 @@
     <string name="changePW">Skift kode</string>
     <string name="specificUN">Brugernavn</string>
     <string name="specificButton">Færdig</string>
+    <string name="reg_username_text">Ønsket E-mail</string>
+    <string name="text_logout">Log ud</string>
 
 
 </resources>

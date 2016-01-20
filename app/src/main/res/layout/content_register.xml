@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView android:id="@+id/regUsername" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="Ønsket E-mail"
+                    android:layout_height="wrap_content" android:hint="@string/reg_username_text"
                     android:inputType="textEmailAddress" android:maxLines="1"
                     android:singleLine="true" />
 

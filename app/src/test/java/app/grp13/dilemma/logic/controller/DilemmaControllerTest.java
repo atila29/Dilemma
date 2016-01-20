@@ -1,29 +1,40 @@
 package app.grp13.dilemma.logic.controller;
 
+import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.SmallTest;
+
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by LuxMiz on 1/19/2016.
+ * Created by LuxMiz & Mathias on 1/19/2016.
  */
-public class DilemmaControllerTest {
+
+public class DilemmaControllerTest{
+
+    private DilemmaController testObject;
 
     @Before
     public void setUp() throws Exception {
-
+        testObject = new DilemmaController();
     }
 
     @After
     public void tearDown() throws Exception {
-
+        testObject = null;
     }
 
     @Test
-    public void testAddDilemma() throws Exception {
-
+    public void testSetup() throws Exception {
+        assertNotNull(testObject);
+        assertTrue(testObject instanceof DilemmaController);
     }
 
     @Test

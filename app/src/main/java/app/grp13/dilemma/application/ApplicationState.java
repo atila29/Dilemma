@@ -47,6 +47,8 @@ public class ApplicationState extends Application{
     }
 
     public static ApplicationState getInstance() {
+        if(ourInstance == null)
+            ourInstance = new ApplicationState();
         return ourInstance;
     }
 
