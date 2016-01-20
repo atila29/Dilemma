@@ -82,6 +82,8 @@ public class MainActivity extends Activity
             public void onClick(View view) {
                 if (checkLogin)
                     startActivity(new Intent(MainActivity.this, CreateDilemma.class));
+                else
+                    Toast.makeText(ApplicationState.getAppContext(), "Du skal være logget ind for at oprette dilemmaer", Toast.LENGTH_SHORT).show();
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
