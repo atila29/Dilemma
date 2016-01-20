@@ -174,6 +174,7 @@ public class MainActivity extends Activity
         try {
             ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
+            checkLogin = false;
             e.printStackTrace();
         }
 
