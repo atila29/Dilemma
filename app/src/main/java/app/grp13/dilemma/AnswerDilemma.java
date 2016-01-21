@@ -312,7 +312,7 @@ public class AnswerDilemma extends AppCompatActivity implements View.OnClickList
             r.setID(ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma)).getID());
             r.setReply(ApplicationState.getInstance().getDilemmaController().getDilemma(ApplicationState.getInstance().getDilemmaController().getDilemmaKey(dilemma)).getPossibleAnswers().get(answer).getAnswer());
             //Tjekker om man allerede har svaret. Hvis ja, sættes viewet til at vise statistik og stem knapperne gemmes.
-            if(!checkAnswered && (acc.getMyReplys().contains(r) | acc.getMyDilemmas().contains(dilemma))){
+            if(!checkAnswered && (acc.getMyReplys().contains(r) || acc.getMyDilemmas().contains(dilemma.getID()))){
                 updateVotes();
                 hideButtons();
             }
