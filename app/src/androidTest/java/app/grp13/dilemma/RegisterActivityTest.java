@@ -44,7 +44,7 @@ public class RegisterActivityTest extends ActivityInstrumentationTestCase2<Regis
     @SmallTest
     public void testRegister() throws Exception {
         // dog skal der tages højde for at man kun kan registreres EN gang pr. mail
-        String mail = "testlogin_1_@testclass.dk";
+        String mail = "testlogin_2_@testclass.dk";
         String pass = "kode";
 
         onView(withId(R.id.regUsername)).perform(typeText(mail), closeSoftKeyboard());
