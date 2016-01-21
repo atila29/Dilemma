@@ -71,12 +71,16 @@ public class LoginActivity extends AppCompatActivity implements NavigationView.O
         logoutButton.setOnClickListener(this);
         navigationView.setCheckedItem(R.id.nav_login);
         navigationView.setSelected(true);
+        //Til censor. Forindtastet login
+        username.setText("censor@dtu.dk");
+        password.setText("kode");
         //tjekker for om du er logget på i forvejen. Hvis ja, sættes viewet til "logOutView".
         try {
             ApplicationState.getInstance().getAccountController().authenticate();
         } catch (LoginException e) {
             e.printStackTrace();
             loginView.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Eksamens version. En virkende bruger er indtastet for dig. Tryk blot på login knappen for at logge ind.", Toast.LENGTH_LONG).show();
         }
     }
     @Override
